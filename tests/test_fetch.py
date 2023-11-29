@@ -5,7 +5,6 @@ from pathlib import Path
 
 import pandas as pd
 import pytest
-import requests
 import validators
 from yellow_taxis import fetch
 
@@ -28,10 +27,9 @@ class TestDatasetURLs:
         with pytest.raises(ValueError):
             fetch.dataset_url(9, 2023)
 
-    def urls_for_past_months_are_reachable(self) -> None:
+    def datasets_for_past_months_exist(self) -> None:
         for year, month in itertools.product(range(2009, 2024), range(1, 13)):
-            url: str = fetch.dataset_url(year, month)
-            assert requests.head(url).status_code == 200
+            assert fetch.dataset_exists(year, month)
 
     def test_dataset_url_month_out_of_range(self) -> None:
         with pytest.raises(ValueError):

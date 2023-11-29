@@ -23,7 +23,7 @@ def dataset_url(
     """Return URL for file with yellow taxis trip data.
 
     :param year: Year in which dataset was recorded.
-    :param month: Month in which dataset was recorded, as integer 1
+    :param month: Month in which dataset was recorded, as integer from 1.
     :return: Download URL for parquet file with monthly trip data
     """
     if not isinstance(year, int):
@@ -40,6 +40,21 @@ def dataset_url(
         raise ValueError(f"Historical data for {year} does not exist.")
 
     return URL_FORMAT_STRING.format(year=year, month=month)
+
+
+def dataset_exists(year, month) -> bool:
+    """Check if we can find a dataset on the website the given year and month.
+
+    :param year: Year in which dataset was recorded.
+    :param month: Month in which dataset was recorded, as integer from 1
+
+    :return: ``True`` if dataset for this date and time exists under the URL.
+    """
+
+    url: str = dataset_url(year, month)
+    if requests.head(url).status_code == 200:
+        return True
+    return False
 
 
 def download(
@@ -83,7 +98,7 @@ def download_monthly_data(
     """Download yellow taxis trip data.
 
     :param year: Year in which dataset was recorded.
-    :param month: Month in which dataset was recorded as integer.
+    :param month: Month in which dataset was recorded as integer from 1.
     :param url: Data URL
     :param file_name: File name
     :make_directories: Create parent directories
