@@ -63,4 +63,6 @@ dev = [
 ]
 test = [
     "pytest>=7.4.3",
+    "pre-commit>=3.5.0",
+    "pytest-md>=0.2.0",
 ]

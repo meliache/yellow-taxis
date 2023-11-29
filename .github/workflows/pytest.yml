@@ -11,15 +11,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Setup PDM
+      - name: Setup Python with PDM
         uses: pdm-project/setup-pdm@v3
+        with:
+          python-version: "3.11"
+          cache: true
       - name: Install dependencies
-        run: pdm install
+        run: pdm install -dG test
       - name: Run pytest
         uses: pavelzw/pytest-action@v2
         with:
+          custom-pytest: "pdm run pytest"
           verbose: true
           emoji: false
-          job-summary: true
+          job-summary: false
           click-to-expand: true
-          report-title: 'Test Report'
+          report-title: "Test Report"
