@@ -1,9 +1,11 @@
+import itertools
 import os
 import tempfile
 from pathlib import Path
 
 import pandas as pd
 import pytest
+import requests
 import validators
 from yellow_taxis import fetch
 
@@ -26,6 +28,11 @@ class TestDatasetURLs:
         with pytest.raises(ValueError):
             fetch.dataset_url(9, 2023)
 
+    def urls_for_past_months_are_reachable(self) -> None:
+        for year, month in itertools.product(range(2009, 2024), range(1, 13)):
+            url: str = fetch.dataset_url(year, month)
+            assert requests.head(url).status_code == 200
+
     def test_dataset_url_month_out_of_range(self) -> None:
         with pytest.raises(ValueError):
             fetch.dataset_url(2023, 0)
@@ -46,8 +53,6 @@ class TestDatasetURLs:
     def test_dataset_url_year_out_of_range(self) -> None:
         with pytest.raises(ValueError):
             fetch.dataset_url(1992, 9)
-
-    # TODO add tests that check that the actually generated URLs contain data
 
 
 class TestDownload:
