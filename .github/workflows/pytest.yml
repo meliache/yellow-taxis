@@ -1,0 +1,27 @@
+name: Run Python unit tests
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build and run tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup PDM
+        uses: pdm-project/setup-pdm@v3
+      - name: Install dependencies
+        run: pdm install
+      - name: "Run tests"
+
+      - name: Run pytest
+        uses: pavelzw/pytest-action@v2
+        with:
+          verbose: true
+          emoji: false
+          job-summary: true
+          click-to-expand: true
+          report-title: 'Test Report'
