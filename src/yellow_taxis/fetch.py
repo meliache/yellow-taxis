@@ -86,7 +86,6 @@ def dataset_exists(year, month) -> bool:
 def most_recent_dataset_date() -> datetime:
     date = datetime(year=datetime.today().year, month=datetime.today().month, day=1)
     while not dataset_exists(date.year, date.month):
-        print(date)
         date -= relativedelta(months=1)
         if date < DATE_FIRST_RECORDS:
             raise RuntimeError("Could not find any datasets.")
@@ -104,6 +103,17 @@ def available_dataset_urls() -> list[str]:
         urls.append(url)
         _date += relativedelta(months=1)
     return urls
+
+
+def available_dataset_dates() -> list[datetime]:
+    """List of dates of all available parquet files."""
+
+    dates = []
+    _date = DATE_FIRST_RECORDS
+    while DATE_FIRST_RECORDS <= _date <= most_recent_dataset_date():
+        dates.append(_date)
+        _date += relativedelta(months=1)
+    return dates
 
 
 def download(
