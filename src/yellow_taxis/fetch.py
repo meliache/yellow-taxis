@@ -3,11 +3,16 @@ Module for downloading parquet files with monthly trip data from
 https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page.
 """
 
+import os
+import shutil
+import tempfile
+from pathlib import Path
+
+import requests
+import validators
+
 #: format string that given a year and month and can be formatted to a valid parquet
 # download URL.
-# TODO Is the hashed subdomain 37ci6vzurychx.cloudfront.net fixed or can
-# it change?
-
 URL_FORMAT_STRING: str = "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_{year:d}-{month:02d}.parquet"
 
 
@@ -15,11 +20,11 @@ def dataset_url(
     year: int,
     month: int,
 ) -> str:
-    """Return download URL for parquet file with yellow taxis monthly trip data.
+    """Return URL for file with yellow taxis trip data.
 
     :param year: Year in which dataset was recorded.
-    :param month: Month in which dataset was recorded, as integer starting from 1
-    :return: Download URL for parquet file with yellow taxis monthly trip data
+    :param month: Month in which dataset was recorded, as integer 1
+    :return: Download URL for parquet file with monthly trip data
     """
     if not isinstance(year, int):
         raise TypeError(f"Year must be an integer but if {year=}")
@@ -37,9 +42,52 @@ def dataset_url(
     return URL_FORMAT_STRING.format(year=year, month=month)
 
 
-# TODO: to implement
-# def download_monthly_data(
-#     year: int
-#     month: int,
-# ) -> None:
-#     requests.do
+def download(
+    url: str,
+    file_name: os.PathLike,
+    make_directories: bool = True,
+    overwrite: bool = False,
+) -> None:
+    """Download data from `url` to `file_name`.
+
+    :param url: Data URL
+    :param file_name: File name
+    :make_directories: Create parent directories
+    :overwrite: If ``True``, overwrite ``file_name`` if it exists, otherwise fail.
+    """
+    if not validators.url(url):
+        raise ValueError(f"ULR '{url}' is invalid!")
+
+    # Download code adapted from https://stackoverflow.com/a/39217788/6199035
+    with requests.get(url, stream=True) as r:
+        r.raise_for_status()
+
+        # download to temporary filename first to avoid partially downloaded data in
+        # case of download failure
+        with tempfile.NamedTemporaryFile("wb", delete=False) as tmp_file:
+            shutil.copyfileobj(r.raw, tmp_file)
+
+            if make_directories:
+                Path(file_name).parent.mkdir(parents=True, exist_ok=True)
+
+            shutil.move(tmp_file.name, file_name)
+
+
+def download_monthly_data(
+    year: int,
+    month: int,
+    file_name: os.PathLike,
+    make_directories: bool = True,
+    overwrite: bool = False,
+) -> None:
+    """Download yellow taxis trip data.
+
+    :param year: Year in which dataset was recorded.
+    :param month: Month in which dataset was recorded as integer.
+    :param url: Data URL
+    :param file_name: File name
+    :make_directories: Create parent directories
+    :overwrite: If ``True``, overwrite ``file_name`` if it exists.
+    """
+    url: str = dataset_url(year=year, month=month)
+    download(url, file_name, make_directories=make_directories)
