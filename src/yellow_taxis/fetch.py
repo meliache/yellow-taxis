@@ -6,14 +6,20 @@ https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page.
 import os
 import shutil
 import tempfile
+import time
+from collections.abc import Generator
 from pathlib import Path
 
 import requests
 import validators
+from cachetools import ttl_cache
 
 #: format string that given a year and month and can be formatted to a valid parquet
 # download URL.
-URL_FORMAT_STRING: str = "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_{year:d}-{month:02d}.parquet"
+URL_FORMAT_STRING = "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_{year:d}-{month:02d}.parquet"
+
+#: Year for which we have the first records
+YEAR_START = 2009
 
 
 def dataset_url(
@@ -42,6 +48,7 @@ def dataset_url(
     return URL_FORMAT_STRING.format(year=year, month=month)
 
 
+@ttl_cache(ttl=3600)  # cache to reduce load in server in case we call this often
 def dataset_exists(year, month) -> bool:
     """Check if we can find a dataset on the website the given year and month.
 
@@ -55,6 +62,24 @@ def dataset_exists(year, month) -> bool:
     if requests.head(url).status_code == 200:
         return True
     return False
+
+
+def generate_dataset_urls() -> Generator[str, None, None]:
+    """Create generator of the URL's parquet files."""
+    _year = YEAR_START
+    _month = 1
+
+    while dataset_exists(_year, _month):
+        yield dataset_url(_year, _month)
+
+        if _month < 12:
+            _month += 1
+        else:  # End of year (Dec)
+            _month = 1
+            _year += 1
+
+        # FIXME: delay between queries to avoid triggering the DDOS protection
+        time.sleep(1.5)
 
 
 def download(

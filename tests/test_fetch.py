@@ -1,6 +1,6 @@
-import itertools
 import os
 import tempfile
+import time
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -50,8 +50,9 @@ class TestDatasetURLs:
             fetch.dataset_url(1992, 9)
 
     def datasets_for_past_months_exist(self) -> None:
-        for year, month in itertools.product(range(2009, 2024), range(1, 13)):
+        for year, month in ((2009, 1), (2023, 9), (2018, 8)):
             assert fetch.dataset_exists(year, month)
+            time.sleep(1.5)  # avoid DDOS protection
 
     def datasets_for_future_does_not_exist(self) -> None:
         future: datetime = datetime.today() + timedelta(days=42)
