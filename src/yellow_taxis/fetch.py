@@ -8,18 +8,20 @@ import shutil
 import tempfile
 import time
 from collections.abc import Generator
+from datetime import datetime
 from pathlib import Path
 
 import requests
 import validators
 from cachetools import ttl_cache
+from dateutil.relativedelta import relativedelta
 
 #: format string that given a year and month and can be formatted to a valid parquet
 # download URL.
 URL_FORMAT_STRING = "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_{year:d}-{month:02d}.parquet"
 
 #: Year for which we have the first records
-YEAR_START = 2009
+DATE_FIRST_RECORDS = datetime(year=2009, month=1, day=1)
 
 
 def dataset_url(
@@ -42,7 +44,7 @@ def dataset_url(
         raise ValueError(
             f"Invalid month, it should be an integer from 1 to 12 but is {month}."
         )
-    if year < 2009:
+    if datetime(year, month, 1) < DATE_FIRST_RECORDS:
         raise ValueError(f"Historical data for {year} does not exist.")
 
     return URL_FORMAT_STRING.format(year=year, month=month)
@@ -66,17 +68,11 @@ def dataset_exists(year, month) -> bool:
 
 def generate_dataset_urls() -> Generator[str, None, None]:
     """Create generator of the URL's parquet files."""
-    _year = YEAR_START
-    _month = 1
+    date = DATE_FIRST_RECORDS
 
-    while dataset_exists(_year, _month):
-        yield dataset_url(_year, _month)
-
-        if _month < 12:
-            _month += 1
-        else:  # End of year (Dec)
-            _month = 1
-            _year += 1
+    while dataset_exists(date.year, date.month):
+        yield dataset_url(date.year, date.month)
+        date += relativedelta(month=1)
 
         # FIXME: delay between queries to avoid triggering the DDOS protection
         time.sleep(1.5)

@@ -5,7 +5,7 @@
 groups = ["default", "pytest", "test", "dev"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:05e6cb551cec2c9fe62657909c279597298b30d815bb1b3865c6e936369fff13"
+content_hash = "sha256:153f2ce34701a335549b10b3c826d82bb08eb847c485f22ce667b8f9810cbe6b"
 
 [[package]]
 name = "anyio"
