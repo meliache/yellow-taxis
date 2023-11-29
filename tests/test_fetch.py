@@ -1,3 +1,4 @@
+import json
 import os
 import tempfile
 import time
@@ -52,11 +53,21 @@ class TestDatasetURLs:
     def datasets_for_past_months_exist(self) -> None:
         for year, month in ((2009, 1), (2023, 9), (2018, 8)):
             assert fetch.dataset_exists(year, month)
-            time.sleep(1.5)  # avoid DDOS protection
+            time.sleep(1)  # avoid DDOS protection
 
     def datasets_for_future_does_not_exist(self) -> None:
         future: datetime = datetime.today() + timedelta(days=42)
         assert not fetch.dataset_exists(future.year, future.month)
+
+    def test_generate_available_datasets(self) -> None:
+        with open(
+            Path(__file__) / "test_data" / "available_datasets_2023-11-29.json", "w"
+        ) as f:
+            available_until_sep_23 = list(sorted(json.load(f)))
+            available_now = list(sorted(fetch.available_dataset_urls()))
+            assert (
+                available_now[: len(available_until_sep_23)] == available_until_sep_23
+            )
 
 
 class TestDownload:
@@ -65,7 +76,7 @@ class TestDownload:
     # URL contains copy of data file with just 5 rows to allow for quick download tests
     test_parquet_url = os.path.join(
         "https://github.com/meliache/yellow-taxis/raw/main",
-        "tests/yellow_tripdata_2023-01_head_for_testing.parquet",
+        "tests/test_data/yellow_tripdata_2023-01_head_for_testing.parquet",
     )
 
     def test_download_valid_url_parquet_reabable(self) -> None:

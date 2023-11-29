@@ -5,7 +5,7 @@
 groups = ["default", "pytest", "test", "dev"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:153f2ce34701a335549b10b3c826d82bb08eb847c485f22ce667b8f9810cbe6b"
+content_hash = "sha256:1f684c87448c2638f7ce2083287e4df05749610d539bbd1585c15555eb3c8e22"
 
 [[package]]
 name = "anyio"
@@ -2239,4 +2239,14 @@ summary = "WebSocket client for Python with low level API options"
 files = [
     {file = "websocket-client-1.6.4.tar.gz", hash = "sha256:b3324019b3c28572086c4a319f91d1dcd44e6e11cd340232978c684a7650d0df"},
     {file = "websocket_client-1.6.4-py3-none-any.whl", hash = "sha256:084072e0a7f5f347ef2ac3d8698a5e0b4ffbfcab607628cadabc650fc9a83a24"},
+]
+
+[[package]]
+name = "xdg-base-dirs"
+version = "6.0.1"
+requires_python = ">=3.10,<4.0"
+summary = "Variables defined by the XDG Base Directory Specification"
+files = [
+    {file = "xdg_base_dirs-6.0.1-py3-none-any.whl", hash = "sha256:63f6ebc1721ced2e86c340856e004ef829501a30a37e17079c52cfaf0e1741b9"},
+    {file = "xdg_base_dirs-6.0.1.tar.gz", hash = "sha256:b4c8f4ba72d1286018b25eea374ec6fbf4fddda3d4137edf50de95de53e195a6"},
 ]

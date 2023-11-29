@@ -7,13 +7,12 @@ import os
 import shutil
 import tempfile
 import time
-from collections.abc import Generator
 from datetime import datetime
+from functools import cache
 from pathlib import Path
 
 import requests
 import validators
-from cachetools import ttl_cache
 from dateutil.relativedelta import relativedelta
 
 #: format string that given a year and month and can be formatted to a valid parquet
@@ -22,6 +21,29 @@ URL_FORMAT_STRING = "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_trip
 
 #: Year for which we have the first records
 DATE_FIRST_RECORDS = datetime(year=2009, month=1, day=1)
+
+
+def _validate_date(year: int, month: int):
+    """Validate year and month as possible date to consider for yellow taxi data.
+
+    :param year: Year in which dataset was recorded.
+    :param month: Month in which dataset was recorded, as integer from 1.
+    """
+    if not isinstance(year, int):
+        raise TypeError(f"Year must be an integer but if {year=}")
+
+    if not isinstance(month, int):
+        raise TypeError(f"Month must be an integer but if {month=}")
+
+    if not 1 <= month <= 12:
+        raise ValueError(
+            f"Invalid month, it should be an integer from 1 to 12 but is {month}."
+        )
+
+    date = datetime(year, month, 1)  # utilizes ``datetime`` validation
+    # Check date is not before first records
+    if date < DATE_FIRST_RECORDS:
+        raise ValueError(f"Historical data for {year} does not exist.")
 
 
 def dataset_url(
@@ -34,48 +56,54 @@ def dataset_url(
     :param month: Month in which dataset was recorded, as integer from 1.
     :return: Download URL for parquet file with monthly trip data
     """
-    if not isinstance(year, int):
-        raise TypeError(f"Year must be an integer but if {year=}")
-
-    if not isinstance(month, int):
-        raise TypeError(f"Month must be an integer but if {month=}")
-
-    if not 1 <= month <= 12:
-        raise ValueError(
-            f"Invalid month, it should be an integer from 1 to 12 but is {month}."
-        )
-    if datetime(year, month, 1) < DATE_FIRST_RECORDS:
-        raise ValueError(f"Historical data for {year} does not exist.")
-
+    _validate_date(year, month)
     return URL_FORMAT_STRING.format(year=year, month=month)
 
 
-@ttl_cache(ttl=3600)  # cache to reduce load in server in case we call this often
 def dataset_exists(year, month) -> bool:
-    """Check if we can find a dataset on the website the given year and month.
+    """Check if we can find a dataset on the website fort the given year and month.
 
     :param year: Year in which dataset was recorded.
     :param month: Month in which dataset was recorded, as integer from 1
 
     :return: ``True`` if dataset for this date and time exists under the URL.
     """
+    _validate_date(year, month)
+
+    date = datetime(year, month, 1)
+
+    if date > datetime.now():  # this is in the future so can't exist
+        return False
 
     url: str = dataset_url(year, month)
     if requests.head(url).status_code == 200:
         return True
+
     return False
 
 
-def generate_dataset_urls() -> Generator[str, None, None]:
-    """Create generator of the URL's parquet files."""
-    date = DATE_FIRST_RECORDS
+@cache
+def most_recent_dataset_date() -> datetime:
+    date = datetime(year=datetime.today().year, month=datetime.today().month, day=1)
+    while not dataset_exists(date.year, date.month):
+        print(date)
+        date -= relativedelta(months=1)
+        if date < DATE_FIRST_RECORDS:
+            raise RuntimeError("Could not find any datasets.")
+        time.sleep(1)  # avoid DDOS'ing server
+    return date
 
-    while dataset_exists(date.year, date.month):
-        yield dataset_url(date.year, date.month)
-        date += relativedelta(month=1)
 
-        # FIXME: delay between queries to avoid triggering the DDOS protection
-        time.sleep(1.5)
+def available_dataset_urls() -> list[str]:
+    """List of URL's of all available parquet files."""
+    urls: list[str] = []
+    _date = DATE_FIRST_RECORDS
+
+    while DATE_FIRST_RECORDS <= _date <= most_recent_dataset_date():
+        url = dataset_url(_date.year, _date.month)
+        urls.append(url)
+        _date += relativedelta(months=1)
+    return urls
 
 
 def download(

@@ -17,6 +17,7 @@ dependencies = [
     "pathlib>=1.0.1",
     "fastparquet>=2023.10.1",
     "python-dateutil>=2.8.2",
+    "xdg-base-dirs>=6.0.1",
 ]
 requires-python = ">=3.11"
 readme = "README.md"
