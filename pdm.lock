@@ -5,7 +5,7 @@
 groups = ["default"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:4948ea17cd4361a7b23a54d9a97615c2fca0615dd3468090f6ba878a84248350"
+content_hash = "sha256:f5ed04c394d5e022885474d5793da311ff57a2b48f31f95dcbdafaf2897fe8d2"
 
 [[package]]
 name = "anyio"
@@ -370,16 +370,6 @@ files = [
 ]
 
 [[package]]
-name = "docutils"
-version = "0.20.1"
-requires_python = ">=3.7"
-summary = "Docutils -- Python Documentation Utilities"
-files = [
-    {file = "docutils-0.20.1-py3-none-any.whl", hash = "sha256:96f387a2c5562db4476f09f13bbab2192e764cac08ebbf3a34a95d9b1e4a59d6"},
-    {file = "docutils-0.20.1.tar.gz", hash = "sha256:f08a4e276c3a1583a86dce3e34aba3fe04d02bba2dd51ed16106244e8a923e3b"},
-]
-
-[[package]]
 name = "executing"
 version = "2.0.1"
 requires_python = ">=3.5"
@@ -442,6 +432,16 @@ summary = "Internationalized Domain Names in Applications (IDNA)"
 files = [
     {file = "idna-3.6-py3-none-any.whl", hash = "sha256:c05567e9c24a6b9faaa835c4821bad0590fbb9d5779e7caa6e1cc4978e7eb24f"},
     {file = "idna-3.6.tar.gz", hash = "sha256:9ecdbbd083b06798ae1e86adcbfe8ab1479cf864e4ee30fe4e46a003d12491ca"},
+]
+
+[[package]]
+name = "iniconfig"
+version = "2.0.0"
+requires_python = ">=3.7"
+summary = "brain-dead simple config-ini parsing"
+files = [
+    {file = "iniconfig-2.0.0-py3-none-any.whl", hash = "sha256:b6a85871a79d2e3b22d2d1b94ac2824226a63c6b741c88f7ae975f18b6778374"},
+    {file = "iniconfig-2.0.0.tar.gz", hash = "sha256:2d91e135bf72d31a410b17c16da610a82cb55f6b0477d1a902134b24a455b8b3"},
 ]
 
 [[package]]
@@ -815,15 +815,6 @@ files = [
 ]
 
 [[package]]
-name = "lockfile"
-version = "0.12.2"
-summary = "Platform-independent file locking module"
-files = [
-    {file = "lockfile-0.12.2-py2.py3-none-any.whl", hash = "sha256:6c3cb24f344923d30b2785d5ad75182c8ea7ac1b6171b08657258ec7429d50fa"},
-    {file = "lockfile-0.12.2.tar.gz", hash = "sha256:6aed02de03cba24efabcd600b30540140634fc06cfa603822d508d5361e9f799"},
-]
-
-[[package]]
 name = "lsprotocol"
 version = "2023.0.0"
 requires_python = ">=3.7"
@@ -835,20 +826,6 @@ dependencies = [
 files = [
     {file = "lsprotocol-2023.0.0-py3-none-any.whl", hash = "sha256:e85fc87ee26c816adca9eb497bb3db1a7c79c477a11563626e712eaccf926a05"},
     {file = "lsprotocol-2023.0.0.tar.gz", hash = "sha256:c9d92e12a3f4ed9317d3068226592860aab5357d93cf5b2451dc244eee8f35f2"},
-]
-
-[[package]]
-name = "luigi"
-version = "3.4.0"
-summary = "Workflow mgmgt + task scheduling + dependency resolution."
-dependencies = [
-    "python-daemon",
-    "python-dateutil<3,>=2.7.5",
-    "tenacity<9,>=8",
-    "tornado<7,>=5.0",
-]
-files = [
-    {file = "luigi-3.4.0.tar.gz", hash = "sha256:db61ab165d33b6eb4920f81a55f1d22a21db1afa195f3a478e2ab4a5a14b8097"},
 ]
 
 [[package]]
@@ -1342,18 +1319,19 @@ files = [
 ]
 
 [[package]]
-name = "python-daemon"
-version = "3.0.1"
-requires_python = ">=3"
-summary = "Library to implement a well-behaved Unix daemon process."
+name = "pytest"
+version = "7.4.3"
+requires_python = ">=3.7"
+summary = "pytest: simple powerful testing with Python"
 dependencies = [
-    "docutils",
-    "lockfile>=0.10",
-    "setuptools>=62.4.0",
+    "colorama; sys_platform == \"win32\"",
+    "iniconfig",
+    "packaging",
+    "pluggy<2.0,>=0.12",
 ]
 files = [
-    {file = "python-daemon-3.0.1.tar.gz", hash = "sha256:6c57452372f7eaff40934a1c03ad1826bf5e793558e87fef49131e6464b4dae5"},
-    {file = "python_daemon-3.0.1-py3-none-any.whl", hash = "sha256:42bb848a3260a027fa71ad47ecd959e471327cb34da5965962edd5926229f341"},
+    {file = "pytest-7.4.3-py3-none-any.whl", hash = "sha256:0d009c083ea859a71b76adf7c1d502e4bc170b80a8ef002da5806527b9591fac"},
+    {file = "pytest-7.4.3.tar.gz", hash = "sha256:d989d136982de4e3b29dabcc838ad581c64e8ed52c11fbe86ddebd9da0818cd5"},
 ]
 
 [[package]]
@@ -1814,16 +1792,6 @@ dependencies = [
 files = [
     {file = "stack_data-0.6.3-py3-none-any.whl", hash = "sha256:d5558e0c25a4cb0853cddad3d77da9891a08cb85dd9f9f91b9f8cd66e511e695"},
     {file = "stack_data-0.6.3.tar.gz", hash = "sha256:836a778de4fec4dcd1dcd89ed8abff8a221f58308462e1c4aa2a3cf30148f0b9"},
-]
-
-[[package]]
-name = "tenacity"
-version = "8.2.3"
-requires_python = ">=3.7"
-summary = "Retry code until it succeeds"
-files = [
-    {file = "tenacity-8.2.3-py3-none-any.whl", hash = "sha256:ce510e327a630c9e1beaf17d42e6ffacc88185044ad85cf74c0a8887c6a0f88c"},
-    {file = "tenacity-8.2.3.tar.gz", hash = "sha256:5398ef0d78e63f40007c1fb4c0bff96e1911394d2fa8d194f77619c05ff6cc8a"},
 ]
 
 [[package]]
