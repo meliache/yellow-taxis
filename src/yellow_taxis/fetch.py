@@ -5,7 +5,7 @@ https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page.
 
 import os
 import shutil
-import tempfile
+import subprocess
 import time
 from datetime import datetime
 from functools import cache
@@ -129,22 +129,32 @@ def download(
     :make_directories: Create parent directories
     :overwrite: If ``True``, overwrite ``file_name`` if it exists, otherwise fail.
     """
+    file_name = Path(file_name)
+    if file_name.exists():
+        raise FileExistsError(f"{file_name} already exists!")
+
     if not validators.url(url):
         raise ValueError(f"ULR '{url}' is invalid!")
 
-    # Download code adapted from https://stackoverflow.com/a/39217788/6199035
-    with requests.get(url, stream=True) as r:
-        r.raise_for_status()
+    if make_directories:
+        file_name.parent.mkdir(parents=True, exist_ok=True)
 
-        # download to temporary filename first to avoid partially downloaded data in
-        # case of download failure
-        with tempfile.NamedTemporaryFile("wb", delete=False) as tmp_file:
-            shutil.copyfileobj(r.raw, tmp_file)
+    # download to temporary/partial file name at first, only mv to final name on success
+    partial_file_name = file_name.with_suffix(".partial")
 
-            if make_directories:
-                Path(file_name).parent.mkdir(parents=True, exist_ok=True)
-
-            shutil.move(tmp_file.name, file_name)
+    # Downloading with ``curl``. I wanted to use ``requests`` initially, but for large
+    # files it was slower and less robust than just curl even when streaming.
+    print(f"Downloading {url} to {partial_file_name}…")
+    dowload_cmd = [
+        "curl",
+        url,
+        "--continue-at",
+        "-",
+        "--output",
+        str(partial_file_name),
+    ]
+    subprocess.run(dowload_cmd, check=True, capture_output=False)
+    shutil.move(partial_file_name, file_name)
 
 
 def download_monthly_data(
