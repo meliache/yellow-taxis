@@ -1,6 +1,7 @@
 import itertools
 import os
 import tempfile
+from datetime import datetime, timedelta
 from pathlib import Path
 
 import pandas as pd
@@ -27,10 +28,6 @@ class TestDatasetURLs:
         with pytest.raises(ValueError):
             fetch.dataset_url(9, 2023)
 
-    def datasets_for_past_months_exist(self) -> None:
-        for year, month in itertools.product(range(2009, 2024), range(1, 13)):
-            assert fetch.dataset_exists(year, month)
-
     def test_dataset_url_month_out_of_range(self) -> None:
         with pytest.raises(ValueError):
             fetch.dataset_url(2023, 0)
@@ -51,6 +48,14 @@ class TestDatasetURLs:
     def test_dataset_url_year_out_of_range(self) -> None:
         with pytest.raises(ValueError):
             fetch.dataset_url(1992, 9)
+
+    def datasets_for_past_months_exist(self) -> None:
+        for year, month in itertools.product(range(2009, 2024), range(1, 13)):
+            assert fetch.dataset_exists(year, month)
+
+    def datasets_for_future_does_not_exist(self) -> None:
+        future: datetime = datetime.today() + timedelta(days=42)
+        assert not fetch.dataset_exists(future.year, future.month)
 
 
 class TestDownload:
