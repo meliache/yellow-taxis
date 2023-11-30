@@ -114,18 +114,18 @@ configure resources. The resource usage of each task is determined by the dictio
 
 ``` toml
 [resources]
-downloads = 4 # parallel downloads # TODO: not implemented yet
-memory = 16000 # memory usage estimate in mb # TODO: not implemented yet
-cpus = 8 # number CPU cores to use # TODO: not implemented yet
+downloads = 4 # parallel downloads
+memory = 16000 # memory usage estimate in MB
+cpus = 8 # number CPU cores to use
 ```
 
 #### # Running as docker container
 
-TODO
+TODO create Dockerfile
 
 ### Deploy to batch systems
 
-TODO
+TODO explain b2luigi and luigi methods to run on batch systems
 
 ## Author
 

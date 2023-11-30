@@ -2,11 +2,13 @@
 
 from os import PathLike
 from pathlib import Path
+from typing import Any
 
 import luigi
 import pandas as pd
 from dateutil.relativedelta import relativedelta
 from luigi.util import requires
+
 from yellow_taxis import fetch
 from yellow_taxis.tasks.download_task import (
     RESULT_DIR,
@@ -61,6 +63,19 @@ class MonthlyAveragesTask(luigi.Task):
             year_month_result_dir(self.result_dir, self.year, self.month)
             / "month_average.parquet"
         )
+
+    @property
+    def resources(self) -> dict[str, Any]:
+        # estimate expected memory usage in MB based on file-size
+        file_size = Path(self.input().path).stat().st_size / 1e6
+        compression_estimate = 1.2  # determined for latest file, 2009 files have 0.5
+        safety_factor = 2
+        memory_usage_estimate = file_size * compression_estimate * safety_factor
+
+        return {
+            "cpus": 1,
+            "memory": memory_usage_estimate,
+        }
 
     def run(self):
         input_fpath = Path(self.input().path)
@@ -142,6 +157,8 @@ class AggregateAveragesTask(luigi.Task):
     @property
     def averages_fname(self):
         return self.result_dir / "monthly_averages.parquet"
+
+    resources = {"cpus": 1}
 
     def requires(self):
         for date in fetch.available_dataset_dates():

@@ -2,6 +2,7 @@
 
 from os import PathLike
 from pathlib import Path
+from typing import Any
 
 import luigi
 from yellow_taxis import fetch
@@ -23,6 +24,14 @@ class DownloadTask(luigi.Task):
             year_month_result_dir(self.result_dir, self.year, self.month)
             / f"yellow_tripdata_{self.year:d}-{self.month:02d}.parquet"
         )
+
+    resources: dict[str, Any] = {
+        "downloads": 1,
+        "cpus": 1,
+        # memory in MB conservative, estimate,
+        # see https://daniel.haxx.se/blog/2021/01/21/more-on-less-curl-memory
+        "memory": 1,
+    }
 
     def run(self):
         fetch.download_monthly_data(
