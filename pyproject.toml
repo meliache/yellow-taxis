@@ -51,6 +51,8 @@ select = [
     "I",
 ]
 
+[tool.isort]
+profile = "black"  # black profile is compatible with ruff
 
 [tool.mypy]
 disable_error_code = "annotation-unchecked,import-untyped"
