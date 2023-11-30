@@ -5,10 +5,14 @@ from pathlib import Path
 
 import luigi
 import pandas as pd
+from dateutil.relativedelta import relativedelta
 from luigi.util import requires
-
 from yellow_taxis import fetch
-from yellow_taxis.download_task import RESULT_DIR, DownloadTask, year_month_result_dir
+from yellow_taxis.tasks.download_task import (
+    RESULT_DIR,
+    DownloadTask,
+    year_month_result_dir,
+)
 
 # Required columns. These are from the documented schema, since 2015
 COLUMN_NAMES = ["tpep_pickup_datetime", "tpep_dropoff_datetime", "trip_distance"]
@@ -80,6 +84,56 @@ class MonthlyAveragesTask(luigi.Task):
         return luigi.LocalTarget(self.result_path)
 
     result_dir = luigi.PathParameter(absolute=True)
+
+
+class RollingAveragesTask(luigi.Task):
+    """Calculate the 45 day rolling averages for all dates in a given month."""
+
+    result_dir = luigi.PathParameter(absolute=True)
+
+    ndays = luigi.IntParameter(default=45)
+    year = luigi.IntParameter()
+    month = luigi.IntParameter()
+
+    def requires(self):
+        this_month_start_date = pd.Timestamp(self.year, self.month, 1)
+
+        # we need the data of the current, previous and previous of the previous month
+        for neg_months_delta in range(3):
+            _date = this_month_start_date - relativedelta(months=neg_months_delta)
+            yield self.clone(
+                DownloadTask,
+                year=_date.year,
+                month=_date.month,
+            )
+
+    @property
+    def result_path(self) -> Path:
+        return (
+            year_month_result_dir(self.result_dir, self.year, self.month)
+            / "rolling_averages.parquet"
+        )
+
+    def run(self):
+        input_fpaths = [Path(input_target.path) for input_target in self.input()]
+        assert len(input_fpaths == 3)
+
+        df = pd.concat([pd.read_parquet(f) for f in input_fpaths])
+
+        durations = df["tpep_dropoff_datetime"] - df["tpep_pickup_datetime"]
+        df["trip_duration"] = durations.dt.seconds
+
+        results: dict[str, float] = {}
+        for col in ["trip_distance", "trip_duration"]:
+            # calculate mean and uncertainty on mean
+            results[f"{col}_mean"] = df[col].mean()
+            results[f"{col}_mean_err"] = df[col].sem()
+
+        result_series = pd.Series(results)
+        result_series.to_json(self.result_path)
+
+    def output(self):
+        return luigi.LocalTarget(self.result_path)
 
 
 class AggregateAveragesTask(luigi.Task):

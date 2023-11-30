@@ -4,7 +4,6 @@ from os import PathLike
 from pathlib import Path
 
 import luigi
-
 from yellow_taxis import fetch
 
 
