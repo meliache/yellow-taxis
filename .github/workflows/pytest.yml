@@ -18,12 +18,27 @@ jobs:
           cache: true
       - name: Install dependencies
         run: pdm install -dG test
-      - name: Run pytest
+
+      - name: Test with pytest
         uses: pavelzw/pytest-action@v2
         with:
-          custom-pytest: "pdm run pytest"
+          custom-pytest: pdm run pytest
+          custom-arguments: -v --cov=yellow_taxis --junitxml=junit/test-results.xml --cov-report=xml tests
           verbose: true
           emoji: false
           job-summary: false
           click-to-expand: true
           report-title: "Test Report"
+      - name: Upload pytest test results
+        uses: actions/upload-artifact@v1
+        with:
+          name: pytest-results
+          path: junit/test-results.xml
+        if: ${{ always() }}
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          flags: unittests
+          verbose: true
