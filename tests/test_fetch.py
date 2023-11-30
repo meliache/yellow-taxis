@@ -1,3 +1,4 @@
+import itertools
 import tempfile
 import time
 from datetime import datetime, timedelta
@@ -57,6 +58,17 @@ class TestDatasetURLs:
     def datasets_for_future_does_not_exist(self) -> None:
         future: datetime = datetime.today() + timedelta(days=42)
         assert not fetch.dataset_exists(future.year, future.month)
+
+    def test_generate_available_dataset_dates(self) -> None:
+        available_until_sep_23 = [
+            datetime(y, m, 1)
+            for y, m in itertools.product(
+                range(2009, 2023),
+                range(1, 13),
+            )
+        ]
+        available_now = list(sorted(fetch.available_dataset_dates()))
+        assert available_now[: len(available_until_sep_23)] == available_until_sep_23
 
 
 class TestDownload:
