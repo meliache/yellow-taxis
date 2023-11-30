@@ -102,7 +102,7 @@ luigi --module yellow_taxis.tasks.averaging_tasks AggregateAveragesTask \
   --result-dir /path/to/results --scheduler-port 8887 --workers 1
 ```
 
-
+![Task Hierarchy Visualizer of the Luigi central scheduler](https://raw.githubusercontent.com/meliache/yellow-taxis/main/screenshots/Luigi%20Task%20Visualiser.webp)
 
 #### Configuring Luigi and managing resources
 
