@@ -6,11 +6,11 @@
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![pdm-managed](https://img.shields.io/badge/pdm-managed-blueviolet)](https://pdm-project.org)
 
-Analysis of average travel times of _Yellow Taxis_ travel times in New York City.
+Analysis of average travel times of _Yellow Taxis_ in New York City.
 
 Data source: [TLC Trip Record Data](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page)
 
-## TODO's
+## Tasks
 
 - [X] Please write a Python program that calculates the average trip length of all Yellow Taxis for a month.
 - [ ] Extend this to a data pipeline that can ingest new data and calculates the 45 day rolling average trip length.
@@ -57,7 +57,7 @@ TODO
 
 ### Non-Python dependencies
 
-- [curl](https://curl.se): The `curl` commandline-tool is currently used for downloading the datasets. It be available on all desktop operating systems and should pre-installed on Windows and Mac, but if not it's available for almost any architecture.
+- [curl](https://curl.se): The `curl` commandline-tool is currently used for downloading the datasets. It is available for all desktop operating systems and comes pre-installed on Windows and MacOS.
 
 ## Author
 
