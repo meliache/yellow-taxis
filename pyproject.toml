@@ -77,3 +77,7 @@ jupyter = [
     "jupyterlab>=4.0.9",
     "nbstripout>=0.6.1",
 ]
+
+[tool.pdm.scripts]
+download-locally = {call = "yellow_taxis.tasks.download_task:run_locally"}
+average-locally = {call = "yellow_taxis.tasks.averaging_tasks:run_locally"}

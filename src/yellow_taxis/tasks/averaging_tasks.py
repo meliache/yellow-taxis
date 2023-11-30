@@ -165,7 +165,11 @@ class AggregateAveragesTask(luigi.Task):
         return self.averages_fname
 
 
-if __name__ == "__main__":
+def run_locally() -> None:
     luigi.build(
         [AggregateAveragesTask(result_dir=RESULT_DIR)], local_scheduler=True, workers=1
     )
+
+
+if __name__ == "__main__":
+    run_locally()

@@ -53,7 +53,12 @@ class AggregateDownloadsTask(luigi.WrapperTask):
 repo_root = (Path(__file__).parent.parent.parent).absolute()
 RESULT_DIR = repo_root / "data"
 
-if __name__ == "__main__":
+
+def run_locally() -> None:
     luigi.build(
         [AggregateDownloadsTask(result_dir=RESULT_DIR)], local_scheduler=True, workers=1
     )
+
+
+if __name__ == "__main__":
+    run_locally()
