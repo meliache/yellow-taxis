@@ -93,18 +93,6 @@ def most_recent_dataset_date() -> datetime:
     return date
 
 
-def available_dataset_urls() -> list[str]:
-    """List of URL's of all available parquet files."""
-    urls: list[str] = []
-    _date = DATE_FIRST_RECORDS
-
-    while DATE_FIRST_RECORDS <= _date <= most_recent_dataset_date():
-        url = dataset_url(_date.year, _date.month)
-        urls.append(url)
-        _date += relativedelta(months=1)
-    return urls
-
-
 def available_dataset_dates() -> list[datetime]:
     """List of dates of all available parquet files."""
 

@@ -1,4 +1,3 @@
-import json
 import tempfile
 import time
 from datetime import datetime, timedelta
@@ -58,16 +57,6 @@ class TestDatasetURLs:
     def datasets_for_future_does_not_exist(self) -> None:
         future: datetime = datetime.today() + timedelta(days=42)
         assert not fetch.dataset_exists(future.year, future.month)
-
-    def test_generate_available_datasets(self) -> None:
-        with open(
-            Path(__file__).parent / "test_data" / "available_datasets_2023-11-29.json",
-        ) as f:
-            available_until_sep_23 = list(sorted(json.load(f)))
-            available_now = list(sorted(fetch.available_dataset_urls()))
-            assert (
-                available_now[: len(available_until_sep_23)] == available_until_sep_23
-            )
 
 
 class TestDownload:
