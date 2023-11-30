@@ -58,6 +58,61 @@ But to be less bothered by pre-commit's errors I recommend setting up your edito
 
 ### Running the pipeline
 
+For creating the pipeline I have used [Luigi](https://github.com/spotify/luigi), which I have been familiar with from my academic work. I consciously avoided using [b2luigi](https://github.com/nils-braun/b2luigi), a Luigi helper package for working with batch systems as are common in Physics, because it's a bit niche and plain Luigi might be more familiar, plus the batch systems used at a company are likely to be very different than in physics and would first need to be adapted for b2luigi.
+
+In short, Luigi defines workflows using classes implementing `luigi.Task`. Completeness is defined by the `Task.output()` method and requirements (other tasks) by the `Task.requires()` method. The actual work is done in the `Task.run()` method. Refer to the [Luigi docs](https://luigi.readthedocs.io/en/stable/index.html) for more information.
+
+#### Local pipeline
+
+The tasks defining the pipeline are found in [`src/yellow_taxis/tasks/`](https://github.com/meliache/yellow-taxis/tree/main/src/yellow_taxis/tasks). They are executable script and can be run directly via e.g.
+
+``` shell
+./averaging_tasks.py
+```
+
+which will trigger the monthly and running averaging tasks and all their dependencies, such as the data download task. By default, it runs the jobs locally with a single worker. You can increase the number of parallel jobs by changing the `luigi.build(…, workers=<num workers>)` in the main function at the bottom of each script. Each worker might require up to couple of GB of memory, so only increase this for local tasks if you have sufficient memory (or configure resources as described below).
+
+If you installed the project via PDM, you can also run the script
+
+``` shell
+pdm run average-locally  # will also run download tasks as dependencies
+pdm run download-locally  # only trigger download tasks
+```
+
+Finally, you can custom trigger individual tasks by using the `luigi` (or `pdm run luigi`) command line tool, which allow setting the task parameters, scheduler and number of workers on the command line
+
+``` shell
+# get average for a single month
+luigi --module yellow_taxis.tasks.averaging_tasks MonthlyAveragesTask \
+  --result-dir /path/to/results --year 2023 --month 8 --local-scheduler --workers 1
+
+# get all averages
+luigi --module yellow_taxis.tasks.averaging_tasks AggregateAveragesTask \
+  --result-dir /path/to/results --local-scheduler --workers 1
+
+```
+
+#### Configuring Luigi and managing resources
+
+You can configure luigi and its scheduler using a `luigi.cfg` or `luigi.toml` file as described in the [Luigi configuration docs](https://luigi.readthedocs.io/en/stable/configuration.html).
+
+This is for example useful for limiting resource usage such a CPU's, memory, number of parallel downloads, number of parallel batch submissions etc.
+Under the [`[resources]`](https://luigi.readthedocs.io/en/stable/configuration.html?highlight=resources#resources) section you can
+configure resources. The resource usage of each task is determined by the dictionary under its `Task.resources` attribute. For example add
+
+``` toml
+[resources]
+downloads = 4 # parallel downloads # TODO: not implemented yet
+memory = 16000 # memory usage estimate in mb # TODO: not implemented yet
+cpus = 8 # number CPU cores to use # TODO: not implemented yet
+```
+
+#### # Running as docker container
+
+TODO
+
+### Deploy to batch systems
+
 TODO
 
 ## Author
