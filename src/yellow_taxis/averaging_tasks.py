@@ -45,6 +45,12 @@ def _read_taxi_dataframe(file_name: PathLike) -> pd.DataFrame:
 
 @requires(DownloadTask)
 class MonthlyAveragesTask(luigi.Task):
+    # Will uses this for the name the single column dataframe that this task generates.
+    # When concatenating results this will give us a date string index. Would have
+    # preferred a datetime object but parquet only allows for string column names.
+    # Having this a property is important for accessing this in other tasks.
+    month_date_fmt = "%Y-%m"
+
     @property
     def result_path(self) -> Path:
         return (
@@ -66,7 +72,8 @@ class MonthlyAveragesTask(luigi.Task):
             results[f"{col}_mean_err"] = df[col].sem()
 
         result_series = pd.Series(results)
-        result_df = result_series.to_frame(name=f"{self.year}-{self.month}")
+        col_name = pd.Timestamp(self.year, self.month, 1).strftime(self.month_date_fmt)
+        result_df = result_series.to_frame(col_name)
         result_df.to_parquet(self.result_path)
 
     def output(self):
@@ -95,6 +102,9 @@ class AggregateAveragesTask(luigi.Task):
             [pd.read_parquet(input_target.path) for input_target in self.input()],
             axis=1,
         ).T
+        monthly_averages.index = pd.to_datetime(
+            monthly_averages.index, format=MonthlyAveragesTask.month_date_fmt
+        )
         monthly_averages.to_parquet(self.averages_fname)
 
     def output(self):
