@@ -5,7 +5,7 @@
 groups = ["default", "pytest", "test", "dev", "jupyterlab", "jupyter"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:6d4f374f87e20a6f94ca79bcf80873f0901364a9dae6bee3ee25a874af6d4313"
+content_hash = "sha256:357df6e769dbe8acf92919f4deaa2383e9888d72119788861f7b46dc3942e28e"
 
 [[package]]
 name = "anyio"
@@ -1289,6 +1289,19 @@ dependencies = [
 files = [
     {file = "nbqa-1.7.1-py3-none-any.whl", hash = "sha256:77cdff622bfcf527bf260004449984edfb3624f6e065ac6bb35d64cddcdad483"},
     {file = "nbqa-1.7.1.tar.gz", hash = "sha256:44f5b5000d6df438c4f1cba339e3ad80acc405e61f4500ac951fa36a177133f4"},
+]
+
+[[package]]
+name = "nbstripout"
+version = "0.6.1"
+requires_python = ">=3.6"
+summary = "Strips outputs from Jupyter and IPython notebooks"
+dependencies = [
+    "nbformat",
+]
+files = [
+    {file = "nbstripout-0.6.1-py2.py3-none-any.whl", hash = "sha256:5ff6eb0debbcd656c4a64db8e082a24fabcfc753a9e8c9f6d786971e8f29e110"},
+    {file = "nbstripout-0.6.1.tar.gz", hash = "sha256:9065bcdd1488b386e4f3c081ffc1d48f4513a2f8d8bf4d0d9a28208c5dafe9d3"},
 ]
 
 [[package]]

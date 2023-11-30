@@ -29,3 +29,9 @@ repos:
       - id: ruff
         args: [--fix]
       - id: ruff-format
+
+  # Quality ensurance for Jupyter Notebooks
+  - repo: https://github.com/nbQA-dev/nbQA
+    rev: 1.7.1
+    hooks:
+      - id: nbqa-ruff

@@ -73,4 +73,5 @@ test = [
 jupyter = [
     "nbqa[ruff]>=1.7.1",
     "jupyterlab>=4.0.9",
+    "nbstripout>=0.6.1",
 ]
