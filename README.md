@@ -34,7 +34,11 @@ pdm install # alternative
 
 This is sufficient for running the pipeline.
 
-### Developer install
+### Non-Python dependencies
+
+- [curl](https://curl.se): The `curl` commandline-tool is currently used for downloading the datasets. It is available for all desktop operating systems and comes pre-installed on Windows and MacOS.
+
+### Developer installation
 
 Additionally this project has optional dependencies for developing, testing and for using Jupyter:
 
@@ -55,10 +59,6 @@ But to be less bothered by pre-commit's errors I recommend setting up your edito
 ### Running the pipeline
 
 TODO
-
-### Non-Python dependencies
-
-- [curl](https://curl.se): The `curl` commandline-tool is currently used for downloading the datasets. It is available for all desktop operating systems and comes pre-installed on Windows and MacOS.
 
 ## Author
 
