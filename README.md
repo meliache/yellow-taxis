@@ -64,22 +64,8 @@ In short, Luigi defines workflows using classes implementing `luigi.Task`. Compl
 
 #### Local pipeline
 
-The tasks defining the pipeline are found in [`src/yellow_taxis/tasks/`](https://github.com/meliache/yellow-taxis/tree/main/src/yellow_taxis/tasks). They are executable script and can be run directly via e.g.
+The tasks defining the pipeline are found in [`src/yellow_taxis/tasks/`](https://github.com/meliache/yellow-taxis/tree/main/src/yellow_taxis/tasks). You can custom trigger individual tasks by using the `luigi` (or `pdm run luigi`) command line tool, which will also run all their dependencies. This method allows setting the task parameters, scheduler and number of workers on the command line
 
-``` shell
-./averaging_tasks.py
-```
-
-which will trigger the monthly and running averaging tasks and all their dependencies, such as the data download task. By default, it runs the jobs locally with a single worker. You can increase the number of parallel jobs by changing the `luigi.build(…, workers=<num workers>)` in the main function at the bottom of each script. Each worker might require up to couple of GB of memory, so only increase this for local tasks if you have sufficient memory (or configure resources as described below).
-
-If you installed the project via PDM, you can also run the script
-
-``` shell
-pdm run average-locally  # will also run download tasks as dependencies
-pdm run download-locally  # only trigger download tasks
-```
-
-Finally, you can custom trigger individual tasks by using the `luigi` (or `pdm run luigi`) command line tool, which allow setting the task parameters, scheduler and number of workers on the command line
 
 ``` shell
 # get average for a single month
@@ -89,8 +75,34 @@ luigi --module yellow_taxis.tasks.averaging_tasks MonthlyAveragesTask \
 # get all averages
 luigi --module yellow_taxis.tasks.averaging_tasks AggregateAveragesTask \
   --result-dir /path/to/results --local-scheduler --workers 1
-
 ```
+
+
+However, the task modules are also executable scripts and their main function can be run direcly, e.g.
+
+``` shell
+./averaging_tasks.py
+```
+
+ By default, it runs the jobs locally with a single worker. You can increase the number of parallel jobs by changing the `luigi.build(…, workers=<num workers>)` in the main function at the bottom of each script. Each worker might require up to couple of GB of memory, so only increase this for local tasks if you have sufficient memory (or configure resources as described below).
+
+If you installed the project via PDM, you can also run the pdm commands
+
+``` shell
+pdm run average-locally  # will also run download tasks as dependencies
+pdm run download-locally  # only trigger download tasks
+```
+
+##### Central scheduler
+To get visualization of the pipeline in a web interface, use the [luigi central scheduler](https://luigi.readthedocs.io/en/stable/central_scheduler.html). Here's a simple example usage:
+
+``` shell
+luigid --port 8887 # in a separate terminal or use `--background`
+luigi --module yellow_taxis.tasks.averaging_tasks AggregateAveragesTask \
+  --result-dir /path/to/results --scheduler-port 8887 --workers 1
+```
+
+
 
 #### Configuring Luigi and managing resources
 
