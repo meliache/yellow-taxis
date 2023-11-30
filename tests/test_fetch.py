@@ -4,6 +4,7 @@ import time
 from datetime import datetime, timedelta
 from pathlib import Path
 from subprocess import CalledProcessError
+from unittest.mock import Mock, patch
 
 import pandas as pd
 import pytest
@@ -53,7 +54,7 @@ class TestDatasetURLs:
     def datasets_for_past_months_exist(self) -> None:
         for year, month in ((2009, 1), (2023, 9), (2018, 8)):
             assert fetch.dataset_exists(year, month)
-            time.sleep(1)  # avoid DDOS protection
+            time.sleep(2)  # avoid DDOS protection
 
     def datasets_for_future_does_not_exist(self) -> None:
         future: datetime = datetime.today() + timedelta(days=42)
@@ -69,6 +70,43 @@ class TestDatasetURLs:
         ]
         available_now = list(sorted(fetch.available_dataset_dates()))
         assert available_now[: len(available_until_sep_23)] == available_until_sep_23
+
+    @patch("yellow_taxis.fetch.download")
+    def test_download_monthly_data_default_kwargs(self, mock_download: Mock) -> None:
+        fetch.download_monthly_data(2022, 10, "fname")
+        mock_download.assert_called_once_with(
+            "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2022-10.parquet",
+            "fname",
+            make_directories=True,
+            overwrite=False,
+        )
+
+    @patch("yellow_taxis.fetch.download")
+    def test_download_monthly_data_non_default_kwargs(
+        self, mock_download: Mock
+    ) -> None:
+        # purposefully choose keyword order that differs from positional order
+        fetch.download_monthly_data(
+            2022, 10, "fname", overwrite=True, make_directories=False
+        )
+        mock_download.assert_called_once_with(
+            "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2022-10.parquet",
+            "fname",
+            make_directories=False,
+            overwrite=True,
+        )
+
+    @patch("yellow_taxis.fetch.download")
+    def test_download_monthly_data_non_default_kwargs_positional(
+        self, mock_download: Mock
+    ) -> None:
+        fetch.download_monthly_data(2022, 10, "fname", False, True)
+        mock_download.assert_called_once_with(
+            "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2022-10.parquet",
+            "fname",
+            make_directories=False,
+            overwrite=True,
+        )
 
 
 class TestDownload:
@@ -111,3 +149,19 @@ class TestDownload:
             )
             with pytest.raises(CalledProcessError):
                 fetch.download(self.test_parquet_url, fname, make_directories=False)
+
+    def test_download_fails_if_dest_exists(self) -> None:
+        with tempfile.NamedTemporaryFile() as tmpfile, pytest.raises(FileExistsError):
+            fetch.download(self.test_parquet_url, file_name=tmpfile.name)
+
+    def test_download_overwrite_existing_dest(self) -> None:
+        with tempfile.NamedTemporaryFile() as tmpfile, pytest.raises(FileExistsError):
+            fetch.download(
+                self.test_parquet_url, file_name=tmpfile.name, overwrite=True
+            )
+
+    def test_download_invalid_url(self) -> None:
+        with pytest.raises(ValueError):
+            invalid_url = self.test_parquet_url.replace("https://", "http:/")
+            with tempfile.TemporaryDirectory() as tmpdirname:
+                fetch.download(invalid_url, file_name=Path(tmpdirname) / "tmp")
