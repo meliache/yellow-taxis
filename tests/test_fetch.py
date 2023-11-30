@@ -1,9 +1,9 @@
 import json
-import os
 import tempfile
 import time
 from datetime import datetime, timedelta
 from pathlib import Path
+from subprocess import CalledProcessError
 
 import pandas as pd
 import pytest
@@ -61,7 +61,7 @@ class TestDatasetURLs:
 
     def test_generate_available_datasets(self) -> None:
         with open(
-            Path(__file__) / "test_data" / "available_datasets_2023-11-29.json", "w"
+            Path(__file__).parent / "test_data" / "available_datasets_2023-11-29.json",
         ) as f:
             available_until_sep_23 = list(sorted(json.load(f)))
             available_now = list(sorted(fetch.available_dataset_urls()))
@@ -74,14 +74,14 @@ class TestDownload:
     """Test whether the download works."""
 
     # URL contains copy of data file with just 5 rows to allow for quick download tests
-    test_parquet_url = os.path.join(
-        "https://github.com/meliache/yellow-taxis/raw/main",
-        "tests/test_data/yellow_tripdata_2023-01_head_for_testing.parquet",
+    test_parquet_url = (
+        "https://github.com/meliache/yellow-taxis/raw/main/tests/"
+        "test_data/yellow_tripdata_2023-01_head_for_testing.parquet"
     )
 
     def test_download_valid_url_parquet_reabable(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdirname:
-            fname = Path(tmpdirname) / self.test_parquet_url.split("/")[-1]
+            fname = Path(tmpdirname) / "test.parquet"
             fetch.download(self.test_parquet_url, fname, make_directories=True)
 
             df: pd.DataFrame = pd.read_parquet(fname)
@@ -108,5 +108,5 @@ class TestDownload:
             fname = (
                 Path(tmpdirname) / "2023" / "01" / self.test_parquet_url.split("/")[-1]
             )
-            with pytest.raises(FileNotFoundError):
+            with pytest.raises(CalledProcessError):
                 fetch.download(self.test_parquet_url, fname, make_directories=False)

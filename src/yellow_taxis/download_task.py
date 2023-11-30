@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
 
+from os import PathLike
 from pathlib import Path
 
 import luigi
 
 from yellow_taxis import fetch
+
+
+def year_month_result_dir(result_dir: PathLike, year: int, month: int) -> Path:
+    return Path(result_dir) / f"{year:d}" / f"{month:02d}"
 
 
 class DownloadTask(luigi.Task):
@@ -16,9 +21,7 @@ class DownloadTask(luigi.Task):
     @property
     def result_path(self) -> Path:
         return (
-            Path(self.result_dir)
-            / f"{self.year:d}"
-            / f"{self.month:02d}"
+            year_month_result_dir(self.result_dir, self.year, self.month)
             / f"yellow_tripdata_{self.year:d}-{self.month:02d}.parquet"
         )
 
@@ -35,7 +38,7 @@ class DownloadTask(luigi.Task):
         return luigi.LocalTarget(self.result_path)
 
 
-class MainTask(luigi.WrapperTask):
+class AggregateDownloadsTask(luigi.WrapperTask):
     result_dir = luigi.PathParameter(absolute=True)
 
     def requires(self):
@@ -47,8 +50,9 @@ class MainTask(luigi.WrapperTask):
             )
 
 
+# TODO implement some settings system to set result directory etc.
+repo_root = (Path(__file__).parent.parent.parent).absolute()
+RESULT_DIR = repo_root / "data"
+
 if __name__ == "__main__":
-    # TODO implement some settings system to set result directory etc.
-    repo_root = (Path(__file__).parent.parent.parent).absolute()
-    result_dir = repo_root / "data"
-    luigi.build([MainTask(result_dir=result_dir)], local_scheduler=True)
+    luigi.build([AggregateDownloadsTask(result_dir=RESULT_DIR)], local_scheduler=True)

@@ -147,9 +147,8 @@ def download(
     print(f"Downloading {url} to {partial_file_name}…")
     dowload_cmd = [
         "curl",
+        "--location",
         url,
-        "--continue-at",
-        "-",
         "--output",
         str(partial_file_name),
     ]
