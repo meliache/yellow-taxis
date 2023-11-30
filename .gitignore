@@ -217,3 +217,5 @@ flycheck_*.el
 
 # network security
 /network-security.dat
+/notebooks/.virtual_documents/
+*.png
