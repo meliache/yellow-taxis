@@ -7,20 +7,19 @@ import os
 import shutil
 import subprocess
 import time
-from datetime import datetime
 from functools import cache
 from pathlib import Path
 
+import pandas as pd
 import requests
 import validators
-from dateutil.relativedelta import relativedelta
 
 #: format string that given a year and month and can be formatted to a valid parquet
 # download URL.
 URL_FORMAT_STRING = "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_{year:d}-{month:02d}.parquet"
 
 #: Year for which we have the first records
-DATE_FIRST_RECORDS = datetime(year=2009, month=1, day=1)
+DATE_FIRST_RECORDS = pd.Timestamp(year=2009, month=1, day=1)
 
 
 def _validate_date(year: int, month: int):
@@ -40,7 +39,7 @@ def _validate_date(year: int, month: int):
             f"Invalid month, it should be an integer from 1 to 12 but is {month}."
         )
 
-    date = datetime(year, month, 1)  # utilizes ``datetime`` validation
+    date = pd.Timestamp(year, month, 1)  # utilizes ``pd.Timestamp`` validation
     # Check date is not before first records
     if date < DATE_FIRST_RECORDS:
         raise ValueError(f"Historical data for {year} does not exist.")
@@ -70,9 +69,9 @@ def dataset_exists(year, month) -> bool:
     """
     _validate_date(year, month)
 
-    date = datetime(year, month, 1)
+    date = pd.Timestamp(year, month, 1)
 
-    if date > datetime.now():  # this is in the future so can't exist
+    if date > pd.Timestamp.now():  # this is in the future so can't exist
         return False
 
     url: str = dataset_url(year, month)
@@ -83,24 +82,26 @@ def dataset_exists(year, month) -> bool:
 
 
 @cache
-def most_recent_dataset_date() -> datetime:
-    date = datetime(year=datetime.today().year, month=datetime.today().month, day=1)
+def most_recent_dataset_date() -> pd.Timestamp:
+    date = pd.Timestamp(
+        year=pd.Timestamp.today().year, month=pd.Timestamp.today().month, day=1
+    )
     while not dataset_exists(date.year, date.month):
-        date -= relativedelta(months=1)
+        date -= pd.tseries.offsets.MonthBegin(1)
         if date < DATE_FIRST_RECORDS:
             raise RuntimeError("Could not find any datasets.")
         time.sleep(1)  # avoid DDOS'ing server
     return date
 
 
-def available_dataset_dates() -> list[datetime]:
+def available_dataset_dates() -> list[pd.Timestamp]:
     """List of dates of all available parquet files."""
 
     dates = []
     _date = DATE_FIRST_RECORDS
     while DATE_FIRST_RECORDS <= _date <= most_recent_dataset_date():
         dates.append(_date)
-        _date += relativedelta(months=1)
+        _date += pd.tseries.offsets.MonthBegin(1)
     return dates
 
 
