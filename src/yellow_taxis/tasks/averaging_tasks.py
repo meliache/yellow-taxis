@@ -1,90 +1,21 @@
 #!/usr/bin/env python3
 
-from os import PathLike
 from pathlib import Path
 from typing import Any
 
 import luigi
 import pandas as pd
 from dateutil.relativedelta import relativedelta
-from joblib import Memory
 from luigi.util import requires
-from xdg_base_dirs import xdg_cache_home
 
 from yellow_taxis import fetch
-from yellow_taxis.tasks.download_task import (
-    RESULT_DIR,
-    DownloadTask,
+from yellow_taxis.dataframe_utils import read_taxi_dataframe
+from yellow_taxis.task_utils import (
+    MEMORY_RESOURCE_SAFETY_FACTOR,
+    data_memory_usage_mb,
     year_month_result_dir,
 )
-
-# Required columns. These are from the documented schema, since 2015
-COLUMN_NAMES = ["tpep_pickup_datetime", "tpep_dropoff_datetime", "trip_distance"]
-
-# Historical data from 2015 and earlier uses different column name conventions.
-COLUMN_NAME_VARIATIONS = (
-    COLUMN_NAMES,
-    ["Trip_Pickup_DateTime", "Trip_Dropoff_DateTime", "Trip_Distance"],
-    ["pickup_datetime", "dropoff_datetime", "trip_distance"],
-)
-
-
-def read_taxi_dataframe(file_name: PathLike) -> pd.DataFrame:
-    """Read parquet file with NYC yellow-taxi data into dataframe.
-
-    Normalizes also all data to the same schema type with timestamp-colums of datetime
-    type.
-
-    :param file_name: Input file parquet file path.
-    :return: Pandas dataframe with (normalized to latest format).
-    """
-    # handle different historical input schemas
-    for columns in COLUMN_NAME_VARIATIONS:
-        try:
-            df = pd.read_parquet(file_name, columns=columns)
-            df.columns = COLUMN_NAMES
-
-            # ensure datetime columns are of date type and not just strings
-            time_format = "%Y-%m-%d %H:%M:%S"
-            for time_col in ("tpep_pickup_datetime", "tpep_dropoff_datetime"):
-                df[time_col] = pd.to_datetime(df[time_col], format=time_format)
-
-            return df
-
-        except ValueError:  # try different column set
-            pass
-
-    raise ValueError(
-        f"Parquet file contains none of the column sets {COLUMN_NAME_VARIATIONS}!"
-    )
-
-
-# persistent on-diskmemory cache
-cache_dir = xdg_cache_home() / "yellow-taxis"
-memory = Memory(cache_dir, verbose=0)
-
-# If a dataframe has a certain size in memory, how much more resources should we request
-# to allow for addiataion memory usage durationg computations
-MEMORY_RESOURCE_SAFETY_FACTOR: float = 2.0
-
-
-@memory.cache
-def data_memory_usage_mb(
-    parquet_path: PathLike,
-) -> float:
-    """Pandas memory usage of parquet file in MB when read as a pandas dataframe.
-
-    On first invocation this will be slow due to requiring loading the dataset, but due
-    to persistent caching faster on subsequent invocations. This is useful for
-    determining required memory resources for luigi tasks.
-
-    :param paquet_path: File path to paquet file.
-    :return: Memory usage in MB.
-    """
-    # Initially I tried just multiplying the on-disk file size with a
-    # compression-factor, but due to different schemas the compression ratios vary
-    # widely over historical datasets and might differ based on filesystem.
-    return pd.read_parquet(parquet_path).size / 1e6
+from yellow_taxis.tasks.download_task import RESULT_DIR, DownloadTask
 
 
 @requires(DownloadTask)
@@ -167,7 +98,8 @@ class RollingAveragesTask(luigi.Task):
         this_month_start_date = pd.Timestamp(self.year, self.month, 1)
 
         # we need the data of the current, previous and previous of the previous month
-        for neg_months_delta in range(3):
+        n_months_required = 3
+        for neg_months_delta in range(n_months_required):
             _date = this_month_start_date - relativedelta(months=neg_months_delta)
             yield self.clone(
                 DownloadTask,
@@ -176,22 +108,15 @@ class RollingAveragesTask(luigi.Task):
             )
 
     def run(self):
-        input_fpaths = [Path(input_target.path) for input_target in self.input()]
-        assert len(input_fpaths == 3)
-
-        df = pd.concat([pd.read_parquet(f) for f in input_fpaths])
+        df = pd.concat(
+            [read_taxi_dataframe(target) for target in self.input()], ignore_index=True
+        )
 
         durations = df["tpep_dropoff_datetime"] - df["tpep_pickup_datetime"]
         df["trip_duration"] = durations.dt.seconds
 
-        results: dict[str, float] = {}
-        for col in ["trip_distance", "trip_duration"]:
-            # calculate mean and uncertainty on mean
-            results[f"{col}_mean"] = df[col].mean()
-            results[f"{col}_mean_err"] = df[col].sem()
-
-        result_series = pd.Series(results)
-        result_series.to_json(self.result_path)
+        df.set_index("tpep_dropoff_datetime", inplace=True)
+        df.sort_index(inplace=True)
 
     def output(self):
         return luigi.LocalTarget(self.result_path)
