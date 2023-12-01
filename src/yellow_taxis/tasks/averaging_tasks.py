@@ -30,7 +30,7 @@ class MonthlyAveragesTask(luigi.Task):
 
     resources = {
         "cpus": 1,
-        "memory": 2_000,
+        "memory": 4_000,
     }
 
     def run(self):
@@ -119,7 +119,7 @@ class RollingAveragesTask(luigi.Task):
 
     resources = {
         "cpus": 1,
-        "memory": 3_000,
+        "memory": 4_000,
     }
 
     def _months_required(self) -> list[pd.Timestamp]:
