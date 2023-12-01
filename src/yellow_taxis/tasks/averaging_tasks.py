@@ -63,6 +63,10 @@ def read_taxi_dataframe(file_name: PathLike) -> pd.DataFrame:
 cache_dir = xdg_cache_home() / "yellow-taxis"
 memory = Memory(cache_dir, verbose=0)
 
+# If a dataframe has a certain size in memory, how much more resources should we request
+# to allow for addiataion memory usage durationg computations
+MEMORY_RESOURCE_SAFETY_FACTOR: float = 2.0
+
 
 @memory.cache
 def data_memory_usage_mb(
@@ -72,7 +76,7 @@ def data_memory_usage_mb(
 
     On first invocation this will be slow due to requiring loading the dataset, but due
     to persistent caching faster on subsequent invocations. This is useful for
-    determining required memory resources.
+    determining required memory resources for luigi tasks.
 
     :param paquet_path: File path to paquet file.
     :return: Memory usage in MB.
@@ -100,9 +104,12 @@ class MonthlyAveragesTask(luigi.Task):
 
     @property
     def resources(self) -> dict[str, Any]:
+        request_memory = (
+            data_memory_usage_mb(self.input.Path()) * MEMORY_RESOURCE_SAFETY_FACTOR
+        )
         return {
             "cpus": 1,
-            "memory": data_memory_usage_mb(self.input.Path()),
+            "memory": request_memory,
         }
 
     def run(self):
@@ -138,6 +145,24 @@ class RollingAveragesTask(luigi.Task):
     year = luigi.IntParameter()
     month = luigi.IntParameter()
 
+    @property
+    def result_path(self) -> Path:
+        return (
+            year_month_result_dir(self.result_dir, self.year, self.month)
+            / "rolling_averages.parquet"
+        )
+
+    @property
+    def resources(self) -> dict[str, Any]:
+        request_memory = (
+            sum(data_memory_usage_mb(inp.path for inp in self.input()))
+            * MEMORY_RESOURCE_SAFETY_FACTOR
+        )
+        return {
+            "cpus": 1,
+            "memory": request_memory,
+        }
+
     def requires(self):
         this_month_start_date = pd.Timestamp(self.year, self.month, 1)
 
@@ -149,13 +174,6 @@ class RollingAveragesTask(luigi.Task):
                 year=_date.year,
                 month=_date.month,
             )
-
-    @property
-    def result_path(self) -> Path:
-        return (
-            year_month_result_dir(self.result_dir, self.year, self.month)
-            / "rolling_averages.parquet"
-        )
 
     def run(self):
         input_fpaths = [Path(input_target.path) for input_target in self.input()]
