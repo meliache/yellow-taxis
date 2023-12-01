@@ -10,18 +10,26 @@ from yellow_taxis.tasks import task_utils
 
 
 class DownloadTask(luigi.Task):
-    result_dir = luigi.PathParameter(absolute=True)
+    """Task to download the parquet file for a given month."""
 
-    year = luigi.IntParameter()
-    month = luigi.IntParameter()
+    result_dir = luigi.PathParameter(
+        description="Root directory under which to store downloaded files.",
+        absolute=True,
+    )
+
+    year = luigi.IntParameter(description="Dataset year")
+    month = luigi.IntParameter(description="Dataset month")
 
     @property
     def result_path(self) -> Path:
+        """File path where downloaded data will be saved to."""
         return (
             task_utils.year_month_result_dir(self.result_dir, self.year, self.month)
             / f"yellow_tripdata_{self.year:d}-{self.month:02d}.parquet"
         )
 
+    # Define resource usage of task so that total resource usage can be kept under
+    # what's defined in `luigi.cfg`/`luigi.toml`
     resources: dict[str, Any] = {
         "downloads": 1,
         "cpus": 1,
@@ -31,6 +39,7 @@ class DownloadTask(luigi.Task):
     }
 
     def run(self):
+        """Download dataset."""
         fetch.download_monthly_data(
             self.year,
             self.month,
