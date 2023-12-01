@@ -135,6 +135,8 @@ class RollingAveragesTask(luigi.Task):
             _date = this_month_start_date - pd.tseries.offsets.MonthBegin(
                 neg_months_delta
             )
+            if _date < fetch.DATE_FIRST_RECORDS:
+                break
             month_dates.append(_date)
 
         return month_dates
