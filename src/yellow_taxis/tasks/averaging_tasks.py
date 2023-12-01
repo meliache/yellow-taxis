@@ -7,7 +7,9 @@ from typing import Any
 import luigi
 import pandas as pd
 from dateutil.relativedelta import relativedelta
+from joblib import Memory
 from luigi.util import requires
+from xdg_base_dirs import xdg_cache_home
 
 from yellow_taxis import fetch
 from yellow_taxis.tasks.download_task import (
@@ -27,7 +29,15 @@ COLUMN_NAME_VARIATIONS = (
 )
 
 
-def _read_taxi_dataframe(file_name: PathLike) -> pd.DataFrame:
+def read_taxi_dataframe(file_name: PathLike) -> pd.DataFrame:
+    """Read parquet file with NYC yellow-taxi data into dataframe.
+
+    Normalizes also all data to the same schema type with timestamp-colums of datetime
+    type.
+
+    :param file_name: Input file parquet file path.
+    :return: Pandas dataframe with (normalized to latest format).
+    """
     # handle different historical input schemas
     for columns in COLUMN_NAME_VARIATIONS:
         try:
@@ -49,6 +59,30 @@ def _read_taxi_dataframe(file_name: PathLike) -> pd.DataFrame:
     )
 
 
+# persistent on-diskmemory cache
+cache_dir = xdg_cache_home() / "yellow-taxis"
+memory = Memory(cache_dir, verbose=0)
+
+
+@memory.cache
+def data_memory_usage_mb(
+    parquet_path: PathLike,
+) -> float:
+    """Pandas memory usage of parquet file in MB when read as a pandas dataframe.
+
+    On first invocation this will be slow due to requiring loading the dataset, but due
+    to persistent caching faster on subsequent invocations. This is useful for
+    determining required memory resources.
+
+    :param paquet_path: File path to paquet file.
+    :return: Memory usage in MB.
+    """
+    # Initially I tried just multiplying the on-disk file size with a
+    # compression-factor, but due to different schemas the compression ratios vary
+    # widely over historical datasets and might differ based on filesystem.
+    return pd.read_parquet(parquet_path).size / 1e6
+
+
 @requires(DownloadTask)
 class MonthlyAveragesTask(luigi.Task):
     # Will uses this for the name the single column dataframe that this task generates.
@@ -66,20 +100,14 @@ class MonthlyAveragesTask(luigi.Task):
 
     @property
     def resources(self) -> dict[str, Any]:
-        # estimate expected memory usage in MB based on file-size
-        file_size = Path(self.input().path).stat().st_size / 1e6
-        compression_estimate = 1.2  # determined for latest file, 2009 files have 0.5
-        safety_factor = 2
-        memory_usage_estimate = file_size * compression_estimate * safety_factor
-
         return {
             "cpus": 1,
-            "memory": memory_usage_estimate,
+            "memory": data_memory_usage_mb(self.input.Path()),
         }
 
     def run(self):
         input_fpath = Path(self.input().path)
-        df = _read_taxi_dataframe(input_fpath)
+        df = read_taxi_dataframe(input_fpath)
 
         durations = df["tpep_dropoff_datetime"] - df["tpep_pickup_datetime"]
         df["trip_duration"] = durations.dt.seconds
