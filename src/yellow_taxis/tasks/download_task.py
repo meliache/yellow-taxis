@@ -1,15 +1,12 @@
 #!/usr/bin/env python3
 
-from os import PathLike
 from pathlib import Path
 from typing import Any
 
 import luigi
+
 from yellow_taxis import fetch
-
-
-def year_month_result_dir(result_dir: PathLike, year: int, month: int) -> Path:
-    return Path(result_dir) / f"{year:d}" / f"{month:02d}"
+from yellow_taxis.tasks import task_utils
 
 
 class DownloadTask(luigi.Task):
@@ -21,7 +18,7 @@ class DownloadTask(luigi.Task):
     @property
     def result_path(self) -> Path:
         return (
-            year_month_result_dir(self.result_dir, self.year, self.month)
+            task_utils.year_month_result_dir(self.result_dir, self.year, self.month)
             / f"yellow_tripdata_{self.year:d}-{self.month:02d}.parquet"
         )
 
