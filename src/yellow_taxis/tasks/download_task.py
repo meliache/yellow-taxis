@@ -5,8 +5,7 @@ from typing import Any
 
 import luigi
 
-from yellow_taxis import fetch
-from yellow_taxis.tasks import task_utils
+from yellow_taxis import fetch, task_utils
 
 
 class DownloadTask(luigi.Task):

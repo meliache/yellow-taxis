@@ -1,7 +1,7 @@
 import tempfile
 from pathlib import Path
 
-from yellow_taxis.tasks import task_utils
+from yellow_taxis import task_utils
 
 
 class TestYearMonthResultDir:
