@@ -3,7 +3,6 @@
 from os import PathLike
 from pathlib import Path
 
-import pandas as pd
 from joblib import Memory
 from xdg_base_dirs import xdg_cache_home
 
@@ -11,34 +10,25 @@ from xdg_base_dirs import xdg_cache_home
 cache_dir = xdg_cache_home() / "yellow-taxis"
 memory = Memory(cache_dir, verbose=0)
 
-# If a dataframe has a certain size in memory, how much more resources should we request
-# to allow for addiataion memory usage durationg computations
-MEMORY_RESOURCE_SAFETY_FACTOR: float = 2.0
 
-
-def data_memory_usage_mb(
+def estimate_memory_usage_mb(
     parquet_path: PathLike,
+    compression_factor_estimate: float = 1.5,
+    safety_factor: float = 2.0,
 ) -> float:
-    """Pandas memory usage of parquet file in MB when read as a pandas dataframe.
+    """Estimate memory usage of parquet dataframe in MB when loaded as a pandas df.
 
-    On first invocation this will be slow due to requiring loading the dataset, but due
-    to persistent caching faster on subsequent invocations. This is useful for
-    determining required memory resources for luigi tasks.
+    The default compression factor estimate has been determined by comparing the pandas
+    in-memory size and the on-disk size of a couple of example dataframes, but it varies
+    greatly, therefore with it and the safety factor I try to err on the conservative
+    site.
 
+    :param compression_factor_estimate: Compression factor estimate.
     :param paquet_path: File path to paquet file.
-    :return: Memory usage in MB.
+    :return: Memory usage estimate in MB.
     """
-    # Initially I tried just multiplying the on-disk file size with a
-    # compression-factor, but due to different schemas the compression ratios vary
-    # widely over historical datasets and might differ based on filesystem. So I decided
-    # to just read in each parquet file once to get the memory usage and the cache the
-    # result to disk
-
-    @memory.cache
-    def _cache_data_memory_usage_mb(path_str: str):
-        return pd.read_parquet(path_str).size / 1e6
-
-    return _cache_data_memory_usage_mb(str(parquet_path))
+    on_disk_size = Path(parquet_path).stat().st_size / 1e6
+    return on_disk_size * compression_factor_estimate * safety_factor
 
 
 def year_month_result_dir(

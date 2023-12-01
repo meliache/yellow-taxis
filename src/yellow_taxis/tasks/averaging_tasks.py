@@ -10,11 +10,7 @@ from luigi.util import requires
 
 from yellow_taxis import fetch
 from yellow_taxis.dataframe_utils import read_taxi_dataframe, reject_not_in_month
-from yellow_taxis.task_utils import (
-    MEMORY_RESOURCE_SAFETY_FACTOR,
-    data_memory_usage_mb,
-    year_month_result_dir,
-)
+from yellow_taxis.task_utils import estimate_memory_usage_mb, year_month_result_dir
 from yellow_taxis.tasks.download_task import RESULT_DIR, DownloadTask
 
 
@@ -35,9 +31,7 @@ class MonthlyAveragesTask(luigi.Task):
 
     @property
     def resources(self) -> dict[str, Any]:
-        request_memory = (
-            data_memory_usage_mb(self.input().path) * MEMORY_RESOURCE_SAFETY_FACTOR
-        )
+        request_memory = estimate_memory_usage_mb(self.input().path)
         return {
             "cpus": 1,
             "memory": request_memory,
@@ -129,9 +123,8 @@ class RollingAveragesTask(luigi.Task):
 
     @property
     def resources(self) -> dict[str, Any]:
-        request_memory = (
-            sum(data_memory_usage_mb(target.path for target in self.input()))
-            * MEMORY_RESOURCE_SAFETY_FACTOR
+        request_memory = sum(
+            estimate_memory_usage_mb(target.path) for target in self.input()
         )
         return {
             "cpus": 1,
@@ -165,7 +158,8 @@ class RollingAveragesTask(luigi.Task):
 
     def run(self):
         df = pd.concat(
-            [read_taxi_dataframe(target) for target in self.input()], ignore_index=True
+            [read_taxi_dataframe(target.path) for target in self.input()],
+            ignore_index=True,
         )
 
         durations = df["tpep_dropoff_datetime"] - df["tpep_pickup_datetime"]
