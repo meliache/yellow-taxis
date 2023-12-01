@@ -44,12 +44,16 @@ I recommend using virtual environment, either via `python -m venv` or `pdm venv 
 Additionally this project has optional dependencies for developing, testing and for using Jupyter. Without using `--production`, pdm will install all optional dependencies, but you can select which you want with
 
 ``` shell
-pdm install --dev --group dev --group test --group jupyter $alterna
+pdm install --dev \
+	--group dev \
+	--group test \
+	--group jupyter \
+	--group batch
 ```
 With pip you can do the same via
 
 ``` shell
-pip install --editable '.[dev,test,jupyter]' # choose what you need
+pip install --editable '.[dev,test,jupyter,batch,jupyter]' # choose what you need
 pip install --editable '.[complete]' # install all
 
 ```
