@@ -2,7 +2,6 @@
 
 import math
 from pathlib import Path
-from typing import Any
 
 import luigi
 import pandas as pd
@@ -10,7 +9,7 @@ from luigi.util import requires
 
 from yellow_taxis import fetch
 from yellow_taxis.dataframe_utils import read_taxi_dataframe, reject_not_in_month
-from yellow_taxis.task_utils import estimate_memory_usage_mb, year_month_result_dir
+from yellow_taxis.task_utils import year_month_result_dir
 from yellow_taxis.tasks.download_task import RESULT_DIR, DownloadTask
 
 
@@ -29,13 +28,10 @@ class MonthlyAveragesTask(luigi.Task):
             / "month_average.parquet"
         )
 
-    @property
-    def resources(self) -> dict[str, Any]:
-        request_memory = estimate_memory_usage_mb(self.input().path)
-        return {
-            "cpus": 1,
-            "memory": request_memory,
-        }
+    resources = {
+        "cpus": 1,
+        "memory": 2_000,
+    }
 
     def run(self):
         input_fpath = Path(self.input().path)
@@ -121,15 +117,10 @@ class RollingAveragesTask(luigi.Task):
             / "rolling_averages.parquet"
         )
 
-    @property
-    def resources(self) -> dict[str, Any]:
-        request_memory = sum(
-            estimate_memory_usage_mb(target.path) for target in self.input()
-        )
-        return {
-            "cpus": 1,
-            "memory": request_memory,
-        }
+    resources = {
+        "cpus": 1,
+        "memory": 3_000,
+    }
 
     def _months_required(self) -> list[pd.Timestamp]:
         """Return timestamps of the 3 months for calculating this rolling average.

@@ -64,7 +64,7 @@ class DownloadTasksWrapper(luigi.WrapperTask):
 
 
 # TODO implement some settings system to set result directory etc.
-repo_root = (Path(__file__).parent.parent.parent).absolute()
+repo_root = (Path(__file__).parent.parent.parent.parent).absolute()
 RESULT_DIR = repo_root / "data"
 
 
