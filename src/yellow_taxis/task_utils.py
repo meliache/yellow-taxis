@@ -16,7 +16,6 @@ memory = Memory(cache_dir, verbose=0)
 MEMORY_RESOURCE_SAFETY_FACTOR: float = 2.0
 
 
-@memory.cache
 def data_memory_usage_mb(
     parquet_path: PathLike,
 ) -> float:
@@ -31,8 +30,15 @@ def data_memory_usage_mb(
     """
     # Initially I tried just multiplying the on-disk file size with a
     # compression-factor, but due to different schemas the compression ratios vary
-    # widely over historical datasets and might differ based on filesystem.
-    return pd.read_parquet(parquet_path).size / 1e6
+    # widely over historical datasets and might differ based on filesystem. So I decided
+    # to just read in each parquet file once to get the memory usage and the cache the
+    # result to disk
+
+    @memory.cache
+    def _cache_data_memory_usage_mb(path_str: str):
+        return pd.read_parquet(path_str).size / 1e6
+
+    return _cache_data_memory_usage_mb(str(parquet_path))
 
 
 def year_month_result_dir(

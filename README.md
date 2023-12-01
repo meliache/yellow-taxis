@@ -80,12 +80,12 @@ The tasks defining the pipeline are found in [`src/yellow_taxis/tasks/`](https:/
 
 
 ``` shell
-# get average for a single month
-luigi --module yellow_taxis.tasks.averaging_tasks MonthlyAveragesTask \
+# get rolling averages for a single month (takes into account the previous 2 months in the avg.)
+luigi --module yellow_taxis.tasks.averaging_tasks RollingAveragesTask \
   --result-dir /path/to/results --year 2023 --month 8 --local-scheduler --workers 1
 
-# get all averages
-luigi --module yellow_taxis.tasks.averaging_tasks AggregateAveragesTask \
+# get all monthly averages
+luigi --module yellow_taxis.tasks.averaging_tasks AggregateMonthlyAveragesTask \
   --result-dir /path/to/results --local-scheduler --workers 1
 ```
 
@@ -110,7 +110,7 @@ To get visualization of the pipeline in a web interface, use the [luigi central 
 
 ``` shell
 pdm run luigid --port 8887 # in a separate terminal or use `--background`
-pdm run luigi --module yellow_taxis.tasks.averaging_tasks AggregateAveragesTask \
+pdm run luigi --module yellow_taxis.tasks.averaging_tasks AggregateMonthlyAveragesTask \
   --result-dir /path/to/results --scheduler-port 8887 --workers 1
 ```
 

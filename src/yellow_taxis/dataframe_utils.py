@@ -42,3 +42,17 @@ def read_taxi_dataframe(file_name: PathLike) -> pd.DataFrame:
     raise ValueError(
         f"Parquet file contains none of the column sets {COLUMN_NAME_VARIATIONS}!"
     )
+
+
+def reject_not_in_month(data: pd.DataFrame, year: int, month: int) -> pd.DataFrame:
+    """Return dataframe with all entries removed that outside of given month and year.
+
+    Whether the entry is in the month will be determined by the index which must be a
+    datetime index.
+    """
+    if not isinstance(data.index.dtype, pd.DatetimeIndex):
+        raise RuntimeError("Provide a dataframe with a datetime index!")
+
+    month_start = pd.Timestamp(year, month, 1)
+    next_month_start = pd.Timestamp(year, month, 1) + pd.tseries.offsets.MonthBegin(1)
+    return data[(data.index > month_start) & (data.index < next_month_start)]

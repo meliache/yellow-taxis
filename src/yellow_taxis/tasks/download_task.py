@@ -51,8 +51,8 @@ class DownloadTask(luigi.Task):
         return luigi.LocalTarget(self.result_path)
 
 
-class AggregateDownloadsTask(luigi.WrapperTask):
-    result_dir = luigi.PathParameter(absolute=True)
+class DownloadTasksWrapper(luigi.WrapperTask):
+    reult_dir = luigi.PathParameter(absolute=True)
 
     def requires(self):
         for date in fetch.available_dataset_dates():
@@ -70,7 +70,7 @@ RESULT_DIR = repo_root / "data"
 
 def run_locally() -> None:
     luigi.build(
-        [AggregateDownloadsTask(result_dir=RESULT_DIR)], local_scheduler=True, workers=1
+        [DownloadTasksWrapper(result_dir=RESULT_DIR)], local_scheduler=True, workers=1
     )
 
 
