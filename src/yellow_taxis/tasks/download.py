@@ -52,7 +52,7 @@ class DownloadTask(luigi.Task):
 
 
 class DownloadTasksWrapper(luigi.WrapperTask):
-    reult_dir = luigi.PathParameter(absolute=True)
+    result_dir = luigi.PathParameter(absolute=True)
 
     def requires(self):
         for date in fetch.available_dataset_dates():

@@ -81,19 +81,23 @@ The tasks defining the pipeline are found in [`src/yellow_taxis/tasks/`](https:/
 
 ``` shell
 # get rolling averages for a single month (takes into account the previous 2 months in the avg.)
-luigi --module yellow_taxis.tasks.averaging_tasks RollingAveragesTask \
+luigi --module yellow_taxis.tasks.rolling_averages RollingAveragesTask \
   --result-dir /path/to/results --year 2023 --month 8 --local-scheduler --workers 1
 
 # get all monthly averages
-luigi --module yellow_taxis.tasks.averaging_tasks AggregateMonthlyAveragesTask \
+luigi --module yellow_taxis.tasks.monthly_averages AggregateMonthlyAveragesTask \
+  --result-dir /path/to/results --local-scheduler --workers 1
+
+# get all rolling averages
+luigi --module yellow_taxis.tasks.monthly_averages RollingAverageTasksWrapper \
   --result-dir /path/to/results --local-scheduler --workers 1
 ```
 
 
-However, the task modules are also executable scripts and their main function can be run direcly, e.g.
+However, the task modules are also executable scripts and their main function can be run directly, e.g.
 
 ``` shell
-./averaging_tasks.py
+./src/yellow_taxis/tasks/monthly_averages.py
 ```
 
  By default, it runs the jobs locally with a single worker. You can increase the number of parallel jobs by changing the `luigi.build(…, workers=<num workers>)` in the main function at the bottom of each script. Each worker might require up to couple of GB of memory, so only increase this for local tasks if you have sufficient memory (or configure resources as described below).
@@ -101,8 +105,9 @@ However, the task modules are also executable scripts and their main function ca
 If you installed the project via PDM, you can also run the pdm commands
 
 ``` shell
-pdm run average-locally  # will also run download tasks as dependencies
-pdm run download-locally  # only trigger download tasks
+pdm run monthly-average-locally  # will also run download tasks as dependencies
+pdm run rolling-average-locally
+pdm run download-locally
 ```
 
 ##### Central scheduler
@@ -110,7 +115,7 @@ To get visualization of the pipeline in a web interface, use the [luigi central 
 
 ``` shell
 pdm run luigid --port 8887 # in a separate terminal or use `--background`
-pdm run luigi --module yellow_taxis.tasks.averaging_tasks AggregateMonthlyAveragesTask \
+pdm run luigi --module yellow_taxis.tasks.monthly_averages AggregateMonthlyAveragesTask \
   --result-dir /path/to/results --scheduler-port 8887 --workers 1
 ```
 
@@ -138,11 +143,11 @@ The workflows can also be deployed in a docker file:
 docker build . -t yellow-taxis
 ```
 
-Then, commands can be run in the image via
+Then, commands can be run in the image, e.g.
 ``` shell
 docker run --rm yellow-taxis pdm run luigi \
-  --module yellow_taxis.tasks.averaging_tasks MonthlyAveragesTask \
-  --result-dir /data/results --year 2023 --month 8 --local-scheduler --workers 1
+  --module yellow_taxis.tasks.monthly_averages AggregateMonthlyAveragesTask \
+  --result-dir /data/results --local-scheduler --workers 1
 ```
 
 By default it runs the `luigid` central scheduler on port 8887.
