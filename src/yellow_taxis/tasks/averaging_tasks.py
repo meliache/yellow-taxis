@@ -42,8 +42,7 @@ class MonthlyAveragesTask(luigi.Task):
         input_fpath = Path(self.input().path)
 
         df = read_taxi_dataframe(input_fpath)
-        df.set_index("tpep_dropoff_datetime", inplace=True)
-        df = reject_not_in_month(df, self.year, self.month)
+        df = reject_not_in_month(df, self.year, self.month, on="tpep_dropoff_datetime")
         df["trip_duration"] = trip_duration_s(df)
         df = reject_outliers(df)
 

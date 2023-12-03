@@ -2,6 +2,7 @@
 from os import PathLike
 
 import pandas as pd
+from pandas.api.types import is_datetime64_any_dtype as is_datetime
 
 # Required columns. These are from the documented schema, since 2015
 COLUMN_NAMES = ["tpep_pickup_datetime", "tpep_dropoff_datetime", "trip_distance"]
@@ -44,18 +45,29 @@ def read_taxi_dataframe(file_name: PathLike) -> pd.DataFrame:
     )
 
 
-def reject_not_in_month(data: pd.DataFrame, year: int, month: int) -> pd.DataFrame:
+def reject_not_in_month(
+    data: pd.DataFrame, year: int, month: int, on: str | None
+) -> pd.DataFrame:
     """Return dataframe with all entries removed that outside of given month and year.
 
-    Whether the entry is in the month will be determined by the index which must be a
-    datetime index.
+    :param data: Pandas dataframe with trip data.
+    :param year: Year in which the trip should be.
+    :param month: Month in which the trip should be.
+    :param on: Datetime column name based on which it's decided whether the trip is in
+        the given month. If not given, use dataframe index.
+    :return: Pandas dataframe with trip entries outside given month removed.
     """
     if not isinstance(data.index.dtype, pd.DatetimeIndex):
         raise RuntimeError("Provide a dataframe with a datetime index!")
 
     month_start = pd.Timestamp(year, month, 1)
     next_month_start = pd.Timestamp(year, month, 1) + pd.tseries.offsets.MonthBegin(1)
-    return data[(data.index > month_start) & (data.index < next_month_start)]
+    date = data[on] if on else data.index
+
+    if not is_datetime(date):
+        raise ValueError(f"Date should be a datetime but is type {date.dtype}!")
+
+    return data[(date > month_start) & (date < next_month_start)]
 
 
 def trip_duration_s(data: pd.DataFrame) -> pd.Series:
