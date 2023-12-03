@@ -29,6 +29,12 @@ def read_taxi_dataframe(file_name: PathLike) -> pd.DataFrame:
         try:
             df = pd.read_parquet(file_name, columns=columns)
             df.columns = COLUMN_NAMES
+
+            # ensure datetime columns are of date type and not just strings
+            time_format = "%Y-%m-%d %H:%M:%S"
+            for time_col in ("tpep_pickup_datetime", "tpep_dropoff_datetime"):
+                df[time_col] = pd.to_datetime(df[time_col], format=time_format)
+
             return df
 
         except ValueError:  # try different column set
