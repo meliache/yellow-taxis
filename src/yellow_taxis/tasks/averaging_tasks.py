@@ -8,7 +8,12 @@ import pandas as pd
 from luigi.util import requires
 
 from yellow_taxis import fetch
-from yellow_taxis.dataframe_utils import read_taxi_dataframe, reject_not_in_month
+from yellow_taxis.dataframe_utils import (
+    read_taxi_dataframe,
+    reject_not_in_month,
+    reject_outliers,
+    trip_duration_s,
+)
 from yellow_taxis.task_utils import year_month_result_dir
 from yellow_taxis.tasks.download_task import RESULT_DIR, DownloadTask
 
@@ -35,12 +40,12 @@ class MonthlyAveragesTask(luigi.Task):
 
     def run(self):
         input_fpath = Path(self.input().path)
+
         df = read_taxi_dataframe(input_fpath)
         df.set_index("tpep_dropoff_datetime", inplace=True)
         df = reject_not_in_month(df, self.year, self.month)
-
-        durations = df["tpep_dropoff_datetime"] - df["tpep_pickup_datetime"]
-        df["trip_duration"] = durations.dt.seconds
+        df["trip_duration"] = trip_duration_s(df)
+        df = reject_outliers(df)
 
         results: dict[str, float] = {}
         for col in ["trip_distance", "trip_duration"]:
@@ -135,6 +140,8 @@ class RollingAveragesTask(luigi.Task):
             _date = this_month_start_date - pd.tseries.offsets.MonthBegin(
                 neg_months_delta
             )
+            # usually we require previous n months but if the month would be before the
+            # first historical record then we cannot use those months' data
             if _date < fetch.DATE_FIRST_RECORDS:
                 break
             month_dates.append(_date)
@@ -155,8 +162,7 @@ class RollingAveragesTask(luigi.Task):
             ignore_index=True,
         )
 
-        durations = df["tpep_dropoff_datetime"] - df["tpep_pickup_datetime"]
-        df["trip_duration"] = durations.dt.seconds
+        df["trip_duration"] = trip_duration_s(df)
 
         df.set_index("tpep_dropoff_datetime", inplace=True, drop=False)
         df.sort_index(inplace=True)

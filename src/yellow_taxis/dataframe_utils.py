@@ -56,3 +56,42 @@ def reject_not_in_month(data: pd.DataFrame, year: int, month: int) -> pd.DataFra
     month_start = pd.Timestamp(year, month, 1)
     next_month_start = pd.Timestamp(year, month, 1) + pd.tseries.offsets.MonthBegin(1)
     return data[(data.index > month_start) & (data.index < next_month_start)]
+
+
+def trip_duration_s(data: pd.DataFrame) -> pd.Series:
+    """Calculate trip duration in seconds.
+
+    :param data: Pandas dataframe with ``tpep_dropoff_datetime`` and
+        ``tpep_pickup_datetime`` columns of type ``pd.Timestamp``
+    :return: Pandas series with trip duration seconds.
+    """
+    durations = data["tpep_dropoff_datetime"] - data["tpep_pickup_datetime"]
+    return durations.dt.seconds
+
+
+def reject_outliers(
+    data: pd.DataFrame,
+    max_duration_s: int | None = 86400,
+    max_distance: int | None = 1000,
+    reject_negative: bool = True,
+) -> pd.DataFrame:
+    """Reject trip data with unreasonably high or negative trip lengths.
+
+    :param data: Pandas dataframe with ``trip_duration`` and ``trip_distance``
+        columns of type float.
+    :param max_duration_s: Maximum trip duration in seconds to keep.
+        By default corresponds to 1 day.
+    :param max_distance: Maximum trip distance to keep.
+    :param reject_negative: Reject trip with negative distances or durations.
+    :return: Dataframe with rejected trips removed.
+    """
+    if max_duration_s:
+        data = data[data["trip_duration"] <= max_duration_s]
+
+    if max_distance:
+        data = data[data["trip_distance"] <= max_distance]
+
+    if reject_negative:
+        data = data[(data["trip_distance"] >= 0) & (data["trip_duration"] >= 0)]
+
+    return data
