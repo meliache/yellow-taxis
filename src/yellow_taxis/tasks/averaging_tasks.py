@@ -6,13 +6,15 @@ from pathlib import Path
 import luigi
 import pandas as pd
 from luigi.util import requires
+from pandas.api.types import is_datetime64_any_dtype as is_datetime
 
 from yellow_taxis import fetch
 from yellow_taxis.dataframe_utils import (
+    add_trip_duration,
     read_taxi_dataframe,
     reject_not_in_month,
     reject_outliers,
-    trip_duration_s,
+    rolling_means,
 )
 from yellow_taxis.task_utils import year_month_result_dir
 from yellow_taxis.tasks.download_task import RESULT_DIR, DownloadTask
@@ -43,7 +45,7 @@ class MonthlyAveragesTask(luigi.Task):
 
         df = read_taxi_dataframe(input_fpath)
         df = reject_not_in_month(df, self.year, self.month, on="tpep_dropoff_datetime")
-        df["trip_duration"] = trip_duration_s(df)
+        df = add_trip_duration(df)
         df = reject_outliers(df)
 
         results: dict[str, float] = {}
@@ -155,31 +157,42 @@ class RollingAveragesTask(luigi.Task):
                 month=_date.month,
             )
 
+    def _reject_not_in_range(self, data: pd.DataFrame, on: str | None) -> pd.DataFrame:
+        """Reject trip data not in month range of the used datasets.
+
+        :param data: Trip data dataframe, concatenated from the trip data of several
+            months to allow for calculating the rolling average for the current month.
+        :param on: Dataframe column name to determine datetime of trip. If ``None``
+           use dataframe index.
+        """
+        this_month_begin = pd.Timestamp(self.year, self.month, 1)
+        next_month_begin = this_month_begin + pd.offsets.MonthBegin(1)
+        oldest_month_begin = this_month_begin - pd.offsets.MonthBegin(
+            self.n_months_required - 1
+        )
+
+        date = data[on] if on else data.index
+        if not is_datetime(date):
+            raise ValueError(f"Date should be a datetime but is type {date.dtype}!")
+
+        return data[(date > oldest_month_begin) & (date < next_month_begin)]
+
     def run(self):
         df = pd.concat(
             [read_taxi_dataframe(target.path) for target in self.input()],
             ignore_index=True,
         )
+        df = add_trip_duration(df)
+        df = reject_outliers(df)
 
-        df["trip_duration"] = trip_duration_s(df)
+        df.set_index("tpep_dropoff_datetime", inplace=True, drop=True)
+        df = self._reject_not_in_range(df)
 
-        df.set_index("tpep_dropoff_datetime", inplace=True, drop=False)
-        df.sort_index(inplace=True)
-
-        # drop vales out of range
         this_month_begin = pd.Timestamp(self.year, self.month, 1)
-        next_month_begin = this_month_begin + pd.offsets.MonthBegin(1)
-
-        oldest_month_begin = this_month_begin - pd.offsets.MonthBegin(
-            self.n_months_required - 1
+        rolling_means_this_month = rolling_means(
+            df, n_window_days=self.window, keep_after=this_month_begin
         )
-        df = df[(df.index > oldest_month_begin) & (df.index < next_month_begin)]
 
-        rolling = df[["trip_duration", "trip_distance"]].rolling(
-            pd.Timedelta(days=self.window)
-        )
-        rolling_means = rolling.mean()
-        rolling_means_this_month = rolling_means[rolling_means.index > this_month_begin]
         rolling_means_this_month.to_parquet(self.result_path)
 
     def output(self):
