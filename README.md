@@ -119,7 +119,7 @@ pdm run luigi --module yellow_taxis.tasks.monthly_averages AggregateMonthlyAvera
    --scheduler-port 8887 --workers 1
 ```
 
-![Task Hierarchy Visualizer of the Luigi central scheduler](https://raw.githubusercontent.com/meliache/yellow-taxis/main/screenshots/Luigi%20Task%20Visualiser.webp)
+![Task Hierarchy Visualizer of the Luigi central scheduler](https://raw.githubusercontent.com/meliache/yellow-taxis/main/screenshots/Luigi%20Task%20Visualiser%20Rolling.webp)
 
 #### Configuring default parameters
 
