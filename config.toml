@@ -2,11 +2,11 @@
 # Relative path names are not allowd. `~` can be used for the home directory.
 result_dir = "~/data/yellow-taxis_results/data/"
 
-# Reject trip distances with duration longer than this as outliers
-max_distance = 1000
-
 # reject trip times with duration longer than this as outliers (in seconds)
 max_duration = 14400  # 4h
+
+# Reject trip distances with duration longer than this as outliers
+max_distance = 1000
 
 # window length for rolling average in days
 rolling_window = 45

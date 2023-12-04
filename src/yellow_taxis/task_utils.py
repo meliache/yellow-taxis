@@ -40,10 +40,10 @@ class TaxiBaseTask(luigi.Task, abc.ABC):
         default=default_max_duration,  # 4h
     )
 
-    default_distance_duration: int | None = get_settings().get("max_distance")
+    default_max_distance: int | None = get_settings().get("max_distance")
     max_distance = luigi.IntParameter(
         description="Reject trips with distance longer than this.",
-        default=default_max_duration,
+        default=default_max_distance,
     )
 
     @property
