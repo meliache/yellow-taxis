@@ -39,9 +39,12 @@ class DownloadTask(TaxiBaseTask):
 
 
 class DownloadTasksWrapper(luigi.WrapperTask):
+    """Wrapper task for running all download tasks."""
+
     result_dir = luigi.PathParameter(absolute=True)
 
     def requires(self):
+        """Require the downloads for all months with NYC yellow taxi data."""
         for date in fetch.available_dataset_dates():
             yield self.clone(
                 DownloadTask,
@@ -56,6 +59,7 @@ RESULT_DIR = repo_root / "data"
 
 
 def run_locally() -> None:
+    """Run pipeline for downloads locally."""
     luigi.build(
         [DownloadTasksWrapper(result_dir=RESULT_DIR)], local_scheduler=True, workers=1
     )

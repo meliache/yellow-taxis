@@ -19,6 +19,8 @@ from yellow_taxis.tasks.download import RESULT_DIR, DownloadTask
 
 @requires(DownloadTask)
 class MonthlyAveragesTask(TaxiBaseTask):
+    """Task for calculating monthly averages of taxi travel times and distances."""
+
     # Will uses this for the name the single column dataframe that this task generates.
     # When concatenating results this will give us a date string index. Would have
     # preferred a datetime object but parquet only allows for string column names.
@@ -43,6 +45,7 @@ class MonthlyAveragesTask(TaxiBaseTask):
     }
 
     def run(self):
+        """Download the dataset."""
         input_fpath = Path(self.input().path)
 
         df = read_taxi_dataframe(input_fpath)
@@ -65,6 +68,8 @@ class MonthlyAveragesTask(TaxiBaseTask):
 
 
 class AggregateMonthlyAveragesTask(TaxiBaseTask):
+    """Aggregate all monthly averages in a single dataframe."""
+
     output_base_name = Path("monthly_averages.parquet")
 
     resources = {"cpus": 1}
@@ -89,6 +94,7 @@ class AggregateMonthlyAveragesTask(TaxiBaseTask):
 
 
 def run_locally() -> None:
+    """Run pipeline for monthly averages locally."""
     luigi.build(
         [
             AggregateMonthlyAveragesTask(result_dir=RESULT_DIR),

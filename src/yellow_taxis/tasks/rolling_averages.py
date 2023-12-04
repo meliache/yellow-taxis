@@ -79,6 +79,11 @@ class RollingAveragesTask(TaxiBaseTask):
         return month_dates
 
     def requires(self):
+        """Require data all month data needed for rolling average.
+
+        This will be current months and the previous available months required for the
+        given day window.
+        """
         for _date in self._months_required():
             yield self.clone(
                 DownloadTask,
@@ -107,6 +112,7 @@ class RollingAveragesTask(TaxiBaseTask):
         return data[(date > oldest_month_begin) & (date < next_month_begin)]
 
     def run(self):
+        """Calculate the rolling averages for the month."""
         df = pd.concat(
             [read_taxi_dataframe(target.path) for target in self.input()],
             ignore_index=True,
@@ -142,6 +148,7 @@ class RollingAverageTasksWrapper(luigi.WrapperTask):
 
 
 def run_locally() -> None:
+    """Run pipeline for rolling averages locally."""
     luigi.build(
         [
             RollingAverageTasksWrapper(result_dir=RESULT_DIR),
