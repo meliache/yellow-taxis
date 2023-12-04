@@ -146,3 +146,31 @@ class TestRollingAverageTask:
         index_not_rejected = rolling_avg_task._reject_not_in_range(df).index
         differences_with_expectation = index_in_range - index_not_rejected
         assert not differences_with_expectation.any()
+
+    def test_reject_not_in_range_on_col(self) -> None:
+        rolling_avg_task = RollingAveragesTask(
+            year=2009,
+            month=1,
+            window=45,
+        )
+        dates = pd.to_datetime(
+            [
+                "2009-01-01",
+                "2008-12-31",
+                "2009-01-31",
+                "2009-02-01",
+            ]
+        )
+        dates_in_range = pd.DatetimeIndex(
+            [
+                "2009-01-01",
+                "2009-01-31",
+            ]
+        )
+        df = pd.DataFrame(data={"dates": dates})
+
+        dates_not_rejected = rolling_avg_task._reject_not_in_range(df, on="dates")[
+            "dates"
+        ]
+        differences_with_expectation = dates_in_range - dates_not_rejected
+        assert not differences_with_expectation.any()
