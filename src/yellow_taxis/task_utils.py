@@ -3,13 +3,6 @@
 from os import PathLike
 from pathlib import Path
 
-from joblib import Memory
-from xdg_base_dirs import xdg_cache_home
-
-# persistent on-diskmemory cache
-cache_dir = xdg_cache_home() / "yellow-taxis"
-memory = Memory(cache_dir, verbose=0)
-
 
 def year_month_result_dir(
     result_dir: PathLike, year: int, month: int, make_parents: bool = True
