@@ -64,7 +64,9 @@ class MonthlyAveragesTask(TaxiBaseTask):
         result_series = pd.Series(results)
         col_name = pd.Timestamp(self.year, self.month, 1).strftime(self.month_date_fmt)
         result_df = result_series.to_frame(col_name)
-        result_df.to_parquet(self.get_output_path())
+
+        with self.output().temporary_path() as self.temp_output_path:
+            result_df.to_parquet(self.temp_output_path)
 
 
 class AggregateMonthlyAveragesTask(TaxiBaseTask):
@@ -90,7 +92,9 @@ class AggregateMonthlyAveragesTask(TaxiBaseTask):
         monthly_averages.index = pd.to_datetime(
             monthly_averages.index, format=MonthlyAveragesTask.month_date_fmt
         )
-        monthly_averages.to_parquet(self.get_output_path())
+
+        with self.output().temporary_path() as self.temp_output_path:
+            monthly_averages.to_parquet(self.temp_output_path)
 
 
 def run_locally() -> None:

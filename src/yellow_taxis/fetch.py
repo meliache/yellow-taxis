@@ -111,7 +111,10 @@ def download(
     make_directories: bool = True,
     overwrite: bool = False,
 ) -> None:
-    """Download data from `url` to `file_name`.
+    """Download data from ``url`` to ``file_name``.
+
+    First download to ``<file_name>.partial`` before moving to file name
+    to solve the atomic-writes problem.
 
     :param url: Data URL
     :param file_name: File name

@@ -29,10 +29,11 @@ class DownloadTask(TaxiBaseTask):
 
     def run(self):
         """Download dataset."""
+
         fetch.download_monthly_data(
             self.year,
             self.month,
-            file_name=self.result_path,
+            file_name=self.get_output_path(),  # download function is already atomic
             make_directories=True,
             overwrite=False,
         )

@@ -131,7 +131,8 @@ class RollingAveragesTask(TaxiBaseTask):
             df, n_window_days=self.window, keep_after=this_month_begin
         )
 
-        rolling_means_this_month.to_parquet(self.get_output_path())
+        with self.output().temporary_path() as self.temp_output_path:
+            rolling_means_this_month.to_parquet(self.temp_output_path)
 
 
 class AggregateRollingAveragesTask(TaxiBaseTask):
@@ -179,7 +180,9 @@ class AggregateRollingAveragesTask(TaxiBaseTask):
         ]
         running_averages_dask_frame = dd.concat(running_averages, ignore_index=False)
         running_averages_sampled = running_averages_dask_frame.iloc[:: self.step]
-        running_averages_sampled.to_parquet(self.get_output_path())
+
+        with self.output().temporary_path() as self.temp_output_path:
+            running_averages_sampled.to_parquet(self.temp_output_path)
 
 
 def run_locally() -> None:
