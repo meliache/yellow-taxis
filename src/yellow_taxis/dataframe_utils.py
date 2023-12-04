@@ -28,14 +28,9 @@ def read_taxi_dataframe(file_name: PathLike) -> pd.DataFrame:
     for columns in COLUMN_NAME_VARIATIONS:
         try:
             df = pd.read_parquet(file_name, columns=columns)
+            # normalize columns names to default schema
             df.columns = COLUMN_NAMES
-
-            # ensure datetime columns are of date type and not just strings
-            time_format = "%Y-%m-%d %H:%M:%S"
-            for time_col in ("tpep_pickup_datetime", "tpep_dropoff_datetime"):
-                df[time_col] = pd.to_datetime(df[time_col], format=time_format)
-
-            return df
+            return time_columns_to_datetime(df)
 
         except ValueError:  # try different column set
             pass
@@ -43,6 +38,32 @@ def read_taxi_dataframe(file_name: PathLike) -> pd.DataFrame:
     raise ValueError(
         f"Parquet file contains none of the column sets {COLUMN_NAME_VARIATIONS}!"
     )
+
+
+def time_columns_to_datetime(data: pd.DataFrame) -> pd.DataFrame:
+    """Convert all time columns in dataframe to ``datetime64[ns]`` format.
+
+    Older data has times in string-format. Some newer data frames also have
+    different resolution datetime formats like ``datetime64[us]``,
+    which can lead to bugs such as https://github.com/pandas-dev/pandas/issues/55067.
+    """
+
+    time_columns = ["tpep_pickup_datetime", "tpep_dropoff_datetime"]
+
+    # ensure datetime columns are of date type and not just strings
+    time_format = "%Y-%m-%d %H:%M:%S"
+    for time_col in time_columns:
+        # convert to datetime
+        if not is_datetime(data[time_col]):
+            data[time_col] = pd.to_datetime(
+                data[time_col],
+                format=time_format,
+            )
+        # normalize to ns resolution
+        # I do this because some data has us resolution which triggers pandas bug when
+        # concatenating data frames, see https://github.com/pandas-dev/pandas/issues/55067
+        data[time_col] = data[time_col].astype("datetime64[ns]")
+    return data
 
 
 def reject_not_in_month(
