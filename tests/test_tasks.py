@@ -7,6 +7,7 @@ import pandas as pd
 from pytest import approx
 from yellow_taxis import fetch
 from yellow_taxis.tasks.download import DownloadTask
+from yellow_taxis.tasks.monthly_averages import MonthlyAveragesTask
 from yellow_taxis.tasks.rolling_averages import RollingAveragesTask
 
 test_data_fpath_2023_01 = (
@@ -48,6 +49,45 @@ class TestDownloadTask:
                 make_directories=True,
                 overwrite=False,
             )
+
+
+class TestMonthlyAveragesTask:
+    @patch("yellow_taxis.tasks.monthly_averages.MonthlyAveragesTask.input")
+    def get_run_results_for_2023_01_testdata(self, mock_input) -> pd.DataFrame:
+        """Get the results of the ``run`` method on for a single month test data.
+
+        (The test data is the head of the original data with just 5 rows)
+        """
+
+        mock_input.return_value = luigi.LocalTarget(test_data_fpath_2023_01)
+
+        with tempfile.TemporaryDirectory() as tmpdirname:
+            monthly_avg_task = MonthlyAveragesTask(
+                year=2023,
+                month=1,
+                result_dir=tmpdirname,
+            )
+
+            monthly_avg_task.run()
+            return pd.read_parquet(monthly_avg_task.get_output_path())
+
+    def test_run_for_2023_01_testdata_duration_mean(self) -> None:
+        run_results = self.get_run_results_for_2023_01_testdata()
+        assert run_results.loc["trip_duration_mean"][0] == approx(575.4)
+
+    def test_run_for_2023_01_testdata_duration_sem(self) -> None:
+        run_results = self.get_run_results_for_2023_01_testdata()
+        assert run_results.loc["trip_duration_mean_err"][0] == approx(65.15566)
+
+    def test_run_for_2023_01_testdata_distance_mean(self) -> None:
+        run_results = self.get_run_results_for_2023_01_testdata()
+        assert run_results.loc["trip_distance_mean"][0] == approx(1.582)
+
+    def test_run_for_2023_01_testdata_distance_sem(self) -> None:
+        run_results = self.get_run_results_for_2023_01_testdata()
+        assert run_results.loc["trip_distance_mean_err"][0] == approx(
+            0.2821595293446599
+        )
 
 
 class TestRollingAverageTask:
@@ -179,7 +219,7 @@ class TestRollingAverageTask:
 
     @patch("yellow_taxis.tasks.rolling_averages.RollingAveragesTask.input")
     def test_run_on_testfile_for_single_month(self, mock_input) -> None:
-        """Now actually test the ``run`` method on test data."""
+        """Test the ``run`` method on test data for a single month."""
 
         mock_input.return_value = [luigi.LocalTarget(test_data_fpath_2023_01)]
 
