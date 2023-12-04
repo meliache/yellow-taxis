@@ -18,7 +18,7 @@ class DownloadTask(TaxiBaseTask):
     output_base_name = Path("yellow_tripdata.parquet")
 
     # Define resource usage of task so that total resource usage can be kept under
-    # what's defined in `luigi.cfg`/`luigi.toml`
+
     resources: dict[str, Any] = {
         "downloads": 1,
         "cpus": 1,
@@ -42,8 +42,6 @@ class DownloadTask(TaxiBaseTask):
 class DownloadTasksWrapper(luigi.WrapperTask):
     """Wrapper task for running all download tasks."""
 
-    result_dir = luigi.PathParameter(absolute=True)
-
     def requires(self):
         """Require the downloads for all months with NYC yellow taxi data."""
         for date in fetch.available_dataset_dates():
@@ -54,16 +52,9 @@ class DownloadTasksWrapper(luigi.WrapperTask):
             )
 
 
-# TODO implement some settings system to set result directory etc.
-repo_root = (Path(__file__).parent.parent.parent.parent).absolute()
-RESULT_DIR = repo_root / "data"
-
-
 def run_locally() -> None:
     """Run pipeline for downloads locally."""
-    luigi.build(
-        [DownloadTasksWrapper(result_dir=RESULT_DIR)], local_scheduler=True, workers=1
-    )
+    luigi.build([DownloadTasksWrapper()], local_scheduler=True, workers=1)
 
 
 if __name__ == "__main__":

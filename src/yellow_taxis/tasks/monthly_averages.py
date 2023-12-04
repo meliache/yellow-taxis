@@ -14,7 +14,7 @@ from yellow_taxis.dataframe_utils import (
     reject_outliers,
 )
 from yellow_taxis.task_utils import TaxiBaseTask
-from yellow_taxis.tasks.download import RESULT_DIR, DownloadTask
+from yellow_taxis.tasks.download import DownloadTask
 
 
 @requires(DownloadTask)
@@ -26,16 +26,6 @@ class MonthlyAveragesTask(TaxiBaseTask):
     # preferred a datetime object but parquet only allows for string column names.
     # Having this a property is important for accessing this in other tasks.
     month_date_fmt = "%Y-%m"
-
-    max_duration = luigi.IntParameter(
-        description="Reject trips with duration longer than this. In seconds.",
-        default=14_400,  # 4h
-    )
-
-    max_distance = luigi.IntParameter(
-        description="Reject trips with distance longer than this.",
-        default=1000,
-    )
 
     output_base_name = Path("monthly_average.parquet")
 
@@ -52,7 +42,9 @@ class MonthlyAveragesTask(TaxiBaseTask):
         df = reject_not_in_month(df, self.year, self.month, on="tpep_dropoff_datetime")
         df = add_trip_duration(df)
         df = reject_outliers(
-            df, max_duration_s=self.max_duration, max_distance=self.max_
+            df,
+            max_duration_s=self.max_duration,
+            max_distance=self.max_distance,
         )
 
         results: dict[str, float] = {}
@@ -101,7 +93,7 @@ def run_locally() -> None:
     """Run pipeline for monthly averages locally."""
     luigi.build(
         [
-            AggregateMonthlyAveragesTask(result_dir=RESULT_DIR),
+            AggregateMonthlyAveragesTask(),
         ],
         local_scheduler=True,
         workers=1,

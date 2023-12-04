@@ -82,15 +82,15 @@ The tasks defining the pipeline are found in [`src/yellow_taxis/tasks/`](https:/
 ``` shell
 # get rolling averages for a single month (takes into account the previous 2 months in the avg.)
 luigi --module yellow_taxis.tasks.rolling_averages RollingAveragesTask \
-  --result-dir /path/to/results --year 2023 --month 8 --local-scheduler --workers 1
+   --year 2023 --month 8 --local-scheduler --workers 1
 
 # get all monthly averages
 luigi --module yellow_taxis.tasks.monthly_averages AggregateMonthlyAveragesTask \
-  --result-dir /path/to/results --local-scheduler --workers 1
+   --local-scheduler --workers 1
 
 # get all rolling averages
 luigi --module yellow_taxis.tasks.monthly_averages AggregateRollingAveragesTask \
-  --result-dir /path/to/results --local-scheduler --workers 1
+   --local-scheduler --workers 1
 ```
 
 
@@ -116,10 +116,16 @@ To get visualization of the pipeline in a web interface, use the [luigi central 
 ``` shell
 pdm run luigid --port 8887 # in a separate terminal or use `--background`
 pdm run luigi --module yellow_taxis.tasks.monthly_averages AggregateMonthlyAveragesTask \
-  --result-dir /path/to/results --scheduler-port 8887 --workers 1
+   --scheduler-port 8887 --workers 1
 ```
 
 ![Task Hierarchy Visualizer of the Luigi central scheduler](https://raw.githubusercontent.com/meliache/yellow-taxis/main/screenshots/Luigi%20Task%20Visualiser.webp)
+
+#### Configuring default parameters
+
+The luigi parameters for all tasks can set in the task constructors, or when using the `luigi` command using command line flags. However, parameters which are share across tasks can be configured using the [`config.toml`](https://github.com/meliache/yellow-taxis/tree/main/config.toml) in the repository root.
+
+All downloads and task outputs will be saved in `result_dir`. Please set it to the absolute path on a device where you have sufficient storage space or to some kind of mounted network storage.
 
 #### Configuring Luigi and managing resources
 

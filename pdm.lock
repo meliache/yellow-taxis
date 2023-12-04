@@ -5,7 +5,7 @@
 groups = ["default", "pytest", "test", "dev", "jupyterlab", "jupyter", "batch"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:53a3c19ca534afb13f95b8701accffdb2f9f2a420da843d80614f58926571be7"
+content_hash = "sha256:d315882aacf45cf1c416db8946679e4aae3977c784a3cca380f5c51cfa5d434e"
 
 [[package]]
 name = "anyio"

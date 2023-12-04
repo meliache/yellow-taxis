@@ -16,8 +16,9 @@ from yellow_taxis.dataframe_utils import (
     reject_outliers,
     rolling_means,
 )
+from yellow_taxis.settings import get_settings
 from yellow_taxis.task_utils import TaxiBaseTask
-from yellow_taxis.tasks.download import RESULT_DIR, DownloadTask
+from yellow_taxis.tasks.download import DownloadTask
 
 
 class RollingAveragesTask(TaxiBaseTask):
@@ -25,19 +26,10 @@ class RollingAveragesTask(TaxiBaseTask):
 
     output_base_name = Path("rolling_averages.parquet")
 
+    default_window: int | None = get_settings().get("rolling_window")
     window = luigi.IntParameter(
-        default=45,
+        default=default_window,
         description="Number of days to use for the window of the rolling average.",
-    )
-
-    max_duration = luigi.IntParameter(
-        description="Reject trips with duration longer than this. In seconds.",
-        default=14_400,  # 4h
-    )
-
-    max_distance = luigi.IntParameter(
-        description="Reject trips with distance longer than this.",
-        default=1000,
     )
 
     year = luigi.IntParameter()
@@ -138,19 +130,10 @@ class RollingAveragesTask(TaxiBaseTask):
 class AggregateRollingAveragesTask(TaxiBaseTask):
     """Task to sample rolling averages from all months into a single data frame."""
 
+    default_window: int | None = get_settings().get("rolling_window")
     window = luigi.IntParameter(
-        default=45,
+        default=default_window,
         description="Number of days to use for the window of the rolling average.",
-    )
-
-    max_duration = luigi.IntParameter(
-        description="Reject trips with duration longer than this. In seconds.",
-        default=14_400,  # 4h
-    )
-
-    max_distance = luigi.IntParameter(
-        description="Reject trips with distance longer than this.",
-        default=1000,
     )
 
     output_base_name = Path("all_month_rolling_averages.parquet")
@@ -189,7 +172,7 @@ def run_locally() -> None:
     """Run pipeline for rolling averages locally."""
     luigi.build(
         [
-            AggregateRollingAveragesTask(result_dir=RESULT_DIR),
+            AggregateRollingAveragesTask(),
         ],
         local_scheduler=True,
         workers=1,

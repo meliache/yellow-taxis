@@ -6,12 +6,44 @@ from pathlib import Path
 
 import luigi
 
+from yellow_taxis.settings import get_settings
+
 
 class TaxiBaseTask(luigi.Task, abc.ABC):
+    """Base class for Tasks in Yellow Taxi data pipeline.
+
+    Mostly as helper for automatizing output handing. It provides a ``Task.output``
+    by using the required ``output_base_name`` property, the ``result_dir`` and
+    encoding all other Parameter values as directories.
+    """
+
+    # introduce luigi parameters with settings common to all tasks
+
+    default_result_dir: str | None = get_settings().get("result_dir")
+    if default_result_dir:
+        default_result_dir = Path(default_result_dir).expanduser()
+        if not default_result_dir.is_absolute():
+            raise ValueError(
+                "Relative path names for ``result_dir`` setting are not allowed!"
+            )
+
     result_dir = luigi.PathParameter(
+        default=default_result_dir,
         absolute=True,
         significant=False,
         description="Root directory under which to store downloaded files.",
+    )
+
+    default_max_duration: str | None = get_settings().get("max_duration")
+    max_duration = luigi.IntParameter(
+        description="Reject trips with duration longer than this. In seconds.",
+        default=default_max_duration,  # 4h
+    )
+
+    default_distance_duration: int | None = get_settings().get("max_distance")
+    max_distance = luigi.IntParameter(
+        description="Reject trips with distance longer than this.",
+        default=default_max_duration,
     )
 
     @property
@@ -21,6 +53,14 @@ class TaxiBaseTask(luigi.Task, abc.ABC):
         raise NotImplementedError(
             "Add an ``output_base_name`` static property to the the class."
         )
+
+    def output(self):
+        """Luigi target for the generated output path.
+
+        The returned target defines the completeness of the task.
+        See ``luigi.Task.output``.
+        """
+        return luigi.LocalTarget(self.get_output_path())
 
     def get_output_path(self, mkdir: bool = True) -> Path:
         """Output file name constructed from ``output_base_name`` and luigi Parameters.
@@ -58,6 +98,3 @@ class TaxiBaseTask(luigi.Task, abc.ABC):
             output_dir.mkdir(parents=True, exist_ok=True)
 
         return output_dir / self.output_base_name
-
-    def output(self):
-        return luigi.LocalTarget(self.get_output_path())
