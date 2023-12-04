@@ -6,10 +6,10 @@ from typing import Any
 import luigi
 
 from yellow_taxis import fetch
-from yellow_taxis.task_utils import TaxiBaseTask
+from yellow_taxis.task_utils import ManagedOutputTask
 
 
-class DownloadTask(TaxiBaseTask):
+class DownloadTask(ManagedOutputTask):
     """Task to download the parquet file for a given month."""
 
     year = luigi.IntParameter(description="Dataset year")

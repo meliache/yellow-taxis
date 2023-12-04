@@ -6,44 +6,22 @@ from pathlib import Path
 
 import luigi
 
-from yellow_taxis.settings import get_settings
+from yellow_taxis.settings import get_result_dir, get_settings
 
 
-class TaxiBaseTask(luigi.Task, abc.ABC):
-    """Base class for Tasks in Yellow Taxi data pipeline.
+class ManagedOutputTask(luigi.Task, abc.ABC):
+    """Abstract task class for managing task outputs.
 
-    Mostly as helper for automatizing output handing. It provides a ``Task.output``
-    by using the required ``output_base_name`` property, the ``result_dir`` and
+    It provides a ``Task.output`` by using the required ``output_base_name``
+    class attribute, the ``result_dir`` parameter and
     encoding all other Parameter values as directories.
     """
 
-    # introduce luigi parameters with settings common to all tasks
-
-    default_result_dir: str | None = get_settings().get("result_dir")
-    if default_result_dir:
-        default_result_dir = Path(default_result_dir).expanduser()
-        if not default_result_dir.is_absolute():
-            raise ValueError(
-                "Relative path names for ``result_dir`` setting are not allowed!"
-            )
-
     result_dir = luigi.PathParameter(
-        default=default_result_dir,
+        default=get_result_dir(),
         absolute=True,
         significant=False,
         description="Root directory under which to store downloaded files.",
-    )
-
-    default_max_duration: str | None = get_settings().get("max_duration")
-    max_duration = luigi.IntParameter(
-        description="Reject trips with duration longer than this. In seconds.",
-        default=default_max_duration,  # 4h
-    )
-
-    default_max_distance: int | None = get_settings().get("max_distance")
-    max_distance = luigi.IntParameter(
-        description="Reject trips with distance longer than this.",
-        default=default_max_distance,
     )
 
     @property
@@ -98,3 +76,24 @@ class TaxiBaseTask(luigi.Task, abc.ABC):
             output_dir.mkdir(parents=True, exist_ok=True)
 
         return output_dir / self.output_base_name
+
+
+class TaxiBaseTask(ManagedOutputTask):
+    """Base class for Tasks in Yellow Taxi data pipeline.
+
+    Mostly for collecting parameters common to all tasks.
+    """
+
+    # introduce luigi parameters with settings common to all tasks
+
+    default_max_duration: str | None = get_settings().get("max_duration")
+    max_duration = luigi.IntParameter(
+        description="Reject trips with duration longer than this. In seconds.",
+        default=default_max_duration,  # 4h
+    )
+
+    default_max_distance: int | None = get_settings().get("max_distance")
+    max_distance = luigi.IntParameter(
+        description="Reject trips with distance longer than this.",
+        default=default_max_distance,
+    )
