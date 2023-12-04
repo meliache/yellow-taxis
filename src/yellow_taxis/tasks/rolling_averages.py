@@ -100,12 +100,12 @@ class RollingAveragesTask(TaxiBaseTask):
         """
         this_month_begin = pd.Timestamp(self.year, self.month, 1)
         next_month_begin = this_month_begin + pd.offsets.MonthBegin(1)
-        oldest_month_begin: pd.Timestamp = min(self._months_required)
+        oldest_month_begin: pd.Timestamp = min(self._months_required())
         date = data[on] if on else data.index
         if not is_datetime(date):
             raise ValueError(f"Date should be a datetime but is type {date.dtype}!")
 
-        in_range_data = data[(date > oldest_month_begin) & (date < next_month_begin)]
+        in_range_data = data[(date >= oldest_month_begin) & (date < next_month_begin)]
         if in_range_data.empty:
             raise RuntimeError(
                 f"No trips between {oldest_month_begin} and {next_month_begin}!"

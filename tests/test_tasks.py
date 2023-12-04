@@ -115,3 +115,34 @@ class TestRollingAverageTask:
             pd.Timestamp(2023, 1, 1),
             pd.Timestamp(2022, 12, 1),
         ]
+
+    def test_reject_not_in_range_on_index(self) -> None:
+        rolling_avg_task = RollingAveragesTask(
+            year=2023,
+            month=1,
+            window=45,
+        )
+        index = pd.DatetimeIndex(
+            [
+                "2023-01-01",
+                "2023-01-29",
+                "2023-02-01",  # beginning of next month out-of-range
+                "2024-01-01",
+                "2022-10-19",
+                "2022-11-01",  # beginning of prev-prev month in range
+                "2022-12-15",
+            ]
+        )
+        index_in_range = pd.DatetimeIndex(
+            [
+                "2023-01-01",
+                "2023-01-29",
+                "2022-11-01",
+                "2022-12-15",
+            ]
+        )
+        df = pd.DataFrame(data=[pd.NA] * len(index), index=index)
+
+        index_not_rejected = rolling_avg_task._reject_not_in_range(df).index
+        differences_with_expectation = index_in_range - index_not_rejected
+        assert not differences_with_expectation.any()
