@@ -92,7 +92,7 @@ def add_trip_duration(data: pd.DataFrame) -> pd.DataFrame:
 
 def reject_outliers(
     data: pd.DataFrame,
-    max_duration_s: int | None = 86400,
+    max_duration_s: int | None = 14_400,
     max_distance: int | None = 1000,
     reject_negative: bool = True,
 ) -> pd.DataFrame:
@@ -101,7 +101,7 @@ def reject_outliers(
     :param data: Pandas dataframe with ``trip_duration`` and ``trip_distance``
         columns of type float.
     :param max_duration_s: Maximum trip duration in seconds to keep.
-        By default corresponds to 1 day.
+        By default 14400 which corresponds to 4h.
     :param max_distance: Maximum trip distance to keep.
     :param reject_negative: Reject trip with negative distances or durations.
     :return: Dataframe with rejected trips removed.
