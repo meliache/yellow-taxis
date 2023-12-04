@@ -25,3 +25,11 @@ In the latest datasets the timestamps are all of a datetime datatype, but for th
 The parquet file for December 2022 has an entry with pickup-time 2002, though that's likely I typo, no data was recorded then. Some are supposedly from 2008 and 2009. These should just be rejected as unreliable.
 
 However there are some entries with dates just a single day outside of the date given in the parquet file. This are probably valid. But since we analyze months with seperate tasks, they can's easily be moved into the correct bucket. But those Are only a dozen out of several million trip data entries, so I think just rejecting all of these entries will not affect averages.
+
+## Outliers with very long trip durations or lengths
+
+Sometimes trip durations were over multiple days and trip lenghts also unreasonable, given that yellow taxis only operate within manhattan. These pull the average for certain months. Therefore I built in an outlier rejection.
+
+## Different datetime precisions brake pandas
+
+Some parquet files mix `datetime64[us]` and `datetime64[ns]` time, which results in pandas error messages about dataframe dimensions being wrong when concatenating. Turns out this is the known bug [pandas #55067](https://github.com/pandas-dev/pandas/issues/55067).
