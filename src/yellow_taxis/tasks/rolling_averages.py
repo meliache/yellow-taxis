@@ -4,6 +4,7 @@
 import math
 from pathlib import Path
 
+import dask.dataframe as dd
 import luigi
 import pandas as pd
 from pandas.api.types import is_datetime64_any_dtype as is_datetime
@@ -39,6 +40,9 @@ class RollingAveragesTask(TaxiBaseTask):
         default=1000,
     )
 
+    year = luigi.IntParameter()
+    month = luigi.IntParameter()
+
     @property
     def n_months_required(self) -> int:
         """How many data files needed to be loaded simultaneously for the given time
@@ -48,9 +52,6 @@ class RollingAveragesTask(TaxiBaseTask):
         month we need the previous and the previous of the previous month.
         """
         return math.ceil(self.window / 30) + 1
-
-    year = luigi.IntParameter()
-    month = luigi.IntParameter()
 
     resources = {
         "cpus": 1,
@@ -133,12 +134,35 @@ class RollingAveragesTask(TaxiBaseTask):
         rolling_means_this_month.to_parquet(self.get_output_path())
 
 
-class RollingAverageTasksWrapper(luigi.WrapperTask):
-    result_dir = luigi.PathParameter(absolute=True)
+class AggregateRollingAveragesTask(TaxiBaseTask):
+    """Task to sample rolling averages from all months into a single data frame."""
 
-    resources = {"cpus": 1}
+    window = luigi.IntParameter(
+        default=45,
+        description="Number of days to use for the window of the rolling average.",
+    )
+
+    max_duration = luigi.IntParameter(
+        description="Reject trips with duration longer than this. In seconds.",
+        default=14_400,  # 4h
+    )
+
+    max_distance = luigi.IntParameter(
+        description="Reject trips with distance longer than this.",
+        default=1000,
+    )
+
+    output_base_name = Path("all_month_rolling_averages.parquet")
+
+    step = luigi.IntParameter(
+        default=5,
+        description="Step size in days used to sample the monthly running averages.",
+    )
+
+    resources = {"cpus": 1, "memory": 14_000}
 
     def requires(self):
+        """Require rolling averages for all months."""
         for date in fetch.available_dataset_dates():
             yield self.clone(
                 RollingAveragesTask,
@@ -146,12 +170,23 @@ class RollingAverageTasksWrapper(luigi.WrapperTask):
                 month=date.month,
             )
 
+    def run(self):
+        """Sample averages from all months."""
+
+        # use Dask frames to limit memory usage
+        running_averages: list[dd.DataFrame] = [
+            dd.read_parquet(input_target.path) for input_target in self.input()
+        ]
+        running_averages_dask_frame = dd.concat(running_averages, ignore_index=False)
+        running_averages_sampled = running_averages_dask_frame.iloc[:: self.step]
+        running_averages_sampled.to_parquet(self.get_output_path())
+
 
 def run_locally() -> None:
     """Run pipeline for rolling averages locally."""
     luigi.build(
         [
-            RollingAverageTasksWrapper(result_dir=RESULT_DIR),
+            AggregateRollingAveragesTask(result_dir=RESULT_DIR),
         ],
         local_scheduler=True,
         workers=1,

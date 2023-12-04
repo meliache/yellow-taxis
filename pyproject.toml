@@ -16,6 +16,7 @@ dependencies = [
     "fastparquet>=2023.10.1",
     "xdg-base-dirs>=6.0.1",
     "sqlalchemy>=2.0.23",
+    "dask[dataframe]>=2023.12.0",
 ]
 requires-python = ">=3.11"
 readme = "README.md"
