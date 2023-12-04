@@ -84,7 +84,9 @@ class RollingAveragesTask(TaxiBaseTask):
                 month=_date.month,
             )
 
-    def _reject_not_in_range(self, data: pd.DataFrame, on: str | None) -> pd.DataFrame:
+    def _reject_not_in_range(
+        self, data: pd.DataFrame, on: str | None = None
+    ) -> pd.DataFrame:
         """Reject trip data not in month range of the used datasets.
 
         :param data: Trip data dataframe, concatenated from the trip data of several
@@ -102,7 +104,12 @@ class RollingAveragesTask(TaxiBaseTask):
         if not is_datetime(date):
             raise ValueError(f"Date should be a datetime but is type {date.dtype}!")
 
-        return data[(date > oldest_month_begin) & (date < next_month_begin)]
+        in_range_data = data[(date > oldest_month_begin) & (date < next_month_begin)]
+        if in_range_data.empty:
+            raise RuntimeError(
+                f"No trips between {oldest_month_begin} and {next_month_begin}!"
+            )
+        return in_range_data
 
     def run(self):
         """Calculate the rolling averages for the month."""
