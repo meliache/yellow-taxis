@@ -3,6 +3,7 @@ from pathlib import Path
 from unittest.mock import Mock, patch
 
 import pandas as pd
+from yellow_taxis import fetch
 from yellow_taxis.tasks.download import DownloadTask
 from yellow_taxis.tasks.rolling_averages import RollingAveragesTask
 
@@ -145,7 +146,7 @@ class TestRollingAverageTask:
 
         index_not_rejected = rolling_avg_task._reject_not_in_range(df).index
         differences_with_expectation = index_in_range - index_not_rejected
-        assert not differences_with_expectation.any()
+        assert not any(differences_with_expectation)
 
     def test_reject_not_in_range_on_col(self) -> None:
         rolling_avg_task = RollingAveragesTask(
@@ -173,4 +174,16 @@ class TestRollingAverageTask:
             "dates"
         ]
         differences_with_expectation = dates_in_range - dates_not_rejected
-        assert not differences_with_expectation.any()
+        assert not any(differences_with_expectation)
+
+
+class AggregateRollingAveragesTask:
+    def test_requires(self):
+        task = AggregateRollingAveragesTask()
+        dates = pd.DatetimeIndex(
+            [pd.Timestamp(dep.year, dep.month, 1) for dep in task.requires()]
+        )
+        dates_expected = pd.DatetimeIndex(fetch.available_dataset_dates())
+        assert not any(dates.sort_values() - dates_expected.sort_values())
+
+    # TODO test creation of aggregated sampled dataframe
