@@ -50,6 +50,9 @@ def reject_not_in_month(
 ) -> pd.DataFrame:
     """Return dataframe with all entries removed that outside of given month and year.
 
+    Needed because some yellow taxi data files for a given month have trip data with
+    non-sense dates, probably due to errors during data entry.
+
     :param data: Pandas dataframe with trip data.
     :param year: Year in which the trip should be.
     :param month: Month in which the trip should be.
@@ -64,7 +67,11 @@ def reject_not_in_month(
     if not is_datetime(date):
         raise ValueError(f"Date should be a datetime but is type {date.dtype}!")
 
-    return data[(date > month_start) & (date < next_month_start)]
+    data_in_month = data[(date > month_start) & (date < next_month_start)]
+
+    if data_in_month.empty:
+        raise RuntimeError("Data contains no trips in given month!")
+    return data_in_month
 
 
 def trip_duration_s(data: pd.DataFrame) -> pd.Series:
@@ -114,6 +121,9 @@ def reject_outliers(
 
     if reject_negative:
         data = data[(data["trip_distance"] >= 0) & (data["trip_duration"] >= 0)]
+
+    if data.empty:
+        raise RuntimeError("No trips remain after outlier detection!")
 
     return data
 
