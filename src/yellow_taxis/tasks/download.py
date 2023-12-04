@@ -5,27 +5,17 @@ from typing import Any
 
 import luigi
 
-from yellow_taxis import fetch, task_utils
+from yellow_taxis import fetch
+from yellow_taxis.task_utils import TaxiBaseTask
 
 
-class DownloadTask(luigi.Task):
+class DownloadTask(TaxiBaseTask):
     """Task to download the parquet file for a given month."""
-
-    result_dir = luigi.PathParameter(
-        description="Root directory under which to store downloaded files.",
-        absolute=True,
-    )
 
     year = luigi.IntParameter(description="Dataset year")
     month = luigi.IntParameter(description="Dataset month")
 
-    @property
-    def result_path(self) -> Path:
-        """File path where downloaded data will be saved to."""
-        return (
-            task_utils.year_month_result_dir(self.result_dir, self.year, self.month)
-            / f"yellow_tripdata_{self.year:d}-{self.month:02d}.parquet"
-        )
+    output_base_name = Path("yellow_tripdata.parquet")
 
     # Define resource usage of task so that total resource usage can be kept under
     # what's defined in `luigi.cfg`/`luigi.toml`
@@ -46,9 +36,6 @@ class DownloadTask(luigi.Task):
             make_directories=True,
             overwrite=False,
         )
-
-    def output(self):
-        return luigi.LocalTarget(self.result_path)
 
 
 class DownloadTasksWrapper(luigi.WrapperTask):

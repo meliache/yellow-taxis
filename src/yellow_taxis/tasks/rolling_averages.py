@@ -15,15 +15,29 @@ from yellow_taxis.dataframe_utils import (
     reject_outliers,
     rolling_means,
 )
-from yellow_taxis.task_utils import year_month_result_dir
+from yellow_taxis.task_utils import TaxiBaseTask
 from yellow_taxis.tasks.download import RESULT_DIR, DownloadTask
 
 
-class RollingAveragesTask(luigi.Task):
+class RollingAveragesTask(TaxiBaseTask):
     """Calculate the 45 day rolling averages for all dates in a given month."""
 
-    result_dir = luigi.PathParameter(absolute=True)
-    window = luigi.IntParameter(default=45)
+    output_base_name = Path("rolling_averages.parquet")
+
+    window = luigi.IntParameter(
+        default=45,
+        description="Number of days to use for the window of the rolling average.",
+    )
+
+    max_duration = luigi.IntParameter(
+        description="Reject trips with duration longer than this. In seconds.",
+        default=14_400,  # 4h
+    )
+
+    max_distance = luigi.IntParameter(
+        description="Reject trips with distance longer than this.",
+        default=1000,
+    )
 
     @property
     def n_months_required(self) -> int:
@@ -37,13 +51,6 @@ class RollingAveragesTask(luigi.Task):
 
     year = luigi.IntParameter()
     month = luigi.IntParameter()
-
-    @property
-    def result_path(self) -> Path:
-        return (
-            year_month_result_dir(self.result_dir, self.year, self.month)
-            / "rolling_averages.parquet"
-        )
 
     resources = {
         "cpus": 1,
@@ -105,7 +112,9 @@ class RollingAveragesTask(luigi.Task):
             ignore_index=True,
         )
         df = add_trip_duration(df)
-        df = reject_outliers(df)
+        df = reject_outliers(
+            df, max_duration_s=self.max_duration, max_distance=self.max_distance
+        )
 
         df.set_index("tpep_dropoff_datetime", inplace=True, drop=True)
         df = self._reject_not_in_range(df)
@@ -115,10 +124,7 @@ class RollingAveragesTask(luigi.Task):
             df, n_window_days=self.window, keep_after=this_month_begin
         )
 
-        rolling_means_this_month.to_parquet(self.result_path)
-
-    def output(self):
-        return luigi.LocalTarget(self.result_path)
+        rolling_means_this_month.to_parquet(self.get_output_path())
 
 
 class RollingAverageTasksWrapper(luigi.WrapperTask):

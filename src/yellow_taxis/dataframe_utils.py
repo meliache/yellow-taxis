@@ -120,8 +120,8 @@ def add_trip_duration(data: pd.DataFrame) -> pd.DataFrame:
 
 def reject_outliers(
     data: pd.DataFrame,
-    max_duration_s: int | None = 14_400,
-    max_distance: int | None = 1000,
+    max_duration_s: int | None,
+    max_distance: int | None,
     reject_negative: bool = True,
 ) -> pd.DataFrame:
     """Reject trip data with unreasonably high or negative trip lengths.
