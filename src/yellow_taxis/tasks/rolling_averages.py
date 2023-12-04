@@ -137,14 +137,15 @@ class RollingAveragesTask(TaxiBaseTask):
 class AggregateRollingAveragesTask(TaxiBaseTask):
     """Task to sample rolling averages from all months into a single data frame."""
 
+    output_base_name = Path("all_month_rolling_averages.parquet")
+
     default_window: int | None = get_settings().get("rolling_window")
     window = luigi.IntParameter(
         default=default_window,
         description="Number of days to use for the window of the rolling average.",
     )
 
-    output_base_name = Path("all_month_rolling_averages.parquet")
-
+    default_step: int | None = get_settings().get("rolling_step")
     step = luigi.IntParameter(
         default=5,
         description="Step size in days used to sample the monthly running averages.",
