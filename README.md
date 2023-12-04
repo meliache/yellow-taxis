@@ -26,7 +26,7 @@ git clone https://github.com/meliache/yellow-taxis
 cd yellow-taxis
 ```
 
-Then install the project using `pip` or [pdm](https://github.com/pdm-project/pdm), the package manager used for development of this project:
+Then install the project using `pip` or [PDM](https://github.com/pdm-project/pdm), the package manager used for development of this project:
 
 ``` shell
 # PDM:
@@ -41,7 +41,7 @@ I recommend using virtual environment, either via `python -m venv` or `pdm venv 
 
 ### Developer installation
 
-Additionally this project has optional dependencies for developing, testing and for using Jupyter. Without using `--production`, pdm will install all optional dependencies, but you can select which you want with
+Additionally this project has optional dependencies for developing, testing and for using Jupyter. Without using `--production`, PDM will install all optional dependencies, but you can select which you want with
 
 ``` shell
 pdm install --dev \
@@ -64,11 +64,11 @@ Further, if you want to contribute, please enable [pre-commit](https://pre-commi
 pdm pre-commit install
 ```
 
-But to be less bothered by pre-commit's errors I recommend setting up your editor/IDE to auto-format the project with [ruff](https://docs.astral.sh/ruff/formatter/), [isort](https://pycqa.github.io/isort/) and [docformatter](https://docformatter.readthedocs.io/en/latest).
+To fix style and errors before being bothered by pre-commit, I recommend setting up your editor/IDE to auto-format the project with [ruff](https://docs.astral.sh/ruff/formatter/), [isort](https://pycqa.github.io/isort/) and [docformatter](https://docformatter.readthedocs.io/en/latest).
 
 ### Non-Python dependencies
 
-- [curl](https://curl.se): The `curl` commandline-tool is currently used for downloading the datasets. It is available for all desktop operating systems and comes pre-installed on Windows and MacOS.
+- [curl](https://curl.se): The `curl` command-line-tool is currently used for downloading the datasets. It is available for all desktop operating systems and comes pre-installed on Windows and macOS.
 
 ### Running the pipeline
 
@@ -102,7 +102,7 @@ However, the task modules are also executable scripts and their main function ca
 
  By default, it runs the jobs locally with a single worker. You can increase the number of parallel jobs by changing the `luigi.build(…, workers=<num workers>)` in the main function at the bottom of each script. Each worker might require up to couple of GB of memory, so only increase this for local tasks if you have sufficient memory (or configure resources as described below).
 
-If you installed the project via PDM, you can also run the pdm commands
+If you installed the project via PDM, you can also run the PDM commands
 
 ``` shell
 pdm run monthly-average-locally  # will also run download tasks as dependencies
@@ -181,9 +181,9 @@ I'll sketch out my idea for a possible implementation: We could make all our tas
 
 ##### Scaling file storage
 
-Currently the whole dataset below 30 GB large, which might be challenging on a personal computer/notebook with limited space, but a factor 100 more could easily fit onto a not too expensive hard drive, so realistically speaking file storage should be not a big issue for this coding challenge. But in a many other realistic scenarios using a large, scalable, reliable distributed file/storage system could be used, like HDFS or S3.
+Currently the whole dataset below 30 GB large, which might be challenging on a personal computer/notebook with limited space, but a factor 100 more could easily fit onto a not too expensive hard drive, so realistically speaking file storage should be not a big issue for this coding challenge. But in a many other realistic scenarios using a large, scaleable, reliable distributed file/storage system could be used, like HDFS or S3.
 
-They could be used with `luigi.LocalTarget` by just mounting the filesystems over network, e.g. via [`rclone` mount](https://rclone.org/overview), But for those cases it might be better using specific targes like [HdfsTarget](https://luigi.readthedocs.io/en/stable/api/luigi.contrib.hdfs.target.html#module-luigi.contrib.hdfs.target) or [S3Target](https://luigi.readthedocs.io/en/stable/api/luigi.contrib.s3.html).
+They could be used with `luigi.LocalTarget` by just mounting the file systems over network, e.g. via [`rclone` mount](https://rclone.org/overview), But for those cases it might be better using specific targets like [HdfsTarget](https://luigi.readthedocs.io/en/stable/api/luigi.contrib.hdfs.target.html#module-luigi.contrib.hdfs.target) or [S3Target](https://luigi.readthedocs.io/en/stable/api/luigi.contrib.s3.html).
 
 ## Author
 
