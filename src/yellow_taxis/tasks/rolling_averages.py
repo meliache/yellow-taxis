@@ -43,7 +43,15 @@ class RollingAveragesTask(TaxiBaseTask):
         E.g. 3 months for the default of a 45 day window, because for the first of the
         month we need the previous and the previous of the previous month.
         """
-        return math.ceil(self.window / 30) + 1
+
+        month_required_for_full_window = math.ceil(self.window / 30) + 1
+
+        # if we are close to start of first records we can only require less months
+        month_first_records = fetch.DATE_FIRST_RECORDS.to_period(freq="M")
+        current_month = pd.Period(year=self.year, month=self.month, freq="M")
+        n_months_since_first_records = (current_month - month_first_records).n
+
+        return min(month_required_for_full_window, n_months_since_first_records + 1)
 
     resources = {
         "cpus": 1,
@@ -63,10 +71,6 @@ class RollingAveragesTask(TaxiBaseTask):
             _date = this_month_start_date - pd.tseries.offsets.MonthBegin(
                 neg_months_delta
             )
-            # usually we require previous n months but if the month would be before the
-            # first historical record then we cannot use those months' data
-            if _date < fetch.DATE_FIRST_RECORDS:
-                break
             month_dates.append(_date)
 
         return month_dates
@@ -96,10 +100,7 @@ class RollingAveragesTask(TaxiBaseTask):
         """
         this_month_begin = pd.Timestamp(self.year, self.month, 1)
         next_month_begin = this_month_begin + pd.offsets.MonthBegin(1)
-        oldest_month_begin = this_month_begin - pd.offsets.MonthBegin(
-            self.n_months_required - 1
-        )
-
+        oldest_month_begin: pd.Timestamp = min(self._months_required)
         date = data[on] if on else data.index
         if not is_datetime(date):
             raise ValueError(f"Date should be a datetime but is type {date.dtype}!")

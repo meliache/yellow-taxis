@@ -42,7 +42,39 @@ class TestDownloadTask:
 
 
 class TestRollingAverageTask:
-    def test_months_required_is_three(self) -> None:
+    def test_n_months_required_is_three(self) -> None:
+        rolling_avg_task = RollingAveragesTask(
+            year=2023,
+            month=1,
+            window=45,
+        )
+        assert rolling_avg_task.n_months_required == 3
+
+    def test_n_months_required_in_first_month_of_records(self) -> None:
+        rolling_avg_task = RollingAveragesTask(
+            year=2009,  # date of first records, meaning no data in the past
+            month=1,
+            window=45,
+        )
+        assert rolling_avg_task.n_months_required == 1
+
+    def test_n_months_required_in_second_month_of_records(self) -> None:
+        rolling_avg_task = RollingAveragesTask(
+            year=2009,  # date of first records, meaning no data in the past
+            month=2,
+            window=45,
+        )
+        assert rolling_avg_task.n_months_required == 2
+
+    def test_n_months_required_is_two_for_short_window(self) -> None:
+        rolling_avg_task = RollingAveragesTask(
+            year=2023,
+            month=1,
+            window=20,
+        )
+        assert rolling_avg_task.n_months_required == 2
+
+    def test_months_required_last_three(self) -> None:
         rolling_avg_task = RollingAveragesTask(
             year=2023,
             month=1,
@@ -54,7 +86,7 @@ class TestRollingAverageTask:
             pd.Timestamp(2022, 11, 1),
         ]
 
-    def test_months_required_in_firt_month_of_records(self) -> None:
+    def test_months_required_in_first_month_of_records(self) -> None:
         rolling_avg_task = RollingAveragesTask(
             year=2009,  # date of first records, meaning no data in the past
             month=1,
