@@ -52,7 +52,8 @@ class ManagedOutputTask(luigi.Task, abc.ABC):
         :param mkdir: If ``True`` create missing parent directories of returned output.
         :return: Final file system output path.
         """
-        output_dir = Path(self.result_dir)
+        output_dir = Path(self.result_dir).expanduser().absolute()
+
         for param_name, param in self.get_params():
             param_value = self.param_kwargs[param_name]
             param_value_serialized = param.serialize(param_value)
