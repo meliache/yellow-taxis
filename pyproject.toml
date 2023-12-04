@@ -82,6 +82,8 @@ batch = [
 ]
 
 [tool.pdm.scripts]
-download-locally = {call = "yellow_taxis.tasks.download:run_locally"}
-monthly-average-locally = {call = "yellow_taxis.tasks.monthly_averages:run_locally"}
+
+run-all-locally = {call = "yellow_taxis.tasks.run_all:run_locally"}
 rolling-average-locally = {call = "yellow_taxis.tasks.rolling_averages:run_locally"}
+monthly-average-locally = {call = "yellow_taxis.tasks.monthly_averages:run_locally"}
+download-locally = {call = "yellow_taxis.tasks.download:run_locally"}

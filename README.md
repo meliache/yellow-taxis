@@ -18,7 +18,7 @@ Data source: [TLC Trip Record Data](https://www.nyc.gov/site/tlc/about/tlc-trip-
   * [Non-Python dependencies](#non-python-dependencies)
 - [Running the pipeline](#running-the-pipeline)
   * [Local pipeline](#local-pipeline)
-      - [Central scheduler](#central-scheduler)
+    + [Central scheduler](#central-scheduler)
   * [Configuring default parameters](#configuring-default-parameters)
   * [Configuring Luigi and managing resources](#configuring-luigi-and-managing-resources)
   * [Running as docker container](#running-as-docker-container)
@@ -93,24 +93,33 @@ The tasks defining the pipeline are found in [`src/yellow_taxis/tasks/`](https:/
 
 
 ``` shell
+# run entire pipeline with all tasks
+pdm run luigi --module yellow_taxis.tasks.run_all MainTask \
+	--local-scheduler --workers 1
+
+# pipeline for all monthly averages
+pdm run luigi --module yellow_taxis.tasks.monthly_averages AggregateMonthlyAveragesTask \
+   --local-scheduler --workers 1
+
+# pipeline for all rolling averages
+pdm run luigi --module yellow_taxis.tasks.rolling_averages AggregateRollingAveragesTask \
+   --local-scheduler --workers 1
+
 # get rolling averages for a single month (takes into account the previous 2 months in the avg.)
-luigi --module yellow_taxis.tasks.rolling_averages RollingAveragesTask \
+pdm run luigi --module yellow_taxis.tasks.rolling_averages RollingAveragesTask \
    --year 2023 --month 8 --local-scheduler --workers 1
 
-# get all monthly averages
-luigi --module yellow_taxis.tasks.monthly_averages AggregateMonthlyAveragesTask \
-   --local-scheduler --workers 1
 
-# get all rolling averages
-luigi --module yellow_taxis.tasks.rolling_averages AggregateRollingAveragesTask \
-   --local-scheduler --workers 1
+# get monthly averages for a single month
+pdm run luigi --module yellow_taxis.tasks.monthly_averages MonthlyAveragesTask \
+   --year 2023 --month 8 --local-scheduler --workers 1
 ```
 
 
 However, the task modules are also executable scripts and their main function can be run directly, e.g.
 
 ``` shell
-./src/yellow_taxis/tasks/monthly_averages.py
+./src/yellow_taxis/tasks/run_all.py
 ```
 
  By default, it runs the jobs locally with a single worker. You can increase the number of parallel jobs by changing the `luigi.build(…, workers=<num workers>)` in the main function at the bottom of each script. Each worker might require up to couple of GB of memory, so only increase this for local tasks if you have sufficient memory (or configure resources as described below).
@@ -118,12 +127,13 @@ However, the task modules are also executable scripts and their main function ca
 If you installed the project via PDM, you can also run the PDM commands
 
 ``` shell
-pdm run monthly-average-locally  # will also run download tasks as dependencies
-pdm run rolling-average-locally
-pdm run download-locally
+pdm run run-all-locally  # run all tasks
+pdm run monthly-average-locally  # calculate all running averages
+pdm run rolling-average-locally  # calculate all monthly averages
+pdm run download-locally  # (not really needed, downloads triggered automatically by other tasks)
 ```
 
-##### Central scheduler
+#### Central scheduler
 To get visualization of the pipeline in a web interface, use the [luigi central scheduler](https://luigi.readthedocs.io/en/stable/central_scheduler.html). Here's a simple example usage:
 
 ``` shell
