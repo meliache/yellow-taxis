@@ -7,8 +7,8 @@ from yellow_taxis.tasks.rolling_averages import AggregateRollingAveragesTask
 
 class MainTask(luigi.WrapperTask):
     def requires(self):
-        yield AggregateMonthlyAveragesTask()
         yield AggregateRollingAveragesTask()
+        yield AggregateMonthlyAveragesTask()
 
 
 def run_locally() -> None:

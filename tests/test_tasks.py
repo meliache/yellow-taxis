@@ -2,10 +2,18 @@ import tempfile
 from pathlib import Path
 from unittest.mock import Mock, patch
 
+import luigi
 import pandas as pd
+from pytest import approx
 from yellow_taxis import fetch
 from yellow_taxis.tasks.download import DownloadTask
 from yellow_taxis.tasks.rolling_averages import RollingAveragesTask
+
+test_data_fpath_2023_01 = (
+    Path(__file__).parent
+    / "test_data"
+    / "yellow_tripdata_2023-01_head_for_testing.parquet"
+).absolute()
 
 
 class TestDownloadTask:
@@ -145,8 +153,7 @@ class TestRollingAverageTask:
         df = pd.DataFrame(data=[pd.NA] * len(index), index=index)
 
         index_not_rejected = rolling_avg_task._reject_not_in_range(df).index
-        differences_with_expectation = index_in_range - index_not_rejected
-        assert not any(differences_with_expectation)
+        assert index_in_range.equals(index_not_rejected)
 
     def test_reject_not_in_range_on_col(self) -> None:
         rolling_avg_task = RollingAveragesTask(
@@ -162,19 +169,47 @@ class TestRollingAverageTask:
                 "2009-02-01",
             ]
         )
-        dates_in_range = pd.DatetimeIndex(
-            [
-                "2009-01-01",
-                "2009-01-31",
-            ]
-        )
+        dates_in_range = pd.to_datetime(["2009-01-01", "2009-01-31"])
         df = pd.DataFrame(data={"dates": dates})
 
         dates_not_rejected = rolling_avg_task._reject_not_in_range(df, on="dates")[
             "dates"
         ]
-        differences_with_expectation = dates_in_range - dates_not_rejected
-        assert not any(differences_with_expectation)
+        assert all(dates_in_range.to_numpy() == dates_not_rejected.to_numpy())
+
+    @patch("yellow_taxis.tasks.rolling_averages.RollingAveragesTask.input")
+    def test_run_on_testfile_for_single_month(self, mock_input) -> None:
+        """Now actually test the ``run`` method on test data."""
+
+        mock_input.return_value = [luigi.LocalTarget(test_data_fpath_2023_01)]
+
+        with tempfile.TemporaryDirectory() as tmpdirname:
+            rolling_avg_task = RollingAveragesTask(
+                year=2023,
+                month=1,
+                window=45,
+                result_dir=tmpdirname,
+            )
+
+            rolling_avg_task.run()
+            rolling_averages = pd.read_parquet(rolling_avg_task.get_output_path())
+            expected_rolling_averages = pd.DataFrame(
+                data={
+                    "trip_duration": [
+                        577.0,
+                        613.5,
+                        664.0,
+                        624.5,
+                        575.4,
+                    ],
+                    "trip_distance": [1.900000, 1.665000, 1.946667, 1.702500, 1.582000],
+                },
+            )
+
+            expected_rolling_averages_np = expected_rolling_averages[
+                rolling_averages.columns
+            ].to_numpy()
+            assert rolling_averages.to_numpy() == approx(expected_rolling_averages_np)
 
 
 class AggregateRollingAveragesTask:
@@ -184,6 +219,6 @@ class AggregateRollingAveragesTask:
             [pd.Timestamp(dep.year, dep.month, 1) for dep in task.requires()]
         )
         dates_expected = pd.DatetimeIndex(fetch.available_dataset_dates())
-        assert not any(dates.sort_values() - dates_expected.sort_values())
+        assert not dates.sort_values().equals(dates_expected.sort_values())
 
     # TODO test creation of aggregated sampled dataframe
