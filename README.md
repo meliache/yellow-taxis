@@ -11,11 +11,24 @@ Analysis of average travel times of _Yellow Taxis_ in New York City.
 
 Data source: [TLC Trip Record Data](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page)
 
-## Tasks
+<!-- toc -->
 
-- [X] Please write a Python program that calculates the average trip length of all Yellow Taxis for a month.
-- [X] Extend this to a data pipeline that can ingest new data and calculates the 45 day rolling average trip length.
-- [X] Make sure your program could be run in a production setup.
+- [Installation](#installation)
+  * [Developer installation](#developer-installation)
+  * [Non-Python dependencies](#non-python-dependencies)
+- [Running the pipeline](#running-the-pipeline)
+  * [Local pipeline](#local-pipeline)
+      - [Central scheduler](#central-scheduler)
+  * [Configuring default parameters](#configuring-default-parameters)
+  * [Configuring Luigi and managing resources](#configuring-luigi-and-managing-resources)
+  * [Running as docker container](#running-as-docker-container)
+- [Deploy to batch systems](#deploy-to-batch-systems)
+  * [Using b2luigi](#using-b2luigi)
+  * [Using `luigi.contrib` packages to run on AWS and other commercial batch systems](#using-luigicontrib-packages-to-run-on-aws-and-other-commercial-batch-systems)
+  * [Scaling file storage](#scaling-file-storage)
+- [Author](#author)
+
+<!-- tocstop -->
 
 ## Installation
 
@@ -70,11 +83,11 @@ To fix style and errors before being bothered by pre-commit, I recommend setting
 
 - [curl](https://curl.se): The `curl` command-line-tool is currently used for downloading the datasets. It is available for all desktop operating systems and comes pre-installed on Windows and macOS.
 
-### Running the pipeline
+## Running the pipeline
 
 For creating the pipeline I have used [Luigi](https://github.com/spotify/luigi), which I have been familiar with from my academic work. Luigi defines workflows using classes implementing `luigi.Task`. Completeness is defined by the `Task.output()` method which return one or more `Luigi.Target` instances. Requirements (other tasks) are defined by the `Task.requires()` method. The actual work is done in the `Task.run()` method. Refer to the [Luigi docs](https://luigi.readthedocs.io/en/stable/index.html) for more information.
 
-#### Local pipeline
+### Local pipeline
 
 The tasks defining the pipeline are found in [`src/yellow_taxis/tasks/`](https://github.com/meliache/yellow-taxis/tree/main/src/yellow_taxis/tasks). You can custom trigger individual tasks by using the `luigi` (or `pdm run luigi`) command line tool, which will also run all their dependencies. This method allows setting the task parameters, scheduler and number of workers on the command line
 
@@ -121,13 +134,13 @@ pdm run luigi --module yellow_taxis.tasks.monthly_averages AggregateMonthlyAvera
 
 ![Task Hierarchy Visualizer of the Luigi central scheduler](https://raw.githubusercontent.com/meliache/yellow-taxis/main/screenshots/Luigi%20Task%20Visualiser%20Rolling.webp)
 
-#### Configuring default parameters
+### Configuring default parameters
 
 The luigi parameters for all tasks can set in the task constructors, or when using the `luigi` command using command line flags. However, parameters which are share across tasks can be configured using the [`config.toml`](https://github.com/meliache/yellow-taxis/tree/main/config.toml) in the repository root.
 
 All downloads and task outputs will be saved in `result_dir`. Please set it to the absolute path on a device where you have sufficient storage space or to some kind of mounted network storage.
 
-#### Configuring Luigi and managing resources
+### Configuring Luigi and managing resources
 
 You can configure luigi and its scheduler using a `luigi.cfg` or `luigi.toml` file as described in the [Luigi configuration docs](https://luigi.readthedocs.io/en/stable/configuration.html).
 
@@ -142,7 +155,7 @@ memory = 16000 # memory usage estimate in MB
 cpus = 8 # number CPU cores to use
 ```
 
-#### # Running as docker container
+### Running as docker container
 
 The workflows can also be deployed in a docker file:
 ``` shell
@@ -160,12 +173,12 @@ By default it runs the `luigid` central scheduler on port 8887.
 
 Note that the dockerized luigi is not aware of the host `luigi.cfg`/`luigi.toml` configuration files in `~/.config/luigi`. The docker image should be built with a custom config file, which can be achieved by placing one in the repository root before building it.
 
-### Deploy to batch systems
+## Deploy to batch systems
 
 With this pipeline the entire yellow-taxi dataset can be analyzed locally on an average notebook, though due to memory constraints only with few parallel workers, which might take a long time for all the historical data and might not scale well for future datasets. Therefore, the computation can be delegated to some kind of batch system.
 
 
-#### Using b2luigi
+### Using b2luigi
 
 [b2luigi](https://b2luigi.readthedocs.io/en/stable) is a Luigi extension created to deploy tasks to batch system workers with minimal batch-specific changes to the tasks themselves, just by changing the runner. It was written by Physicists (including me) with their needs and constraints in mind. But currently only the [LSF](https://www.ibm.com/de-de/products/hpc-workload-management) and [HTCondor](HTCondor) batch systems are fully implemented. It is a drop-in replacement, so if one of those is batch systems is available, one can change the tasks to run on it by simply by
 
@@ -177,7 +190,7 @@ or setting a `--batch` command line parameter. For more see the [b2luigi batch m
 
 Other more batch systems can be added by implementing [`b2luigi.batch.processes.BatchProcess`](https://b2luigi.readthedocs.io/en/stable/usage/batch.html#add-your-own-batch-system).
 
-#### Using `luigi.contrib` packages to run on AWS and other commercial batch systems
+### Using `luigi.contrib` packages to run on AWS and other commercial batch systems
 
 The [luigi.contrib](https://luigi.readthedocs.io/en/stable/api/luigi.contrib.html) repository already contains several tasks for running on commercially popular batch systems. But they need to be inherited from and usually overwrite the task's `run` method, meaning that the pipeline will need to be adapted to a specific batch.
 
@@ -185,7 +198,7 @@ For example, for running on *AWS*, the [`luigi.contrib.batch.BatchTask`](https:/
 
 I'll sketch out my idea for a possible implementation: We could make all our tasks implement `luigi.contrib.batch.BatchTask`. But we can override its `run` method to react to a luigi Parameter (which can be provided on the command line) and if it is given, just do the calculation locally instead of submitting an AWS job. The `job_definition` method then could be implemented that the tasks submits itself as a docker command, but with that parameter to do the calculation locally.
 
-##### Scaling file storage
+### Scaling file storage
 
 Currently the whole dataset below 30 GB large, which might be challenging on a personal computer/notebook with limited space, but a factor 100 more could easily fit onto a not too expensive hard drive, so realistically speaking file storage should be not a big issue for this coding challenge. But in a many other realistic scenarios using a large, scaleable, reliable distributed file/storage system could be used, like HDFS or S3.
 
