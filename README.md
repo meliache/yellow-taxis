@@ -89,7 +89,7 @@ luigi --module yellow_taxis.tasks.monthly_averages AggregateMonthlyAveragesTask 
    --local-scheduler --workers 1
 
 # get all rolling averages
-luigi --module yellow_taxis.tasks.monthly_averages AggregateRollingAveragesTask \
+luigi --module yellow_taxis.tasks.rolling_averages AggregateRollingAveragesTask \
    --local-scheduler --workers 1
 ```
 
