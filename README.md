@@ -11,6 +11,8 @@ Analysis of average travel times of _Yellow Taxis_ in New York City.
 
 Data source: [TLC Trip Record Data](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page)
 
+## Table of contents
+
 <!-- toc -->
 
 - [Installation](#installation)
