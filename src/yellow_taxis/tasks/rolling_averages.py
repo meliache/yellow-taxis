@@ -4,7 +4,6 @@
 import math
 from pathlib import Path
 
-import dask.dataframe as dd
 import luigi
 import pandas as pd
 from pandas.api.types import is_datetime64_any_dtype as is_datetime
@@ -127,20 +126,23 @@ class RollingAveragesTask(TaxiBaseTask):
         df = self._reject_not_in_range(df)
 
         this_month_begin = pd.Timestamp(self.year, self.month, 1)
-        rolling_means_this_month = rolling_means(
+        rolling_means_by_trip = rolling_means(
             df, n_window_days=self.window, keep_after=this_month_begin
         )
+        # Only keep the last rolling mean of each day.
+        # Massively reduces output data size
+        rolling_means_by_day = rolling_means_by_trip.resample(
+            pd.Timedelta(days=1)
+        ).last()
 
         with self.output().temporary_path() as self.temp_output_path:
             # compress rolling averages by default to zstd
             # because they take up a lot of disk space
-            rolling_means_this_month.to_parquet(
-                self.temp_output_path, compression="zstd"
-            )
+            rolling_means_by_day.to_parquet(self.temp_output_path, compression="zstd")
 
 
 class AggregateRollingAveragesTask(TaxiBaseTask):
-    """Task to sample rolling averages from all months into a single data frame."""
+    """Task to collect running averages from months."""
 
     output_base_name = Path("all_month_rolling_averages.parquet")
 
@@ -150,13 +152,7 @@ class AggregateRollingAveragesTask(TaxiBaseTask):
         description="Number of days to use for the window of the rolling average.",
     )
 
-    default_step: int | None = get_settings().get("rolling_step")
-    step = luigi.IntParameter(
-        default=default_step,
-        description="Step size in days used to sample the monthly running averages.",
-    )
-
-    resources = {"cpus": 1, "memory": 8000}
+    resources = {"cpus": 1, "memory": 1000}
 
     def requires(self):
         """Require rolling averages for all months."""
@@ -168,31 +164,12 @@ class AggregateRollingAveragesTask(TaxiBaseTask):
             )
 
     def run(self):
-        """Sample averages from all months.
-
-        Concatenate all dataframes, resample to keep only the rolling average of every
-        ``self.step`` steps and write the result to a new single parquet file.
-        """
-
-        # use Dask frames to limit memory usage
-        running_averages: list[dd.DataFrame] = [
-            dd.read_parquet(
-                input_target.path, calculate_divisions=True, engine="fastparquet"
-            )
-            for input_target in self.input()
-        ]
-        running_averages_dask_frame = dd.concat(running_averages)
-
-        sample_interval = pd.Timedelta(days=self.step)
-        running_averages_sampler = running_averages_dask_frame.resample(sample_interval)
-        # keep last running average of each N steps
-        # last value should be most recent running average
-        running_averages_sampled = running_averages_sampler.last()
-
+        """Collect running averages from all months in single data frame."""
+        running_averages = pd.concat(
+            [pd.read_parquet(input_target.path) for input_target in self.input()]
+        )
         with self.output().temporary_path() as self.temp_output_path:
-            running_averages_sampled.to_parquet(
-                self.temp_output_path, compression="zstd"
-            )
+            running_averages.to_parquet(self.temp_output_path, compression="zstd")
 
 
 def run_locally() -> None:

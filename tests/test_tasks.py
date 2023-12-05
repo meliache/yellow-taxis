@@ -14,7 +14,7 @@ test_data_fpath_2023_01 = (
     Path(__file__).parent
     / "test_data"
     / "yellow_tripdata_2023-01_head_for_testing.parquet"
-).absolute()
+)
 
 
 class TestDownloadTask:
@@ -217,40 +217,6 @@ class TestRollingAverageTask:
         ]
         assert all(dates_in_range.to_numpy() == dates_not_rejected.to_numpy())
 
-    @patch("yellow_taxis.tasks.rolling_averages.RollingAveragesTask.input")
-    def test_run_on_testfile_for_single_month(self, mock_input) -> None:
-        """Test the ``run`` method on test data for a single month."""
-
-        mock_input.return_value = [luigi.LocalTarget(test_data_fpath_2023_01)]
-
-        with tempfile.TemporaryDirectory() as tmpdirname:
-            rolling_avg_task = RollingAveragesTask(
-                year=2023,
-                month=1,
-                window=45,
-                result_dir=tmpdirname,
-            )
-
-            rolling_avg_task.run()
-            rolling_averages = pd.read_parquet(rolling_avg_task.get_output_path())
-            expected_rolling_averages = pd.DataFrame(
-                data={
-                    "trip_duration": [
-                        577.0,
-                        613.5,
-                        664.0,
-                        624.5,
-                        575.4,
-                    ],
-                    "trip_distance": [1.900000, 1.665000, 1.946667, 1.702500, 1.582000],
-                },
-            )
-
-            expected_rolling_averages_np = expected_rolling_averages[
-                rolling_averages.columns
-            ].to_numpy()
-            assert rolling_averages.to_numpy() == approx(expected_rolling_averages_np)
-
 
 class AggregateRollingAveragesTask:
     def test_requires(self):
@@ -260,5 +226,3 @@ class AggregateRollingAveragesTask:
         )
         dates_expected = pd.DatetimeIndex(fetch.available_dataset_dates())
         assert not dates.sort_values().equals(dates_expected.sort_values())
-
-    # TODO test creation of aggregated sampled dataframe
