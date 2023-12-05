@@ -1,8 +1,11 @@
 """Utilities for working with NYC taxi data dataframes."""
+import logging
 from os import PathLike
 
 import pandas as pd
 from pandas.api.types import is_datetime64_any_dtype as is_datetime
+
+logger = logging.getLogger(__name__)
 
 # Required columns. These are from the documented schema, since 2015
 COLUMN_NAMES = ["tpep_pickup_datetime", "tpep_dropoff_datetime", "trip_distance"]
@@ -36,8 +39,10 @@ def read_taxi_dataframe(file_name: PathLike) -> pd.DataFrame:
             if columns == COLUMN_NAME_VARIATIONS[-1]:
                 raise e
 
-            print(f"Could not read dataframe with {columns=}, trying next column set.")
-            print(f"Caught error message:\n{e}")
+            logger.info(
+                "Could not read dataframe with columns %s, trying next column set.",
+                columns,
+            )
 
 
 def time_columns_to_datetime(data: pd.DataFrame) -> pd.DataFrame:
