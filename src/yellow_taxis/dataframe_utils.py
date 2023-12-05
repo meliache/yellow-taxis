@@ -186,5 +186,8 @@ def rolling_means(
     rolling_means = rolling.mean()
 
     if keep_after:
-        return rolling_means[rolling_means.index >= keep_after]
+        rolling_means = rolling_means[rolling_means.index >= keep_after]
+        if rolling_means.empty:
+            raise RuntimeError(f"No rolling means after {keep_after}!")
+
     return rolling_means

@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-
 import math
 from pathlib import Path
 
