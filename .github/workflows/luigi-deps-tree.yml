@@ -1,0 +1,34 @@
+name: luigi-deps-tree
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    name: Save dependy tree from luigi-deps-tree as github artifact
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+      - name: Setup Python with PDM
+        uses: pdm-project/setup-pdm@v3
+        with:
+          python-version: "3.11"
+          cache: true
+      - name: Install dependencies
+        run: pdm install --production
+      - name: Create markdown file with luigi task dependcy tree
+        run: |
+          echo '# Luigi dependcy tree' > luigi-deps-tree.md && \
+            echo "" >> luigi-deps-tree.md && \
+            echo "Created with `pdm run luigi-deps-tree --module yellow_taxis.tasks.run_all MainTask`" >> luigi-deps-tree.md && \
+            echo '```' >> luigi-deps-tree.md && \
+            pdm run luigi-deps-tree --module yellow_taxis.tasks.run_all MainTask >> luigi-deps-tree.md && \
+              echo '```' >> luigi-deps-tree.md
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Upload dependency tree file as artifact
+          path: luigi-deps-tree.md
