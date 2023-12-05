@@ -6,9 +6,10 @@ WORKDIR /src/yellow-taxis
 
 
 # install curl which is needed to download datasets from server
+# and zstd for parquet file compression
 RUN <<EOF
 	apt-get -y update
-	apt-get -y install curl
+	apt-get -y install curl zstd
 EOF
 
 

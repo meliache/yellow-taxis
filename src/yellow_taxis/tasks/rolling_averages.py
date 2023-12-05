@@ -132,7 +132,11 @@ class RollingAveragesTask(TaxiBaseTask):
         )
 
         with self.output().temporary_path() as self.temp_output_path:
-            rolling_means_this_month.to_parquet(self.temp_output_path)
+            # compress rolling averages by default to zstd
+            # because they take up a lot of disk space
+            rolling_means_this_month.to_parquet(
+                self.temp_output_path, compression="zstd"
+            )
 
 
 class AggregateRollingAveragesTask(TaxiBaseTask):
@@ -174,7 +178,9 @@ class AggregateRollingAveragesTask(TaxiBaseTask):
         running_averages_sampled = running_averages_dask_frame.iloc[:: self.step]
 
         with self.output().temporary_path() as self.temp_output_path:
-            running_averages_sampled.to_parquet(self.temp_output_path)
+            running_averages_sampled.to_parquet(
+                self.temp_output_path, compression="zstd"
+            )
 
 
 def run_locally() -> None:
