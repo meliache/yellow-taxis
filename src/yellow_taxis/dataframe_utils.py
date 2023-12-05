@@ -31,13 +31,13 @@ def read_taxi_dataframe(file_name: PathLike) -> pd.DataFrame:
             # normalize columns names to default schema
             df.columns = COLUMN_NAMES
             return time_columns_to_datetime(df)
+        except ValueError as e:
+            # even last columns set didn't work
+            if columns == COLUMN_NAME_VARIATIONS[-1]:
+                raise e
 
-        except ValueError:  # try different column set
-            pass
-
-    raise ValueError(
-        f"Parquet file contains none of the column sets {COLUMN_NAME_VARIATIONS}!"
-    )
+            print(f"Could not read dataframe with {columns=}, trying next column set.")
+            print(f"Caught error message:\n{e}")
 
 
 def time_columns_to_datetime(data: pd.DataFrame) -> pd.DataFrame:
