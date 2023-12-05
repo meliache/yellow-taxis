@@ -220,8 +220,9 @@ They could be used with `luigi.LocalTarget` by just mounting the file systems ov
 ## Example plots
 
 The creation of plots is not part of the implemented pipeline and of this Python package.
-They have been created with the [result_visualization.ipynb](https://github.com/meliache/yellow-taxis/blob/main/notebooks/result_visualization.ipynb) notebook in the repository, which is meant as an example how to analyzed the results from the data pipeline.
-The plots had been useful to discover issues with the data such as outliers and wrong dates.
+They have been created with the [result_visualization.ipynb](https://github.com/meliache/yellow-taxis/blob/main/notebooks/result_visualization.ipynb) notebook in the repository, which is meant as an example how to analyze the results from the data pipeline.
+
+Further, the plots had been useful to discover issues with the data, such as data-entry errors, which could be seen as huge peaks in certain months.
 
 Monthly averages             |  Rolling averages
 :-------------------------:|:-------------------------:
