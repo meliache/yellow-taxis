@@ -168,14 +168,26 @@ class AggregateRollingAveragesTask(TaxiBaseTask):
             )
 
     def run(self):
-        """Sample averages from all months."""
+        """Sample averages from all months.
+
+        Concatenate all dataframes, resample to keep only the rolling average of every
+        ``self.step`` steps and write the result to a new single parquet file.
+        """
 
         # use Dask frames to limit memory usage
         running_averages: list[dd.DataFrame] = [
-            dd.read_parquet(input_target.path) for input_target in self.input()
+            dd.read_parquet(
+                input_target.path, calculate_divisions=True, engine="fastparquet"
+            )
+            for input_target in self.input()
         ]
-        running_averages_dask_frame = dd.concat(running_averages, ignore_index=False)
-        running_averages_sampled = running_averages_dask_frame.iloc[:: self.step]
+        running_averages_dask_frame = dd.concat(running_averages)
+
+        sample_interval = pd.Timedelta(days=self.step)
+        running_averages_sampler = running_averages_dask_frame.resample(sample_interval)
+        # keep last running average of each N steps
+        # last value should be most recent running average
+        running_averages_sampled = running_averages_sampler.last()
 
         with self.output().temporary_path() as self.temp_output_path:
             running_averages_sampled.to_parquet(
