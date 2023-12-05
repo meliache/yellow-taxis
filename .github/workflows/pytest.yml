@@ -10,7 +10,9 @@ jobs:
     name: Build and run tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
       - name: Setup Python with PDM
         uses: pdm-project/setup-pdm@v3
         with:
@@ -18,7 +20,6 @@ jobs:
           cache: true
       - name: Install dependencies
         run: pdm install -dG test
-
       - name: Test with pytest
         uses: pavelzw/pytest-action@v2
         with:
