@@ -1,8 +1,76 @@
 from pathlib import Path
 
 import pandas as pd
+import pytest
 from pytest import approx
-from yellow_taxis.dataframe_utils import add_trip_duration, rolling_means
+from yellow_taxis.dataframe_utils import (
+    add_trip_duration,
+    reject_outliers,
+    rolling_means,
+)
+
+
+class TestRejectOutliers:
+    test_data = pd.DataFrame(
+        {
+            "trip_duration": [20_000, 14000, 10, -1, 3000, 19000],
+            "trip_distance": [1, 999999, -10, 1, 500, 999999],
+        }
+    )
+
+    def test_reject_outliers_reject_duration(self):
+        cleaned = reject_outliers(
+            self.test_data,
+            max_duration_s=14_000,
+            max_distance=None,
+            reject_negative=None,
+        )
+        cleaned_expected = pd.DataFrame(
+            {
+                "trip_duration": [14000, 10, -1, 3000],
+                "trip_distance": [999999, -10, 1, 500],
+            }
+        )
+        assert cleaned.to_numpy() == approx(cleaned_expected.to_numpy())
+
+    def test_reject_outliers_reject_distance(self):
+        cleaned = reject_outliers(
+            self.test_data,
+            max_distance=500,
+            max_duration_s=None,
+            reject_negative=False,
+        )
+        cleaned_expected = pd.DataFrame(
+            {
+                "trip_duration": [20_000, 10, -1, 3000],
+                "trip_distance": [1, -10, 1, 500],
+            }
+        )
+        assert cleaned.to_numpy() == approx(cleaned_expected.to_numpy())
+
+    def test_reject_outliers_reject_negative(self):
+        cleaned = reject_outliers(
+            self.test_data,
+            max_distance=None,
+            max_duration_s=None,
+            reject_negative=True,
+        )
+        cleaned_expected = pd.DataFrame(
+            {
+                "trip_duration": [20_000, 14000, 3000, 19000],
+                "trip_distance": [1, 999999, 500, 999999],
+            }
+        )
+        assert cleaned.to_numpy() == approx(cleaned_expected.to_numpy())
+
+    def test_reject_outliers_raises_empty(self):
+        with pytest.raises(RuntimeError):
+            reject_outliers(
+                self.test_data,
+                max_distance=1,
+                max_duration_s=1,
+                reject_negative=True,
+            )
 
 
 class TestRollingMeans:
