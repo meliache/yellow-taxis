@@ -73,19 +73,19 @@ class TestMonthlyAveragesTask:
 
     def test_run_for_2023_01_testdata_duration_mean(self) -> None:
         run_results = self.get_run_results_for_2023_01_testdata()
-        assert run_results.loc["trip_duration_mean"][0] == approx(575.4)
+        assert run_results.loc["trip_duration_mean"].iloc[0] == approx(575.4)
 
     def test_run_for_2023_01_testdata_duration_sem(self) -> None:
         run_results = self.get_run_results_for_2023_01_testdata()
-        assert run_results.loc["trip_duration_mean_err"][0] == approx(65.15566)
+        assert run_results.loc["trip_duration_mean_err"].iloc[0] == approx(65.15566)
 
     def test_run_for_2023_01_testdata_distance_mean(self) -> None:
         run_results = self.get_run_results_for_2023_01_testdata()
-        assert run_results.loc["trip_distance_mean"][0] == approx(1.582)
+        assert run_results.loc["trip_distance_mean"].iloc[0] == approx(1.582)
 
     def test_run_for_2023_01_testdata_distance_sem(self) -> None:
         run_results = self.get_run_results_for_2023_01_testdata()
-        assert run_results.loc["trip_distance_mean_err"][0] == approx(
+        assert run_results.loc["trip_distance_mean_err"].iloc[0] == approx(
             0.2821595293446599
         )
 
