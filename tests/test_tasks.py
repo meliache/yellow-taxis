@@ -8,7 +8,10 @@ from pytest import approx
 from yellow_taxis import fetch
 from yellow_taxis.tasks.download import DownloadTask
 from yellow_taxis.tasks.monthly_averages import MonthlyAveragesTask
-from yellow_taxis.tasks.rolling_averages import RollingAveragesTask
+from yellow_taxis.tasks.rolling_averages import (
+    AggregateRollingAveragesTask,
+    RollingAveragesTask,
+)
 
 test_data_fpath_2023_01 = (
     Path(__file__).parent
@@ -218,11 +221,11 @@ class TestRollingAverageTask:
         assert all(dates_in_range.to_numpy() == dates_not_rejected.to_numpy())
 
 
-class AggregateRollingAveragesTask:
+class TestAggregateRollingAveragesTask:
     def test_requires(self):
         task = AggregateRollingAveragesTask()
         dates = pd.DatetimeIndex(
             [pd.Timestamp(dep.year, dep.month, 1) for dep in task.requires()]
         )
         dates_expected = pd.DatetimeIndex(fetch.available_dataset_dates())
-        assert not dates.sort_values().equals(dates_expected.sort_values())
+        assert dates.sort_values().equals(dates_expected.sort_values())
