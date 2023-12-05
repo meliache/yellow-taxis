@@ -152,11 +152,11 @@ class AggregateRollingAveragesTask(TaxiBaseTask):
 
     default_step: int | None = get_settings().get("rolling_step")
     step = luigi.IntParameter(
-        default=5,
+        default=default_step,
         description="Step size in days used to sample the monthly running averages.",
     )
 
-    resources = {"cpus": 1, "memory": 14_000}
+    resources = {"cpus": 1, "memory": 8000}
 
     def requires(self):
         """Require rolling averages for all months."""

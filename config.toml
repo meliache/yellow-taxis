@@ -13,4 +13,4 @@ rolling_window = 45
 
 # step size in days that is used when sampling from all per-month
 # running averages to generate a single parquet file for all history
-rolling_step = 5
+rolling_step = 7
