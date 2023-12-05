@@ -186,5 +186,5 @@ def rolling_means(
     rolling_means = rolling.mean()
 
     if keep_after:
-        return rolling_means[rolling_means.index > keep_after]
+        return rolling_means[rolling_means.index >= keep_after]
     return rolling_means
