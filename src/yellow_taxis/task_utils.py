@@ -95,6 +95,6 @@ class TaxiBaseTask(ManagedOutputTask):
 
     default_max_distance: int | None = get_settings().get("max_distance")
     max_distance = luigi.IntParameter(
-        description="Reject trips with distance longer than this.",
+        description="Reject trips with distance in Miles longer than this",
         default=default_max_distance,
     )
