@@ -18,7 +18,7 @@ Data source: [TLC Trip Record Data](https://www.nyc.gov/site/tlc/about/tlc-trip-
   * [Non-Python dependencies](#non-python-dependencies)
 - [Running the pipeline](#running-the-pipeline)
   * [Local pipeline](#local-pipeline)
-    + [Central scheduler](#central-scheduler)
+  * [Central scheduler](#central-scheduler)
   * [Configuring default parameters](#configuring-default-parameters)
   * [Configuring Luigi and managing resources](#configuring-luigi-and-managing-resources)
   * [Running as docker container](#running-as-docker-container)
@@ -26,6 +26,7 @@ Data source: [TLC Trip Record Data](https://www.nyc.gov/site/tlc/about/tlc-trip-
   * [Using b2luigi](#using-b2luigi)
   * [Using `luigi.contrib` packages to run on AWS and other commercial batch systems](#using-luigicontrib-packages-to-run-on-aws-and-other-commercial-batch-systems)
   * [Scaling file storage](#scaling-file-storage)
+- [Example plots](#example-plots)
 - [Author](#author)
 
 <!-- tocstop -->
@@ -133,7 +134,7 @@ pdm run rolling-average-locally  # calculate all monthly averages
 pdm run download-locally  # (not really needed, downloads triggered automatically by other tasks)
 ```
 
-#### Central scheduler
+### Central scheduler
 To get visualization of the pipeline in a web interface, use the [luigi central scheduler](https://luigi.readthedocs.io/en/stable/central_scheduler.html). Here's a simple example usage:
 
 ``` shell
@@ -142,7 +143,7 @@ pdm run luigi --module yellow_taxis.tasks.monthly_averages AggregateMonthlyAvera
    --scheduler-port 8887 --workers 1
 ```
 
-![Task Hierarchy Visualizer of the Luigi central scheduler](https://raw.githubusercontent.com/meliache/yellow-taxis/main/screenshots/Luigi%20Task%20Visualiser%20Rolling.webp)
+![Task Hierarchy Visualizer of the Luigi central scheduler](https://raw.githubusercontent.com/meliache/yellow-taxis/main/images/screenshots/Luigi%20Task%20Visualiser%20Rolling.webp)
 
 ### Configuring default parameters
 
@@ -213,6 +214,17 @@ I'll sketch out my idea for a possible implementation: We could make all our tas
 Currently the whole dataset below 30 GB large, which might be challenging on a personal computer/notebook with limited space, but a factor 100 more could easily fit onto a not too expensive hard drive, so realistically speaking file storage should be not a big issue for this coding challenge. But in a many other realistic scenarios using a large, scaleable, reliable distributed file/storage system could be used, like HDFS or S3.
 
 They could be used with `luigi.LocalTarget` by just mounting the file systems over network, e.g. via [`rclone` mount](https://rclone.org/overview), But for those cases it might be better using specific targets like [HdfsTarget](https://luigi.readthedocs.io/en/stable/api/luigi.contrib.hdfs.target.html#module-luigi.contrib.hdfs.target) or [S3Target](https://luigi.readthedocs.io/en/stable/api/luigi.contrib.s3.html).
+
+## Example plots
+
+The creation of plots is not part of the implemented pipeline and of this Python package.
+They have been created with the [result_visualization.ipynb](https://github.com/meliache/yellow-taxis/blob/main/notebooks/result_visualization.ipynb) notebook in the repository, which is meant as an example how to analyzed the results from the data pipeline.
+The plots had been useful to discover issues with the data such as outliers and wrong dates.
+
+Monthly averages             |  Rolling averages
+:-------------------------:|:-------------------------:
+![Monthly averages](https://raw.githubusercontent.com/meliache/yellow-taxis/main/images/example_plots/trip_lenghts_monthly_averages.webp)  |  ![Rolling averages](https://raw.githubusercontent.com/meliache/yellow-taxis/main/images/example_plots/trip_lenghts_rolling_averages.webp)
+
 
 ## Author
 
