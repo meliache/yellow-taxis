@@ -102,7 +102,7 @@ def available_dataset_dates() -> list[pd.Timestamp]:
     while DATE_FIRST_RECORDS <= _date <= most_recent_dataset_date():
         dates.append(_date)
         _date += pd.tseries.offsets.MonthBegin(1)
-    return dates
+    return list(sorted(dates))
 
 
 def download(
