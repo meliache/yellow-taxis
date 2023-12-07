@@ -23,6 +23,10 @@ RUN pdm install --fail-fast --production
 # Activate virtual environment
 RUN . .venv/bin/activate
 
+# Environment for the luigi.toml config file to be read
+ENV LUIGI_CONFIG_PARSER=toml
+ENV LUIGI_CONFIG_PATH=/src/yellow-taxis
+
 # By default enable the central scheduler
 EXPOSE 8887
 CMD ["pdm" "run" "luigid", "--port", "8887"]

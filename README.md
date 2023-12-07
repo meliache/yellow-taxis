@@ -157,9 +157,18 @@ All downloads and task outputs will be saved in `result_dir`. Please set it to t
 
 ### Configuring Luigi and managing resources
 
-You can configure luigi and its scheduler using a `luigi.cfg` or `luigi.toml` file as described in the [Luigi configuration docs](https://luigi.readthedocs.io/en/stable/configuration.html).
+You can configure luigi and its scheduler using the [`luigi.toml`](https://github.com/meliache/yellow-taxis/tree/main/luigi.toml) file as described in the [Luigi configuration docs](https://luigi.readthedocs.io/en/stable/configuration.html). A default is provided in the root of this repository.
 
-This is for example useful for limiting resource usage such a CPU's, memory, number of parallel downloads, number of parallel batch submissions etc.
+For it to be found, please set the environment variables
+``` bash
+export LUIGI_CONFIG_PARSER=toml
+export LUIGI_CONFIG_PATH=/path/to/yellow-taxis # directory containing luigi.toml
+```
+Otherwise it's also found when in the current working directory.
+
+The provided Dockerfile sets these environment variables automatically. If you move the location of the config file, please remember to adapt the dockerfile accordingly. (See [Running as docker container](#running-as-docker-container))
+
+The Luigi configuration is for example useful for limiting resource usage such a CPU's, memory, number of parallel downloads, number of parallel batch submissions etc.
 Under the [`[resources]`](https://luigi.readthedocs.io/en/stable/configuration.html?highlight=resources#resources) section you can
 configure resources. The resource usage of each task is determined by the dictionary under its `Task.resources` attribute. For example add
 

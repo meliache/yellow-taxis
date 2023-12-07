@@ -1,0 +1,53 @@
+# Luigi Configuration
+
+# See https://luigi.readthedocs.io/en/stable/configuration.html?highlight=resources#resources
+
+# Please set the environment variables
+#
+# export LUIGI_CONFIG_PARSER=toml
+# export LUIGI_CONFIG_PATH="/path/to/luigi.toml"
+
+# Resources used by tasks are set as dictionary attributes which contain the
+# estimated resource usage for the instance of a task
+# [resources]
+# downloads = 4 # max parallel downloads
+# memory = 16000 # max memory usage
+# cpus = 3 # max number CPU cores to use
+
+# # Avoid warning messages for autoload_range future deprecation
+# [core]
+# autoload_range = false
+
+
+[scheduler]
+state_path = "~/.local/.cache/luigi/luigi-state.pickle"
+# record_task_history = true
+disable_window_seconds = 900  # 15 minutes, failures within this window are not retried
+
+# [task_history]
+# db_connection = "sqlite:////home/michael/.cache/luigi/luigi-task-hist.db"
+
+[worker]
+cache_task_completion = true
+count_uniques = true
+keep_alive = true
+ping_interval = 5
+retry_count = 3
+max_reschedules = 3
+
+[resources]
+downloads = 4 # max parallel downloads
+memory = 17000 # memory usage estimate in MB
+cpus = 6 # number CPU cores to use
+
+[core]
+autoload_range = false
+
+
+# [resources]
+# downloads = 4
+# memory = 1700
+# pus = 6
+
+# [core]
+# autoload_range = false
