@@ -28,9 +28,7 @@ class ManagedOutputTask(luigi.Task, abc.ABC):
     @abc.abstractmethod
     def output_base_name(self) -> PathLike:
         """Base file name for the output."""
-        raise NotImplementedError(
-            "Add an ``output_base_name`` static property to the the class."
-        )
+        pass
 
     def output(self):
         """Luigi target for the generated output path.
@@ -41,7 +39,7 @@ class ManagedOutputTask(luigi.Task, abc.ABC):
         return luigi.LocalTarget(self.get_output_path())
 
     def get_output_path(self, mkdir: bool = True) -> Path:
-        """Output file name constructed from ``output_base_name`` and luigi Parameters.
+        """Generated output file path for given set of parameters.
 
         Output path will have structure::
 
