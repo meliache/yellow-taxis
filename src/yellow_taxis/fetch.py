@@ -54,7 +54,8 @@ def dataset_url(
     """Return URL for file with yellow taxis trip data.
 
     :param year: Year in which dataset was recorded.
-    :param month: Month in which dataset was recorded, as integer from 1.
+    :param month: Month in which dataset was recorded, as integer from
+        1.
     :return: Download URL for parquet file with monthly trip data
     """
     _validate_date(year, month)
@@ -87,6 +88,7 @@ def dataset_exists(year, month) -> bool:
 @cache
 def most_recent_dataset_date() -> pd.Timestamp:
     """Get datetime of the most recent month for which there is taxi data."""
+
     # It first sends an HTTPS request for the predicted dataset URL for the current
     # month, to check whether it is available. If it's not available, try previous
     # month, and so on… If we get to oldest dataset date (2009, raise error.)
@@ -101,12 +103,24 @@ def most_recent_dataset_date() -> pd.Timestamp:
     return date
 
 
-def available_dataset_dates() -> list[pd.Timestamp]:
-    """List of dates of all available parquet files."""
+def available_dataset_dates(
+    most_recent_month: pd.Timestamp | None = None,
+) -> list[pd.Timestamp]:
+    """List of dates of all available parquet files.
+
+    :param most_recent_month: Datetime of 1st day of the ost recent
+        month for which a taxi data dataframe is available on the
+        website.
+    :return: Sorted list of month datetimes between first records in
+        2009 and the most recent available dataset date. Always set to
+        the beginning of the month.
+    """
+    if most_recent_month is None:
+        most_recent_month = most_recent_dataset_date()
 
     dates = []
     _date = DATE_FIRST_RECORDS
-    while DATE_FIRST_RECORDS <= _date <= most_recent_dataset_date():
+    while DATE_FIRST_RECORDS <= _date <= most_recent_month:
         dates.append(_date)
         _date += pd.tseries.offsets.MonthBegin(1)
     return list(sorted(dates))

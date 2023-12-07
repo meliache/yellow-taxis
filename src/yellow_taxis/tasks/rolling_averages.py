@@ -30,8 +30,9 @@ class RollingAveragesTask(TaxiBaseTask):
         description="Number of days to use for the window of the rolling average.",
     )
 
-    year = luigi.IntParameter()
-    month = luigi.IntParameter()
+    month_date = luigi.MonthParameter(
+        description="Date of month for which to calculate the rolling averages."
+    )
 
     @property
     def n_months_required(self) -> int:
@@ -46,9 +47,9 @@ class RollingAveragesTask(TaxiBaseTask):
         month_required_for_full_window = math.ceil(self.window / 30) + 1
 
         # if we are close to start of first records we can only require less months
-        month_first_records = fetch.DATE_FIRST_RECORDS.to_period(freq="M")
-        current_month = pd.Period(year=self.year, month=self.month, freq="M")
-        n_months_since_first_records = (current_month - month_first_records).n
+        first_month_period = fetch.DATE_FIRST_RECORDS.to_period(freq="M")
+        current_month_period = pd.Timestamp(self.month_date).to_period(freq="M")
+        n_months_since_first_records = (current_month_period - first_month_period).n
 
         return min(month_required_for_full_window, n_months_since_first_records + 1)
 
@@ -63,14 +64,11 @@ class RollingAveragesTask(TaxiBaseTask):
 
         The day is always set to to first of the month.
         """
-        this_month_start_date = pd.Timestamp(self.year, self.month, 1)
         # we need the data of the current, previous and previous of the previous month
         month_dates: list[pd.Timestamp] = []
 
         for neg_months_delta in range(self.n_months_required):
-            _date = this_month_start_date - pd.tseries.offsets.MonthBegin(
-                neg_months_delta
-            )
+            _date = self.month_date - pd.tseries.offsets.MonthBegin(neg_months_delta)
             month_dates.append(_date)
 
         return month_dates
@@ -98,8 +96,7 @@ class RollingAveragesTask(TaxiBaseTask):
         :param on: Dataframe column name to determine datetime of trip. If ``None``
            use dataframe index.
         """
-        this_month_begin = pd.Timestamp(self.year, self.month, 1)
-        next_month_begin = this_month_begin + pd.offsets.MonthBegin(1)
+        next_month_begin = self.month_date + pd.offsets.MonthBegin(1)
         oldest_month_begin: pd.Timestamp = min(self._months_required())
         date = data[on] if on else data.index
         if not is_datetime(date):
@@ -126,9 +123,8 @@ class RollingAveragesTask(TaxiBaseTask):
         df.set_index("tpep_dropoff_datetime", inplace=True, drop=True)
         df = self._reject_not_in_range(df)
 
-        this_month_begin = pd.Timestamp(self.year, self.month, 1)
         rolling_means_by_trip = rolling_means(
-            df, n_window_days=self.window, keep_after=this_month_begin
+            df, n_window_days=self.window, keep_after=self.month_date
         )
         # Only keep the last rolling mean of each day.
         # Massively reduces output data size
@@ -164,12 +160,8 @@ class AggregateRollingAveragesTask(TaxiBaseTask):
 
     def requires(self):
         """Require rolling averages for all months."""
-        for date in fetch.available_dataset_dates():
-            yield self.clone(
-                RollingAveragesTask,
-                year=date.year,
-                month=date.month,
-            )
+        for date in fetch.available_dataset_dates(pd.Timestamp(self.last_month)):
+            yield self.clone(RollingAveragesTask, month_date=date)
 
     def run(self):
         """Collect running averages from all months in single data frame."""

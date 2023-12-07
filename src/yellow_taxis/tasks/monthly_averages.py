@@ -40,7 +40,9 @@ class MonthlyAveragesTask(TaxiBaseTask):
         input_fpath = Path(self.input().path)
 
         df = read_taxi_dataframe(input_fpath)
-        df = reject_not_in_month(df, self.year, self.month, on="tpep_dropoff_datetime")
+        df = reject_not_in_month(
+            df, self.month_date.year, self.month_date.month, on="tpep_dropoff_datetime"
+        )
         df = add_trip_duration(df)
         df = reject_outliers(
             df,
@@ -55,7 +57,7 @@ class MonthlyAveragesTask(TaxiBaseTask):
             results[f"{col}_mean_err"] = df[col].sem()
 
         result_series = pd.Series(results)
-        col_name = pd.Timestamp(self.year, self.month, 1).strftime(self.month_date_fmt)
+        col_name = self.month_date.strftime(self.month_date_fmt)
         result_df = result_series.to_frame(col_name)
 
         with self.output().temporary_path() as self.temp_output_path:
@@ -77,11 +79,10 @@ class AggregateMonthlyAveragesTask(TaxiBaseTask):
     resources = {"cpus": 1}
 
     def requires(self):
-        for date in fetch.available_dataset_dates():
+        for date in fetch.available_dataset_dates(pd.Timestamp(self.last_month)):
             yield self.clone(
                 MonthlyAveragesTask,
-                year=date.year,
-                month=date.month,
+                month_date=date,
             )
 
     def run(self):

@@ -12,8 +12,7 @@ from yellow_taxis.task_utils import ManagedOutputTask
 class DownloadTask(ManagedOutputTask):
     """Task to download the parquet file for a given month."""
 
-    year = luigi.IntParameter(description="Dataset year")
-    month = luigi.IntParameter(description="Dataset month")
+    month_date = luigi.MonthParameter(description="Dataset month date")
 
     output_base_name = Path("yellow_tripdata.parquet")
 
@@ -31,8 +30,8 @@ class DownloadTask(ManagedOutputTask):
         """Download dataset."""
 
         fetch.download_monthly_data(
-            self.year,
-            self.month,
+            year=self.month_date.year,
+            month=self.month_date.month,
             file_name=self.get_output_path(),  # download function is already atomic
             make_directories=True,
             overwrite=False,
@@ -47,8 +46,7 @@ class DownloadTasksWrapper(luigi.WrapperTask):
         for date in fetch.available_dataset_dates():
             yield self.clone(
                 DownloadTask,
-                year=date.year,
-                month=date.month,
+                month_date=date,
             )
 
 

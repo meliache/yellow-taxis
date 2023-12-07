@@ -38,20 +38,18 @@ class TestDownloadTask:
     ) -> None:
         with tempfile.TemporaryDirectory() as tmpdirname:
             download_task = DownloadTask(
-                year=2009,
-                month=9,
+                month_date=pd.Timestamp(2009, 9, 1),
                 result_dir=tmpdirname,
             )
             expected_result_path = (
                 Path(tmpdirname)
-                / "year=2009"
-                / "month=9"
+                / "month_date=2009-09-01"
                 / download_task.output_base_name
             )
             download_task.run()
             mock_download_monthly_data.assert_called_once_with(
-                2009,
-                9,
+                year=2009,
+                month=9,
                 file_name=expected_result_path,
                 make_directories=True,
                 overwrite=False,
@@ -72,8 +70,7 @@ class TestMonthlyAveragesTask:
 
         with tempfile.TemporaryDirectory() as tmpdirname:
             monthly_avg_task = MonthlyAveragesTask(
-                year=2023,
-                month=1,
+                month_date=pd.Timestamp(2023, 1, 1),
                 result_dir=tmpdirname,
             )
 
@@ -102,40 +99,36 @@ class TestMonthlyAveragesTask:
 class TestRollingAverageTask:
     def test_n_months_required_is_three(self) -> None:
         rolling_avg_task = RollingAveragesTask(
-            year=2023,
-            month=1,
+            month_date=pd.Timestamp(2023, 1, 1),
             window=45,
         )
         assert rolling_avg_task.n_months_required == 3
 
     def test_n_months_required_in_first_month_of_records(self) -> None:
         rolling_avg_task = RollingAveragesTask(
-            year=2009,  # date of first records, meaning no data in the past
-            month=1,
+            # date of first records, meaning no data in the past
+            month_date=pd.Timestamp(2009, 1, 1),
             window=45,
         )
         assert rolling_avg_task.n_months_required == 1
 
     def test_n_months_required_in_second_month_of_records(self) -> None:
         rolling_avg_task = RollingAveragesTask(
-            year=2009,  # date of first records, meaning no data in the past
-            month=2,
+            month_date=pd.Timestamp(2009, 2, 1),
             window=45,
         )
         assert rolling_avg_task.n_months_required == 2
 
     def test_n_months_required_is_two_for_short_window(self) -> None:
         rolling_avg_task = RollingAveragesTask(
-            year=2023,
-            month=1,
+            month_date=pd.Timestamp(2023, 1, 1),
             window=20,
         )
         assert rolling_avg_task.n_months_required == 2
 
     def test_months_required_last_three(self) -> None:
         rolling_avg_task = RollingAveragesTask(
-            year=2023,
-            month=1,
+            month_date=pd.Timestamp(2023, 1, 1),
             window=45,
         )
         assert rolling_avg_task._months_required() == [
@@ -146,16 +139,15 @@ class TestRollingAverageTask:
 
     def test_months_required_in_first_month_of_records(self) -> None:
         rolling_avg_task = RollingAveragesTask(
-            year=2009,  # date of first records, meaning no data in the past
-            month=1,
+            # date of first records, meaning no data in the past
+            month_date=pd.Timestamp(2009, 1, 1),
             window=45,
         )
         assert rolling_avg_task._months_required() == [pd.Timestamp(2009, 1, 1)]
 
     def test_months_required_in_second_month_of_records(self) -> None:
         rolling_avg_task = RollingAveragesTask(
-            year=2009,  # date of first records, meaning no data in the past
-            month=2,
+            month_date=pd.Timestamp(2009, 2, 1),
             window=45,
         )
         assert rolling_avg_task._months_required() == [
@@ -165,8 +157,7 @@ class TestRollingAverageTask:
 
     def test_months_required_is_two_for_short_window(self) -> None:
         rolling_avg_task = RollingAveragesTask(
-            year=2023,
-            month=1,
+            month_date=pd.Timestamp(2023, 1, 1),
             window=20,
         )
         assert rolling_avg_task._months_required() == [
@@ -176,8 +167,7 @@ class TestRollingAverageTask:
 
     def test_reject_not_in_range_on_index(self) -> None:
         rolling_avg_task = RollingAveragesTask(
-            year=2023,
-            month=1,
+            month_date=pd.Timestamp(2023, 1, 1),
             window=45,
         )
         index = pd.DatetimeIndex(
@@ -206,8 +196,7 @@ class TestRollingAverageTask:
 
     def test_reject_not_in_range_on_col(self) -> None:
         rolling_avg_task = RollingAveragesTask(
-            year=2009,
-            month=1,
+            month_date=pd.Timestamp(2009, 1, 1),
             window=45,
         )
         dates = pd.to_datetime(
@@ -231,7 +220,7 @@ class TestAggregateRollingAveragesTask:
     def test_requires(self):
         task = AggregateRollingAveragesTask()
         dates = pd.DatetimeIndex(
-            [pd.Timestamp(dep.year, dep.month, 1) for dep in task.requires()]
+            [pd.Timestamp(dep.month_date) for dep in task.requires()]
         )
         dates_expected = pd.DatetimeIndex(fetch.available_dataset_dates())
         assert dates.sort_values().equals(dates_expected.sort_values())

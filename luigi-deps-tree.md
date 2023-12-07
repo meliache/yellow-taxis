@@ -7,1066 +7,1066 @@ pdm run luigi-deps-tree --module yellow_taxis.tasks.run_all MainTask
 ```
 
 ```
-└─--[MainTask-{}]
-    |---[AggregateRollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2009', 'month': '1'}]
-    |   |   └─--[DownloadTask-{'year': '2009', 'month': '1'}
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2009', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2009', 'month': '2'}]
-    |   |   └─--[DownloadTask-{'year': '2009', 'month': '1'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2009', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2009', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2009', 'month': '2'}]
-    |   |   └─--[DownloadTask-{'year': '2009', 'month': '1'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2009', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2009', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2009', 'month': '3'}]
-    |   |   └─--[DownloadTask-{'year': '2009', 'month': '2'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2009', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2009', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2009', 'month': '4'}]
-    |   |   └─--[DownloadTask-{'year': '2009', 'month': '3'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2009', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2009', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2009', 'month': '5'}]
-    |   |   └─--[DownloadTask-{'year': '2009', 'month': '4'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2009', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2009', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2009', 'month': '6'}]
-    |   |   └─--[DownloadTask-{'year': '2009', 'month': '5'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2009', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2009', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2009', 'month': '7'}]
-    |   |   └─--[DownloadTask-{'year': '2009', 'month': '6'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2009', 'month': '9'}]
-    |   |   |---[DownloadTask-{'year': '2009', 'month': '9'}]
-    |   |   |---[DownloadTask-{'year': '2009', 'month': '8'}]
-    |   |   └─--[DownloadTask-{'year': '2009', 'month': '7'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2009', 'month': '10'}]
-    |   |   |---[DownloadTask-{'year': '2009', 'month': '10'}]
-    |   |   |---[DownloadTask-{'year': '2009', 'month': '9'}]
-    |   |   └─--[DownloadTask-{'year': '2009', 'month': '8'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2009', 'month': '11'}]
-    |   |   |---[DownloadTask-{'year': '2009', 'month': '11'}]
-    |   |   |---[DownloadTask-{'year': '2009', 'month': '10'}]
-    |   |   └─--[DownloadTask-{'year': '2009', 'month': '9'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2009', 'month': '12'}]
-    |   |   |---[DownloadTask-{'year': '2009', 'month': '12'}]
-    |   |   |---[DownloadTask-{'year': '2009', 'month': '11'}]
-    |   |   └─--[DownloadTask-{'year': '2009', 'month': '10'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2010', 'month': '1'}]
-    |   |   |---[DownloadTask-{'year': '2010', 'month': '1'}]
-    |   |   |---[DownloadTask-{'year': '2009', 'month': '12'}]
-    |   |   └─--[DownloadTask-{'year': '2009', 'month': '11'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2010', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2010', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2010', 'month': '1'}]
-    |   |   └─--[DownloadTask-{'year': '2009', 'month': '12'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2010', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2010', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2010', 'month': '2'}]
-    |   |   └─--[DownloadTask-{'year': '2010', 'month': '1'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2010', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2010', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2010', 'month': '3'}]
-    |   |   └─--[DownloadTask-{'year': '2010', 'month': '2'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2010', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2010', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2010', 'month': '4'}]
-    |   |   └─--[DownloadTask-{'year': '2010', 'month': '3'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2010', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2010', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2010', 'month': '5'}]
-    |   |   └─--[DownloadTask-{'year': '2010', 'month': '4'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2010', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2010', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2010', 'month': '6'}]
-    |   |   └─--[DownloadTask-{'year': '2010', 'month': '5'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2010', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2010', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2010', 'month': '7'}]
-    |   |   └─--[DownloadTask-{'year': '2010', 'month': '6'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2010', 'month': '9'}]
-    |   |   |---[DownloadTask-{'year': '2010', 'month': '9'}]
-    |   |   |---[DownloadTask-{'year': '2010', 'month': '8'}]
-    |   |   └─--[DownloadTask-{'year': '2010', 'month': '7'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2010', 'month': '10'}]
-    |   |   |---[DownloadTask-{'year': '2010', 'month': '10'}]
-    |   |   |---[DownloadTask-{'year': '2010', 'month': '9'}]
-    |   |   └─--[DownloadTask-{'year': '2010', 'month': '8'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2010', 'month': '11'}]
-    |   |   |---[DownloadTask-{'year': '2010', 'month': '11'}]
-    |   |   |---[DownloadTask-{'year': '2010', 'month': '10'}]
-    |   |   └─--[DownloadTask-{'year': '2010', 'month': '9'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2010', 'month': '12'}]
-    |   |   |---[DownloadTask-{'year': '2010', 'month': '12'}]
-    |   |   |---[DownloadTask-{'year': '2010', 'month': '11'}]
-    |   |   └─--[DownloadTask-{'year': '2010', 'month': '10'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2011', 'month': '1'}]
-    |   |   |---[DownloadTask-{'year': '2011', 'month': '1'}]
-    |   |   |---[DownloadTask-{'year': '2010', 'month': '12'}]
-    |   |   └─--[DownloadTask-{'year': '2010', 'month': '11'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2011', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2011', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2011', 'month': '1'}]
-    |   |   └─--[DownloadTask-{'year': '2010', 'month': '12'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2011', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2011', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2011', 'month': '2'}]
-    |   |   └─--[DownloadTask-{'year': '2011', 'month': '1'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2011', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2011', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2011', 'month': '3'}]
-    |   |   └─--[DownloadTask-{'year': '2011', 'month': '2'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2011', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2011', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2011', 'month': '4'}]
-    |   |   └─--[DownloadTask-{'year': '2011', 'month': '3'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2011', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2011', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2011', 'month': '5'}]
-    |   |   └─--[DownloadTask-{'year': '2011', 'month': '4'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2011', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2011', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2011', 'month': '6'}]
-    |   |   └─--[DownloadTask-{'year': '2011', 'month': '5'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2011', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2011', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2011', 'month': '7'}]
-    |   |   └─--[DownloadTask-{'year': '2011', 'month': '6'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2011', 'month': '9'}]
-    |   |   |---[DownloadTask-{'year': '2011', 'month': '9'}]
-    |   |   |---[DownloadTask-{'year': '2011', 'month': '8'}]
-    |   |   └─--[DownloadTask-{'year': '2011', 'month': '7'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2011', 'month': '10'}]
-    |   |   |---[DownloadTask-{'year': '2011', 'month': '10'}]
-    |   |   |---[DownloadTask-{'year': '2011', 'month': '9'}]
-    |   |   └─--[DownloadTask-{'year': '2011', 'month': '8'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2011', 'month': '11'}]
-    |   |   |---[DownloadTask-{'year': '2011', 'month': '11'}]
-    |   |   |---[DownloadTask-{'year': '2011', 'month': '10'}]
-    |   |   └─--[DownloadTask-{'year': '2011', 'month': '9'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2011', 'month': '12'}]
-    |   |   |---[DownloadTask-{'year': '2011', 'month': '12'}]
-    |   |   |---[DownloadTask-{'year': '2011', 'month': '11'}]
-    |   |   └─--[DownloadTask-{'year': '2011', 'month': '10'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2012', 'month': '1'}]
-    |   |   |---[DownloadTask-{'year': '2012', 'month': '1'}]
-    |   |   |---[DownloadTask-{'year': '2011', 'month': '12'}]
-    |   |   └─--[DownloadTask-{'year': '2011', 'month': '11'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2012', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2012', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2012', 'month': '1'}]
-    |   |   └─--[DownloadTask-{'year': '2011', 'month': '12'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2012', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2012', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2012', 'month': '2'}]
-    |   |   └─--[DownloadTask-{'year': '2012', 'month': '1'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2012', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2012', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2012', 'month': '3'}]
-    |   |   └─--[DownloadTask-{'year': '2012', 'month': '2'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2012', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2012', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2012', 'month': '4'}]
-    |   |   └─--[DownloadTask-{'year': '2012', 'month': '3'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2012', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2012', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2012', 'month': '5'}]
-    |   |   └─--[DownloadTask-{'year': '2012', 'month': '4'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2012', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2012', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2012', 'month': '6'}]
-    |   |   └─--[DownloadTask-{'year': '2012', 'month': '5'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2012', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2012', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2012', 'month': '7'}]
-    |   |   └─--[DownloadTask-{'year': '2012', 'month': '6'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2012', 'month': '9'}]
-    |   |   |---[DownloadTask-{'year': '2012', 'month': '9'}]
-    |   |   |---[DownloadTask-{'year': '2012', 'month': '8'}]
-    |   |   └─--[DownloadTask-{'year': '2012', 'month': '7'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2012', 'month': '10'}]
-    |   |   |---[DownloadTask-{'year': '2012', 'month': '10'}]
-    |   |   |---[DownloadTask-{'year': '2012', 'month': '9'}]
-    |   |   └─--[DownloadTask-{'year': '2012', 'month': '8'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2012', 'month': '11'}]
-    |   |   |---[DownloadTask-{'year': '2012', 'month': '11'}]
-    |   |   |---[DownloadTask-{'year': '2012', 'month': '10'}]
-    |   |   └─--[DownloadTask-{'year': '2012', 'month': '9'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2012', 'month': '12'}]
-    |   |   |---[DownloadTask-{'year': '2012', 'month': '12'}]
-    |   |   |---[DownloadTask-{'year': '2012', 'month': '11'}]
-    |   |   └─--[DownloadTask-{'year': '2012', 'month': '10'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2013', 'month': '1'}]
-    |   |   |---[DownloadTask-{'year': '2013', 'month': '1'}]
-    |   |   |---[DownloadTask-{'year': '2012', 'month': '12'}]
-    |   |   └─--[DownloadTask-{'year': '2012', 'month': '11'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2013', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2013', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2013', 'month': '1'}]
-    |   |   └─--[DownloadTask-{'year': '2012', 'month': '12'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2013', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2013', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2013', 'month': '2'}]
-    |   |   └─--[DownloadTask-{'year': '2013', 'month': '1'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2013', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2013', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2013', 'month': '3'}]
-    |   |   └─--[DownloadTask-{'year': '2013', 'month': '2'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2013', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2013', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2013', 'month': '4'}]
-    |   |   └─--[DownloadTask-{'year': '2013', 'month': '3'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2013', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2013', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2013', 'month': '5'}]
-    |   |   └─--[DownloadTask-{'year': '2013', 'month': '4'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2013', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2013', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2013', 'month': '6'}]
-    |   |   └─--[DownloadTask-{'year': '2013', 'month': '5'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2013', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2013', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2013', 'month': '7'}]
-    |   |   └─--[DownloadTask-{'year': '2013', 'month': '6'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2013', 'month': '9'}]
-    |   |   |---[DownloadTask-{'year': '2013', 'month': '9'}]
-    |   |   |---[DownloadTask-{'year': '2013', 'month': '8'}]
-    |   |   └─--[DownloadTask-{'year': '2013', 'month': '7'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2013', 'month': '10'}]
-    |   |   |---[DownloadTask-{'year': '2013', 'month': '10'}]
-    |   |   |---[DownloadTask-{'year': '2013', 'month': '9'}]
-    |   |   └─--[DownloadTask-{'year': '2013', 'month': '8'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2013', 'month': '11'}]
-    |   |   |---[DownloadTask-{'year': '2013', 'month': '11'}]
-    |   |   |---[DownloadTask-{'year': '2013', 'month': '10'}]
-    |   |   └─--[DownloadTask-{'year': '2013', 'month': '9'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2013', 'month': '12'}]
-    |   |   |---[DownloadTask-{'year': '2013', 'month': '12'}]
-    |   |   |---[DownloadTask-{'year': '2013', 'month': '11'}]
-    |   |   └─--[DownloadTask-{'year': '2013', 'month': '10'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2014', 'month': '1'}]
-    |   |   |---[DownloadTask-{'year': '2014', 'month': '1'}]
-    |   |   |---[DownloadTask-{'year': '2013', 'month': '12'}]
-    |   |   └─--[DownloadTask-{'year': '2013', 'month': '11'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2014', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2014', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2014', 'month': '1'}]
-    |   |   └─--[DownloadTask-{'year': '2013', 'month': '12'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2014', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2014', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2014', 'month': '2'}]
-    |   |   └─--[DownloadTask-{'year': '2014', 'month': '1'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2014', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2014', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2014', 'month': '3'}]
-    |   |   └─--[DownloadTask-{'year': '2014', 'month': '2'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2014', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2014', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2014', 'month': '4'}]
-    |   |   └─--[DownloadTask-{'year': '2014', 'month': '3'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2014', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2014', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2014', 'month': '5'}]
-    |   |   └─--[DownloadTask-{'year': '2014', 'month': '4'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2014', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2014', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2014', 'month': '6'}]
-    |   |   └─--[DownloadTask-{'year': '2014', 'month': '5'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2014', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2014', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2014', 'month': '7'}]
-    |   |   └─--[DownloadTask-{'year': '2014', 'month': '6'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2014', 'month': '9'}]
-    |   |   |---[DownloadTask-{'year': '2014', 'month': '9'}]
-    |   |   |---[DownloadTask-{'year': '2014', 'month': '8'}]
-    |   |   └─--[DownloadTask-{'year': '2014', 'month': '7'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2014', 'month': '10'}]
-    |   |   |---[DownloadTask-{'year': '2014', 'month': '10'}]
-    |   |   |---[DownloadTask-{'year': '2014', 'month': '9'}]
-    |   |   └─--[DownloadTask-{'year': '2014', 'month': '8'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2014', 'month': '11'}]
-    |   |   |---[DownloadTask-{'year': '2014', 'month': '11'}]
-    |   |   |---[DownloadTask-{'year': '2014', 'month': '10'}]
-    |   |   └─--[DownloadTask-{'year': '2014', 'month': '9'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2014', 'month': '12'}]
-    |   |   |---[DownloadTask-{'year': '2014', 'month': '12'}]
-    |   |   |---[DownloadTask-{'year': '2014', 'month': '11'}]
-    |   |   └─--[DownloadTask-{'year': '2014', 'month': '10'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2015', 'month': '1'}]
-    |   |   |---[DownloadTask-{'year': '2015', 'month': '1'}]
-    |   |   |---[DownloadTask-{'year': '2014', 'month': '12'}]
-    |   |   └─--[DownloadTask-{'year': '2014', 'month': '11'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2015', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2015', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2015', 'month': '1'}]
-    |   |   └─--[DownloadTask-{'year': '2014', 'month': '12'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2015', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2015', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2015', 'month': '2'}]
-    |   |   └─--[DownloadTask-{'year': '2015', 'month': '1'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2015', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2015', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2015', 'month': '3'}]
-    |   |   └─--[DownloadTask-{'year': '2015', 'month': '2'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2015', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2015', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2015', 'month': '4'}]
-    |   |   └─--[DownloadTask-{'year': '2015', 'month': '3'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2015', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2015', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2015', 'month': '5'}]
-    |   |   └─--[DownloadTask-{'year': '2015', 'month': '4'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2015', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2015', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2015', 'month': '6'}]
-    |   |   └─--[DownloadTask-{'year': '2015', 'month': '5'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2015', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2015', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2015', 'month': '7'}]
-    |   |   └─--[DownloadTask-{'year': '2015', 'month': '6'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2015', 'month': '9'}]
-    |   |   |---[DownloadTask-{'year': '2015', 'month': '9'}]
-    |   |   |---[DownloadTask-{'year': '2015', 'month': '8'}]
-    |   |   └─--[DownloadTask-{'year': '2015', 'month': '7'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2015', 'month': '10'}]
-    |   |   |---[DownloadTask-{'year': '2015', 'month': '10'}]
-    |   |   |---[DownloadTask-{'year': '2015', 'month': '9'}]
-    |   |   └─--[DownloadTask-{'year': '2015', 'month': '8'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2015', 'month': '11'}]
-    |   |   |---[DownloadTask-{'year': '2015', 'month': '11'}]
-    |   |   |---[DownloadTask-{'year': '2015', 'month': '10'}]
-    |   |   └─--[DownloadTask-{'year': '2015', 'month': '9'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2015', 'month': '12'}]
-    |   |   |---[DownloadTask-{'year': '2015', 'month': '12'}]
-    |   |   |---[DownloadTask-{'year': '2015', 'month': '11'}]
-    |   |   └─--[DownloadTask-{'year': '2015', 'month': '10'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2016', 'month': '1'}]
-    |   |   |---[DownloadTask-{'year': '2016', 'month': '1'}]
-    |   |   |---[DownloadTask-{'year': '2015', 'month': '12'}]
-    |   |   └─--[DownloadTask-{'year': '2015', 'month': '11'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2016', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2016', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2016', 'month': '1'}]
-    |   |   └─--[DownloadTask-{'year': '2015', 'month': '12'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2016', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2016', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2016', 'month': '2'}]
-    |   |   └─--[DownloadTask-{'year': '2016', 'month': '1'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2016', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2016', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2016', 'month': '3'}]
-    |   |   └─--[DownloadTask-{'year': '2016', 'month': '2'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2016', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2016', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2016', 'month': '4'}]
-    |   |   └─--[DownloadTask-{'year': '2016', 'month': '3'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2016', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2016', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2016', 'month': '5'}]
-    |   |   └─--[DownloadTask-{'year': '2016', 'month': '4'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2016', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2016', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2016', 'month': '6'}]
-    |   |   └─--[DownloadTask-{'year': '2016', 'month': '5'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2016', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2016', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2016', 'month': '7'}]
-    |   |   └─--[DownloadTask-{'year': '2016', 'month': '6'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2016', 'month': '9'}]
-    |   |   |---[DownloadTask-{'year': '2016', 'month': '9'}]
-    |   |   |---[DownloadTask-{'year': '2016', 'month': '8'}]
-    |   |   └─--[DownloadTask-{'year': '2016', 'month': '7'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2016', 'month': '10'}]
-    |   |   |---[DownloadTask-{'year': '2016', 'month': '10'}]
-    |   |   |---[DownloadTask-{'year': '2016', 'month': '9'}]
-    |   |   └─--[DownloadTask-{'year': '2016', 'month': '8'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2016', 'month': '11'}]
-    |   |   |---[DownloadTask-{'year': '2016', 'month': '11'}]
-    |   |   |---[DownloadTask-{'year': '2016', 'month': '10'}]
-    |   |   └─--[DownloadTask-{'year': '2016', 'month': '9'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2016', 'month': '12'}]
-    |   |   |---[DownloadTask-{'year': '2016', 'month': '12'}]
-    |   |   |---[DownloadTask-{'year': '2016', 'month': '11'}]
-    |   |   └─--[DownloadTask-{'year': '2016', 'month': '10'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2017', 'month': '1'}]
-    |   |   |---[DownloadTask-{'year': '2017', 'month': '1'}]
-    |   |   |---[DownloadTask-{'year': '2016', 'month': '12'}]
-    |   |   └─--[DownloadTask-{'year': '2016', 'month': '11'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2017', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2017', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2017', 'month': '1'}]
-    |   |   └─--[DownloadTask-{'year': '2016', 'month': '12'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2017', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2017', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2017', 'month': '2'}]
-    |   |   └─--[DownloadTask-{'year': '2017', 'month': '1'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2017', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2017', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2017', 'month': '3'}]
-    |   |   └─--[DownloadTask-{'year': '2017', 'month': '2'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2017', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2017', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2017', 'month': '4'}]
-    |   |   └─--[DownloadTask-{'year': '2017', 'month': '3'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2017', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2017', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2017', 'month': '5'}]
-    |   |   └─--[DownloadTask-{'year': '2017', 'month': '4'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2017', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2017', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2017', 'month': '6'}]
-    |   |   └─--[DownloadTask-{'year': '2017', 'month': '5'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2017', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2017', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2017', 'month': '7'}]
-    |   |   └─--[DownloadTask-{'year': '2017', 'month': '6'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2017', 'month': '9'}]
-    |   |   |---[DownloadTask-{'year': '2017', 'month': '9'}]
-    |   |   |---[DownloadTask-{'year': '2017', 'month': '8'}]
-    |   |   └─--[DownloadTask-{'year': '2017', 'month': '7'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2017', 'month': '10'}]
-    |   |   |---[DownloadTask-{'year': '2017', 'month': '10'}]
-    |   |   |---[DownloadTask-{'year': '2017', 'month': '9'}]
-    |   |   └─--[DownloadTask-{'year': '2017', 'month': '8'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2017', 'month': '11'}]
-    |   |   |---[DownloadTask-{'year': '2017', 'month': '11'}]
-    |   |   |---[DownloadTask-{'year': '2017', 'month': '10'}]
-    |   |   └─--[DownloadTask-{'year': '2017', 'month': '9'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2017', 'month': '12'}]
-    |   |   |---[DownloadTask-{'year': '2017', 'month': '12'}]
-    |   |   |---[DownloadTask-{'year': '2017', 'month': '11'}]
-    |   |   └─--[DownloadTask-{'year': '2017', 'month': '10'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2018', 'month': '1'}]
-    |   |   |---[DownloadTask-{'year': '2018', 'month': '1'}]
-    |   |   |---[DownloadTask-{'year': '2017', 'month': '12'}]
-    |   |   └─--[DownloadTask-{'year': '2017', 'month': '11'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2018', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2018', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2018', 'month': '1'}]
-    |   |   └─--[DownloadTask-{'year': '2017', 'month': '12'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2018', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2018', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2018', 'month': '2'}]
-    |   |   └─--[DownloadTask-{'year': '2018', 'month': '1'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2018', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2018', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2018', 'month': '3'}]
-    |   |   └─--[DownloadTask-{'year': '2018', 'month': '2'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2018', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2018', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2018', 'month': '4'}]
-    |   |   └─--[DownloadTask-{'year': '2018', 'month': '3'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2018', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2018', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2018', 'month': '5'}]
-    |   |   └─--[DownloadTask-{'year': '2018', 'month': '4'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2018', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2018', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2018', 'month': '6'}]
-    |   |   └─--[DownloadTask-{'year': '2018', 'month': '5'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2018', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2018', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2018', 'month': '7'}]
-    |   |   └─--[DownloadTask-{'year': '2018', 'month': '6'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2018', 'month': '9'}]
-    |   |   |---[DownloadTask-{'year': '2018', 'month': '9'}]
-    |   |   |---[DownloadTask-{'year': '2018', 'month': '8'}]
-    |   |   └─--[DownloadTask-{'year': '2018', 'month': '7'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2018', 'month': '10'}]
-    |   |   |---[DownloadTask-{'year': '2018', 'month': '10'}]
-    |   |   |---[DownloadTask-{'year': '2018', 'month': '9'}]
-    |   |   └─--[DownloadTask-{'year': '2018', 'month': '8'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2018', 'month': '11'}]
-    |   |   |---[DownloadTask-{'year': '2018', 'month': '11'}]
-    |   |   |---[DownloadTask-{'year': '2018', 'month': '10'}]
-    |   |   └─--[DownloadTask-{'year': '2018', 'month': '9'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2018', 'month': '12'}]
-    |   |   |---[DownloadTask-{'year': '2018', 'month': '12'}]
-    |   |   |---[DownloadTask-{'year': '2018', 'month': '11'}]
-    |   |   └─--[DownloadTask-{'year': '2018', 'month': '10'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2019', 'month': '1'}]
-    |   |   |---[DownloadTask-{'year': '2019', 'month': '1'}]
-    |   |   |---[DownloadTask-{'year': '2018', 'month': '12'}]
-    |   |   └─--[DownloadTask-{'year': '2018', 'month': '11'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2019', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2019', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2019', 'month': '1'}]
-    |   |   └─--[DownloadTask-{'year': '2018', 'month': '12'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2019', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2019', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2019', 'month': '2'}]
-    |   |   └─--[DownloadTask-{'year': '2019', 'month': '1'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2019', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2019', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2019', 'month': '3'}]
-    |   |   └─--[DownloadTask-{'year': '2019', 'month': '2'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2019', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2019', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2019', 'month': '4'}]
-    |   |   └─--[DownloadTask-{'year': '2019', 'month': '3'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2019', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2019', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2019', 'month': '5'}]
-    |   |   └─--[DownloadTask-{'year': '2019', 'month': '4'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2019', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2019', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2019', 'month': '6'}]
-    |   |   └─--[DownloadTask-{'year': '2019', 'month': '5'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2019', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2019', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2019', 'month': '7'}]
-    |   |   └─--[DownloadTask-{'year': '2019', 'month': '6'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2019', 'month': '9'}]
-    |   |   |---[DownloadTask-{'year': '2019', 'month': '9'}]
-    |   |   |---[DownloadTask-{'year': '2019', 'month': '8'}]
-    |   |   └─--[DownloadTask-{'year': '2019', 'month': '7'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2019', 'month': '10'}]
-    |   |   |---[DownloadTask-{'year': '2019', 'month': '10'}]
-    |   |   |---[DownloadTask-{'year': '2019', 'month': '9'}]
-    |   |   └─--[DownloadTask-{'year': '2019', 'month': '8'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2019', 'month': '11'}]
-    |   |   |---[DownloadTask-{'year': '2019', 'month': '11'}]
-    |   |   |---[DownloadTask-{'year': '2019', 'month': '10'}]
-    |   |   └─--[DownloadTask-{'year': '2019', 'month': '9'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2019', 'month': '12'}]
-    |   |   |---[DownloadTask-{'year': '2019', 'month': '12'}]
-    |   |   |---[DownloadTask-{'year': '2019', 'month': '11'}]
-    |   |   └─--[DownloadTask-{'year': '2019', 'month': '10'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2020', 'month': '1'}]
-    |   |   |---[DownloadTask-{'year': '2020', 'month': '1'}]
-    |   |   |---[DownloadTask-{'year': '2019', 'month': '12'}]
-    |   |   └─--[DownloadTask-{'year': '2019', 'month': '11'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2020', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2020', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2020', 'month': '1'}]
-    |   |   └─--[DownloadTask-{'year': '2019', 'month': '12'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2020', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2020', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2020', 'month': '2'}]
-    |   |   └─--[DownloadTask-{'year': '2020', 'month': '1'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2020', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2020', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2020', 'month': '3'}]
-    |   |   └─--[DownloadTask-{'year': '2020', 'month': '2'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2020', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2020', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2020', 'month': '4'}]
-    |   |   └─--[DownloadTask-{'year': '2020', 'month': '3'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2020', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2020', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2020', 'month': '5'}]
-    |   |   └─--[DownloadTask-{'year': '2020', 'month': '4'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2020', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2020', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2020', 'month': '6'}]
-    |   |   └─--[DownloadTask-{'year': '2020', 'month': '5'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2020', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2020', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2020', 'month': '7'}]
-    |   |   └─--[DownloadTask-{'year': '2020', 'month': '6'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2020', 'month': '9'}]
-    |   |   |---[DownloadTask-{'year': '2020', 'month': '9'}]
-    |   |   |---[DownloadTask-{'year': '2020', 'month': '8'}]
-    |   |   └─--[DownloadTask-{'year': '2020', 'month': '7'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2020', 'month': '10'}]
-    |   |   |---[DownloadTask-{'year': '2020', 'month': '10'}]
-    |   |   |---[DownloadTask-{'year': '2020', 'month': '9'}]
-    |   |   └─--[DownloadTask-{'year': '2020', 'month': '8'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2020', 'month': '11'}]
-    |   |   |---[DownloadTask-{'year': '2020', 'month': '11'}]
-    |   |   |---[DownloadTask-{'year': '2020', 'month': '10'}]
-    |   |   └─--[DownloadTask-{'year': '2020', 'month': '9'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2020', 'month': '12'}]
-    |   |   |---[DownloadTask-{'year': '2020', 'month': '12'}]
-    |   |   |---[DownloadTask-{'year': '2020', 'month': '11'}]
-    |   |   └─--[DownloadTask-{'year': '2020', 'month': '10'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2021', 'month': '1'}]
-    |   |   |---[DownloadTask-{'year': '2021', 'month': '1'}]
-    |   |   |---[DownloadTask-{'year': '2020', 'month': '12'}]
-    |   |   └─--[DownloadTask-{'year': '2020', 'month': '11'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2021', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2021', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2021', 'month': '1'}]
-    |   |   └─--[DownloadTask-{'year': '2020', 'month': '12'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2021', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2021', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2021', 'month': '2'}]
-    |   |   └─--[DownloadTask-{'year': '2021', 'month': '1'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2021', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2021', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2021', 'month': '3'}]
-    |   |   └─--[DownloadTask-{'year': '2021', 'month': '2'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2021', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2021', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2021', 'month': '4'}]
-    |   |   └─--[DownloadTask-{'year': '2021', 'month': '3'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2021', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2021', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2021', 'month': '5'}]
-    |   |   └─--[DownloadTask-{'year': '2021', 'month': '4'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2021', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2021', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2021', 'month': '6'}]
-    |   |   └─--[DownloadTask-{'year': '2021', 'month': '5'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2021', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2021', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2021', 'month': '7'}]
-    |   |   └─--[DownloadTask-{'year': '2021', 'month': '6'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2021', 'month': '9'}]
-    |   |   |---[DownloadTask-{'year': '2021', 'month': '9'}]
-    |   |   |---[DownloadTask-{'year': '2021', 'month': '8'}]
-    |   |   └─--[DownloadTask-{'year': '2021', 'month': '7'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2021', 'month': '10'}]
-    |   |   |---[DownloadTask-{'year': '2021', 'month': '10'}]
-    |   |   |---[DownloadTask-{'year': '2021', 'month': '9'}]
-    |   |   └─--[DownloadTask-{'year': '2021', 'month': '8'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2021', 'month': '11'}]
-    |   |   |---[DownloadTask-{'year': '2021', 'month': '11'}]
-    |   |   |---[DownloadTask-{'year': '2021', 'month': '10'}]
-    |   |   └─--[DownloadTask-{'year': '2021', 'month': '9'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2021', 'month': '12'}]
-    |   |   |---[DownloadTask-{'year': '2021', 'month': '12'}]
-    |   |   |---[DownloadTask-{'year': '2021', 'month': '11'}]
-    |   |   └─--[DownloadTask-{'year': '2021', 'month': '10'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2022', 'month': '1'}]
-    |   |   |---[DownloadTask-{'year': '2022', 'month': '1'}]
-    |   |   |---[DownloadTask-{'year': '2021', 'month': '12'}]
-    |   |   └─--[DownloadTask-{'year': '2021', 'month': '11'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2022', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2022', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2022', 'month': '1'}]
-    |   |   └─--[DownloadTask-{'year': '2021', 'month': '12'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2022', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2022', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2022', 'month': '2'}]
-    |   |   └─--[DownloadTask-{'year': '2022', 'month': '1'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2022', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2022', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2022', 'month': '3'}]
-    |   |   └─--[DownloadTask-{'year': '2022', 'month': '2'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2022', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2022', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2022', 'month': '4'}]
-    |   |   └─--[DownloadTask-{'year': '2022', 'month': '3'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2022', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2022', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2022', 'month': '5'}]
-    |   |   └─--[DownloadTask-{'year': '2022', 'month': '4'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2022', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2022', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2022', 'month': '6'}]
-    |   |   └─--[DownloadTask-{'year': '2022', 'month': '5'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2022', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2022', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2022', 'month': '7'}]
-    |   |   └─--[DownloadTask-{'year': '2022', 'month': '6'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2022', 'month': '9'}]
-    |   |   |---[DownloadTask-{'year': '2022', 'month': '9'}]
-    |   |   |---[DownloadTask-{'year': '2022', 'month': '8'}]
-    |   |   └─--[DownloadTask-{'year': '2022', 'month': '7'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2022', 'month': '10'}]
-    |   |   |---[DownloadTask-{'year': '2022', 'month': '10'}]
-    |   |   |---[DownloadTask-{'year': '2022', 'month': '9'}]
-    |   |   └─--[DownloadTask-{'year': '2022', 'month': '8'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2022', 'month': '11'}]
-    |   |   |---[DownloadTask-{'year': '2022', 'month': '11'}]
-    |   |   |---[DownloadTask-{'year': '2022', 'month': '10'}]
-    |   |   └─--[DownloadTask-{'year': '2022', 'month': '9'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2022', 'month': '12'}]
-    |   |   |---[DownloadTask-{'year': '2022', 'month': '12'}]
-    |   |   |---[DownloadTask-{'year': '2022', 'month': '11'}]
-    |   |   └─--[DownloadTask-{'year': '2022', 'month': '10'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2023', 'month': '1'}]
-    |   |   |---[DownloadTask-{'year': '2023', 'month': '1'}]
-    |   |   |---[DownloadTask-{'year': '2022', 'month': '12'}]
-    |   |   └─--[DownloadTask-{'year': '2022', 'month': '11'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2023', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2023', 'month': '2'}]
-    |   |   |---[DownloadTask-{'year': '2023', 'month': '1'}]
-    |   |   └─--[DownloadTask-{'year': '2022', 'month': '12'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2023', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2023', 'month': '3'}]
-    |   |   |---[DownloadTask-{'year': '2023', 'month': '2'}]
-    |   |   └─--[DownloadTask-{'year': '2023', 'month': '1'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2023', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2023', 'month': '4'}]
-    |   |   |---[DownloadTask-{'year': '2023', 'month': '3'}]
-    |   |   └─--[DownloadTask-{'year': '2023', 'month': '2'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2023', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2023', 'month': '5'}]
-    |   |   |---[DownloadTask-{'year': '2023', 'month': '4'}]
-    |   |   └─--[DownloadTask-{'year': '2023', 'month': '3'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2023', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2023', 'month': '6'}]
-    |   |   |---[DownloadTask-{'year': '2023', 'month': '5'}]
-    |   |   └─--[DownloadTask-{'year': '2023', 'month': '4'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2023', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2023', 'month': '7'}]
-    |   |   |---[DownloadTask-{'year': '2023', 'month': '6'}]
-    |   |   └─--[DownloadTask-{'year': '2023', 'month': '5'}]
-    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2023', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2023', 'month': '8'}]
-    |   |   |---[DownloadTask-{'year': '2023', 'month': '7'}]
-    |   |   └─--[DownloadTask-{'year': '2023', 'month': '6'}]
-    |   └─--[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'year': '2023', 'month': '9'}]
-    |       |---[DownloadTask-{'year': '2023', 'month': '9'}]
-    |       |---[DownloadTask-{'year': '2023', 'month': '8'}]
-    |       └─--[DownloadTask-{'year': '2023', 'month': '7'}]
-    └─--[AggregateMonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2009', 'month': '1'}]
-        |   └─--[DownloadTask-{'year': '2009', 'month': '1'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2009', 'month': '2'}]
-        |   └─--[DownloadTask-{'year': '2009', 'month': '2'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2009', 'month': '3'}]
-        |   └─--[DownloadTask-{'year': '2009', 'month': '3'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2009', 'month': '4'}]
-        |   └─--[DownloadTask-{'year': '2009', 'month': '4'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2009', 'month': '5'}]
-        |   └─--[DownloadTask-{'year': '2009', 'month': '5'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2009', 'month': '6'}]
-        |   └─--[DownloadTask-{'year': '2009', 'month': '6'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2009', 'month': '7'}]
-        |   └─--[DownloadTask-{'year': '2009', 'month': '7'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2009', 'month': '8'}]
-        |   └─--[DownloadTask-{'year': '2009', 'month': '8'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2009', 'month': '9'}]
-        |   └─--[DownloadTask-{'year': '2009', 'month': '9'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2009', 'month': '10'}]
-        |   └─--[DownloadTask-{'year': '2009', 'month': '10'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2009', 'month': '11'}]
-        |   └─--[DownloadTask-{'year': '2009', 'month': '11'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2009', 'month': '12'}]
-        |   └─--[DownloadTask-{'year': '2009', 'month': '12'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2010', 'month': '1'}]
-        |   └─--[DownloadTask-{'year': '2010', 'month': '1'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2010', 'month': '2'}]
-        |   └─--[DownloadTask-{'year': '2010', 'month': '2'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2010', 'month': '3'}]
-        |   └─--[DownloadTask-{'year': '2010', 'month': '3'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2010', 'month': '4'}]
-        |   └─--[DownloadTask-{'year': '2010', 'month': '4'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2010', 'month': '5'}]
-        |   └─--[DownloadTask-{'year': '2010', 'month': '5'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2010', 'month': '6'}]
-        |   └─--[DownloadTask-{'year': '2010', 'month': '6'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2010', 'month': '7'}]
-        |   └─--[DownloadTask-{'year': '2010', 'month': '7'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2010', 'month': '8'}]
-        |   └─--[DownloadTask-{'year': '2010', 'month': '8'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2010', 'month': '9'}]
-        |   └─--[DownloadTask-{'year': '2010', 'month': '9'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2010', 'month': '10'}]
-        |   └─--[DownloadTask-{'year': '2010', 'month': '10'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2010', 'month': '11'}]
-        |   └─--[DownloadTask-{'year': '2010', 'month': '11'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2010', 'month': '12'}]
-        |   └─--[DownloadTask-{'year': '2010', 'month': '12'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2011', 'month': '1'}]
-        |   └─--[DownloadTask-{'year': '2011', 'month': '1'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2011', 'month': '2'}]
-        |   └─--[DownloadTask-{'year': '2011', 'month': '2'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2011', 'month': '3'}]
-        |   └─--[DownloadTask-{'year': '2011', 'month': '3'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2011', 'month': '4'}]
-        |   └─--[DownloadTask-{'year': '2011', 'month': '4'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2011', 'month': '5'}]
-        |   └─--[DownloadTask-{'year': '2011', 'month': '5'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2011', 'month': '6'}]
-        |   └─--[DownloadTask-{'year': '2011', 'month': '6'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2011', 'month': '7'}]
-        |   └─--[DownloadTask-{'year': '2011', 'month': '7'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2011', 'month': '8'}]
-        |   └─--[DownloadTask-{'year': '2011', 'month': '8'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2011', 'month': '9'}]
-        |   └─--[DownloadTask-{'year': '2011', 'month': '9'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2011', 'month': '10'}]
-        |   └─--[DownloadTask-{'year': '2011', 'month': '10'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2011', 'month': '11'}]
-        |   └─--[DownloadTask-{'year': '2011', 'month': '11'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2011', 'month': '12'}]
-        |   └─--[DownloadTask-{'year': '2011', 'month': '12'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2012', 'month': '1'}]
-        |   └─--[DownloadTask-{'year': '2012', 'month': '1'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2012', 'month': '2'}]
-        |   └─--[DownloadTask-{'year': '2012', 'month': '2'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2012', 'month': '3'}]
-        |   └─--[DownloadTask-{'year': '2012', 'month': '3'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2012', 'month': '4'}]
-        |   └─--[DownloadTask-{'year': '2012', 'month': '4'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2012', 'month': '5'}]
-        |   └─--[DownloadTask-{'year': '2012', 'month': '5'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2012', 'month': '6'}]
-        |   └─--[DownloadTask-{'year': '2012', 'month': '6'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2012', 'month': '7'}]
-        |   └─--[DownloadTask-{'year': '2012', 'month': '7'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2012', 'month': '8'}]
-        |   └─--[DownloadTask-{'year': '2012', 'month': '8'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2012', 'month': '9'}]
-        |   └─--[DownloadTask-{'year': '2012', 'month': '9'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2012', 'month': '10'}]
-        |   └─--[DownloadTask-{'year': '2012', 'month': '10'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2012', 'month': '11'}]
-        |   └─--[DownloadTask-{'year': '2012', 'month': '11'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2012', 'month': '12'}]
-        |   └─--[DownloadTask-{'year': '2012', 'month': '12'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2013', 'month': '1'}]
-        |   └─--[DownloadTask-{'year': '2013', 'month': '1'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2013', 'month': '2'}]
-        |   └─--[DownloadTask-{'year': '2013', 'month': '2'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2013', 'month': '3'}]
-        |   └─--[DownloadTask-{'year': '2013', 'month': '3'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2013', 'month': '4'}]
-        |   └─--[DownloadTask-{'year': '2013', 'month': '4'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2013', 'month': '5'}]
-        |   └─--[DownloadTask-{'year': '2013', 'month': '5'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2013', 'month': '6'}]
-        |   └─--[DownloadTask-{'year': '2013', 'month': '6'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2013', 'month': '7'}]
-        |   └─--[DownloadTask-{'year': '2013', 'month': '7'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2013', 'month': '8'}]
-        |   └─--[DownloadTask-{'year': '2013', 'month': '8'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2013', 'month': '9'}]
-        |   └─--[DownloadTask-{'year': '2013', 'month': '9'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2013', 'month': '10'}]
-        |   └─--[DownloadTask-{'year': '2013', 'month': '10'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2013', 'month': '11'}]
-        |   └─--[DownloadTask-{'year': '2013', 'month': '11'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2013', 'month': '12'}]
-        |   └─--[DownloadTask-{'year': '2013', 'month': '12'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2014', 'month': '1'}]
-        |   └─--[DownloadTask-{'year': '2014', 'month': '1'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2014', 'month': '2'}]
-        |   └─--[DownloadTask-{'year': '2014', 'month': '2'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2014', 'month': '3'}]
-        |   └─--[DownloadTask-{'year': '2014', 'month': '3'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2014', 'month': '4'}]
-        |   └─--[DownloadTask-{'year': '2014', 'month': '4'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2014', 'month': '5'}]
-        |   └─--[DownloadTask-{'year': '2014', 'month': '5'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2014', 'month': '6'}]
-        |   └─--[DownloadTask-{'year': '2014', 'month': '6'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2014', 'month': '7'}]
-        |   └─--[DownloadTask-{'year': '2014', 'month': '7'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2014', 'month': '8'}]
-        |   └─--[DownloadTask-{'year': '2014', 'month': '8'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2014', 'month': '9'}]
-        |   └─--[DownloadTask-{'year': '2014', 'month': '9'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2014', 'month': '10'}]
-        |   └─--[DownloadTask-{'year': '2014', 'month': '10'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2014', 'month': '11'}]
-        |   └─--[DownloadTask-{'year': '2014', 'month': '11'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2014', 'month': '12'}]
-        |   └─--[DownloadTask-{'year': '2014', 'month': '12'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2015', 'month': '1'}]
-        |   └─--[DownloadTask-{'year': '2015', 'month': '1'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2015', 'month': '2'}]
-        |   └─--[DownloadTask-{'year': '2015', 'month': '2'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2015', 'month': '3'}]
-        |   └─--[DownloadTask-{'year': '2015', 'month': '3'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2015', 'month': '4'}]
-        |   └─--[DownloadTask-{'year': '2015', 'month': '4'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2015', 'month': '5'}]
-        |   └─--[DownloadTask-{'year': '2015', 'month': '5'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2015', 'month': '6'}]
-        |   └─--[DownloadTask-{'year': '2015', 'month': '6'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2015', 'month': '7'}]
-        |   └─--[DownloadTask-{'year': '2015', 'month': '7'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2015', 'month': '8'}]
-        |   └─--[DownloadTask-{'year': '2015', 'month': '8'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2015', 'month': '9'}]
-        |   └─--[DownloadTask-{'year': '2015', 'month': '9'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2015', 'month': '10'}]
-        |   └─--[DownloadTask-{'year': '2015', 'month': '10'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2015', 'month': '11'}]
-        |   └─--[DownloadTask-{'year': '2015', 'month': '11'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2015', 'month': '12'}]
-        |   └─--[DownloadTask-{'year': '2015', 'month': '12'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2016', 'month': '1'}]
-        |   └─--[DownloadTask-{'year': '2016', 'month': '1'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2016', 'month': '2'}]
-        |   └─--[DownloadTask-{'year': '2016', 'month': '2'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2016', 'month': '3'}]
-        |   └─--[DownloadTask-{'year': '2016', 'month': '3'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2016', 'month': '4'}]
-        |   └─--[DownloadTask-{'year': '2016', 'month': '4'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2016', 'month': '5'}]
-        |   └─--[DownloadTask-{'year': '2016', 'month': '5'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2016', 'month': '6'}]
-        |   └─--[DownloadTask-{'year': '2016', 'month': '6'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2016', 'month': '7'}]
-        |   └─--[DownloadTask-{'year': '2016', 'month': '7'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2016', 'month': '8'}]
-        |   └─--[DownloadTask-{'year': '2016', 'month': '8'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2016', 'month': '9'}]
-        |   └─--[DownloadTask-{'year': '2016', 'month': '9'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2016', 'month': '10'}]
-        |   └─--[DownloadTask-{'year': '2016', 'month': '10'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2016', 'month': '11'}]
-        |   └─--[DownloadTask-{'year': '2016', 'month': '11'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2016', 'month': '12'}]
-        |   └─--[DownloadTask-{'year': '2016', 'month': '12'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2017', 'month': '1'}]
-        |   └─--[DownloadTask-{'year': '2017', 'month': '1'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2017', 'month': '2'}]
-        |   └─--[DownloadTask-{'year': '2017', 'month': '2'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2017', 'month': '3'}]
-        |   └─--[DownloadTask-{'year': '2017', 'month': '3'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2017', 'month': '4'}]
-        |   └─--[DownloadTask-{'year': '2017', 'month': '4'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2017', 'month': '5'}]
-        |   └─--[DownloadTask-{'year': '2017', 'month': '5'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2017', 'month': '6'}]
-        |   └─--[DownloadTask-{'year': '2017', 'month': '6'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2017', 'month': '7'}]
-        |   └─--[DownloadTask-{'year': '2017', 'month': '7'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2017', 'month': '8'}]
-        |   └─--[DownloadTask-{'year': '2017', 'month': '8'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2017', 'month': '9'}]
-        |   └─--[DownloadTask-{'year': '2017', 'month': '9'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2017', 'month': '10'}]
-        |   └─--[DownloadTask-{'year': '2017', 'month': '10'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2017', 'month': '11'}]
-        |   └─--[DownloadTask-{'year': '2017', 'month': '11'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2017', 'month': '12'}]
-        |   └─--[DownloadTask-{'year': '2017', 'month': '12'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2018', 'month': '1'}]
-        |   └─--[DownloadTask-{'year': '2018', 'month': '1'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2018', 'month': '2'}]
-        |   └─--[DownloadTask-{'year': '2018', 'month': '2'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2018', 'month': '3'}]
-        |   └─--[DownloadTask-{'year': '2018', 'month': '3'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2018', 'month': '4'}]
-        |   └─--[DownloadTask-{'year': '2018', 'month': '4'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2018', 'month': '5'}]
-        |   └─--[DownloadTask-{'year': '2018', 'month': '5'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2018', 'month': '6'}]
-        |   └─--[DownloadTask-{'year': '2018', 'month': '6'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2018', 'month': '7'}]
-        |   └─--[DownloadTask-{'year': '2018', 'month': '7'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2018', 'month': '8'}]
-        |   └─--[DownloadTask-{'year': '2018', 'month': '8'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2018', 'month': '9'}]
-        |   └─--[DownloadTask-{'year': '2018', 'month': '9'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2018', 'month': '10'}]
-        |   └─--[DownloadTask-{'year': '2018', 'month': '10'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2018', 'month': '11'}]
-        |   └─--[DownloadTask-{'year': '2018', 'month': '11'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2018', 'month': '12'}]
-        |   └─--[DownloadTask-{'year': '2018', 'month': '12'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2019', 'month': '1'}]
-        |   └─--[DownloadTask-{'year': '2019', 'month': '1'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2019', 'month': '2'}]
-        |   └─--[DownloadTask-{'year': '2019', 'month': '2'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2019', 'month': '3'}]
-        |   └─--[DownloadTask-{'year': '2019', 'month': '3'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2019', 'month': '4'}]
-        |   └─--[DownloadTask-{'year': '2019', 'month': '4'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2019', 'month': '5'}]
-        |   └─--[DownloadTask-{'year': '2019', 'month': '5'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2019', 'month': '6'}]
-        |   └─--[DownloadTask-{'year': '2019', 'month': '6'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2019', 'month': '7'}]
-        |   └─--[DownloadTask-{'year': '2019', 'month': '7'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2019', 'month': '8'}]
-        |   └─--[DownloadTask-{'year': '2019', 'month': '8'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2019', 'month': '9'}]
-        |   └─--[DownloadTask-{'year': '2019', 'month': '9'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2019', 'month': '10'}]
-        |   └─--[DownloadTask-{'year': '2019', 'month': '10'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2019', 'month': '11'}]
-        |   └─--[DownloadTask-{'year': '2019', 'month': '11'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2019', 'month': '12'}]
-        |   └─--[DownloadTask-{'year': '2019', 'month': '12'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2020', 'month': '1'}]
-        |   └─--[DownloadTask-{'year': '2020', 'month': '1'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2020', 'month': '2'}]
-        |   └─--[DownloadTask-{'year': '2020', 'month': '2'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2020', 'month': '3'}]
-        |   └─--[DownloadTask-{'year': '2020', 'month': '3'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2020', 'month': '4'}]
-        |   └─--[DownloadTask-{'year': '2020', 'month': '4'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2020', 'month': '5'}]
-        |   └─--[DownloadTask-{'year': '2020', 'month': '5'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2020', 'month': '6'}]
-        |   └─--[DownloadTask-{'year': '2020', 'month': '6'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2020', 'month': '7'}]
-        |   └─--[DownloadTask-{'year': '2020', 'month': '7'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2020', 'month': '8'}]
-        |   └─--[DownloadTask-{'year': '2020', 'month': '8'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2020', 'month': '9'}]
-        |   └─--[DownloadTask-{'year': '2020', 'month': '9'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2020', 'month': '10'}]
-        |   └─--[DownloadTask-{'year': '2020', 'month': '10'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2020', 'month': '11'}]
-        |   └─--[DownloadTask-{'year': '2020', 'month': '11'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2020', 'month': '12'}]
-        |   └─--[DownloadTask-{'year': '2020', 'month': '12'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2021', 'month': '1'}]
-        |   └─--[DownloadTask-{'year': '2021', 'month': '1'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2021', 'month': '2'}]
-        |   └─--[DownloadTask-{'year': '2021', 'month': '2'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2021', 'month': '3'}]
-        |   └─--[DownloadTask-{'year': '2021', 'month': '3'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2021', 'month': '4'}]
-        |   └─--[DownloadTask-{'year': '2021', 'month': '4'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2021', 'month': '5'}]
-        |   └─--[DownloadTask-{'year': '2021', 'month': '5'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2021', 'month': '6'}]
-        |   └─--[DownloadTask-{'year': '2021', 'month': '6'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2021', 'month': '7'}]
-        |   └─--[DownloadTask-{'year': '2021', 'month': '7'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2021', 'month': '8'}]
-        |   └─--[DownloadTask-{'year': '2021', 'month': '8'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2021', 'month': '9'}]
-        |   └─--[DownloadTask-{'year': '2021', 'month': '9'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2021', 'month': '10'}]
-        |   └─--[DownloadTask-{'year': '2021', 'month': '10'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2021', 'month': '11'}]
-        |   └─--[DownloadTask-{'year': '2021', 'month': '11'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2021', 'month': '12'}]
-        |   └─--[DownloadTask-{'year': '2021', 'month': '12'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2022', 'month': '1'}]
-        |   └─--[DownloadTask-{'year': '2022', 'month': '1'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2022', 'month': '2'}]
-        |   └─--[DownloadTask-{'year': '2022', 'month': '2'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2022', 'month': '3'}]
-        |   └─--[DownloadTask-{'year': '2022', 'month': '3'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2022', 'month': '4'}]
-        |   └─--[DownloadTask-{'year': '2022', 'month': '4'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2022', 'month': '5'}]
-        |   └─--[DownloadTask-{'year': '2022', 'month': '5'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2022', 'month': '6'}]
-        |   └─--[DownloadTask-{'year': '2022', 'month': '6'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2022', 'month': '7'}]
-        |   └─--[DownloadTask-{'year': '2022', 'month': '7'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2022', 'month': '8'}]
-        |   └─--[DownloadTask-{'year': '2022', 'month': '8'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2022', 'month': '9'}]
-        |   └─--[DownloadTask-{'year': '2022', 'month': '9'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2022', 'month': '10'}]
-        |   └─--[DownloadTask-{'year': '2022', 'month': '10'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2022', 'month': '11'}]
-        |   └─--[DownloadTask-{'year': '2022', 'month': '11'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2022', 'month': '12'}]
-        |   └─--[DownloadTask-{'year': '2022', 'month': '12'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2023', 'month': '1'}]
-        |   └─--[DownloadTask-{'year': '2023', 'month': '1'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2023', 'month': '2'}]
-        |   └─--[DownloadTask-{'year': '2023', 'month': '2'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2023', 'month': '3'}]
-        |   └─--[DownloadTask-{'year': '2023', 'month': '3'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2023', 'month': '4'}]
-        |   └─--[DownloadTask-{'year': '2023', 'month': '4'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2023', 'month': '5'}]
-        |   └─--[DownloadTask-{'year': '2023', 'month': '5'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2023', 'month': '6'}]
-        |   └─--[DownloadTask-{'year': '2023', 'month': '6'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2023', 'month': '7'}]
-        |   └─--[DownloadTask-{'year': '2023', 'month': '7'}]
-        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2023', 'month': '8'}]
-        |   └─--[DownloadTask-{'year': '2023', 'month': '8'}]
-        └─--[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'year': '2023', 'month': '9'}]
-            └─--[DownloadTask-{'year': '2023', 'month': '9'}]
+└─--[MainTask-{}
+    |---[AggregateRollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'last_month': '2023-09', 'window': '45'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2009-01'}
+    |   |   └─--[DownloadTask-{'month_date': '2009-01'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2009-02'}
+    |   |   |---[DownloadTask-{'month_date': '2009-02'}
+    |   |   └─--[DownloadTask-{'month_date': '2009-02'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2009-03'}
+    |   |   |---[DownloadTask-{'month_date': '2009-03'}
+    |   |   |---[DownloadTask-{'month_date': '2009-03'}
+    |   |   └─--[DownloadTask-{'month_date': '2009-03'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2009-04'}
+    |   |   |---[DownloadTask-{'month_date': '2009-04'}
+    |   |   |---[DownloadTask-{'month_date': '2009-04'}
+    |   |   └─--[DownloadTask-{'month_date': '2009-04'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2009-05'}
+    |   |   |---[DownloadTask-{'month_date': '2009-05'}
+    |   |   |---[DownloadTask-{'month_date': '2009-05'}
+    |   |   └─--[DownloadTask-{'month_date': '2009-05'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2009-06'}
+    |   |   |---[DownloadTask-{'month_date': '2009-06'}
+    |   |   |---[DownloadTask-{'month_date': '2009-06'}
+    |   |   └─--[DownloadTask-{'month_date': '2009-06'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2009-07'}
+    |   |   |---[DownloadTask-{'month_date': '2009-07'}
+    |   |   |---[DownloadTask-{'month_date': '2009-07'}
+    |   |   └─--[DownloadTask-{'month_date': '2009-07'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2009-08'}
+    |   |   |---[DownloadTask-{'month_date': '2009-08'}
+    |   |   |---[DownloadTask-{'month_date': '2009-08'}
+    |   |   └─--[DownloadTask-{'month_date': '2009-08'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2009-09'}
+    |   |   |---[DownloadTask-{'month_date': '2009-09'}
+    |   |   |---[DownloadTask-{'month_date': '2009-09'}
+    |   |   └─--[DownloadTask-{'month_date': '2009-09'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2009-10'}
+    |   |   |---[DownloadTask-{'month_date': '2009-10'}
+    |   |   |---[DownloadTask-{'month_date': '2009-10'}
+    |   |   └─--[DownloadTask-{'month_date': '2009-10'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2009-11'}
+    |   |   |---[DownloadTask-{'month_date': '2009-11'}
+    |   |   |---[DownloadTask-{'month_date': '2009-11'}
+    |   |   └─--[DownloadTask-{'month_date': '2009-11'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2009-12'}
+    |   |   |---[DownloadTask-{'month_date': '2009-12'}
+    |   |   |---[DownloadTask-{'month_date': '2009-12'}
+    |   |   └─--[DownloadTask-{'month_date': '2009-12'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2010-01'}
+    |   |   |---[DownloadTask-{'month_date': '2010-01'}
+    |   |   |---[DownloadTask-{'month_date': '2010-01'}
+    |   |   └─--[DownloadTask-{'month_date': '2010-01'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2010-02'}
+    |   |   |---[DownloadTask-{'month_date': '2010-02'}
+    |   |   |---[DownloadTask-{'month_date': '2010-02'}
+    |   |   └─--[DownloadTask-{'month_date': '2010-02'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2010-03'}
+    |   |   |---[DownloadTask-{'month_date': '2010-03'}
+    |   |   |---[DownloadTask-{'month_date': '2010-03'}
+    |   |   └─--[DownloadTask-{'month_date': '2010-03'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2010-04'}
+    |   |   |---[DownloadTask-{'month_date': '2010-04'}
+    |   |   |---[DownloadTask-{'month_date': '2010-04'}
+    |   |   └─--[DownloadTask-{'month_date': '2010-04'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2010-05'}
+    |   |   |---[DownloadTask-{'month_date': '2010-05'}
+    |   |   |---[DownloadTask-{'month_date': '2010-05'}
+    |   |   └─--[DownloadTask-{'month_date': '2010-05'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2010-06'}
+    |   |   |---[DownloadTask-{'month_date': '2010-06'}
+    |   |   |---[DownloadTask-{'month_date': '2010-06'}
+    |   |   └─--[DownloadTask-{'month_date': '2010-06'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2010-07'}
+    |   |   |---[DownloadTask-{'month_date': '2010-07'}
+    |   |   |---[DownloadTask-{'month_date': '2010-07'}
+    |   |   └─--[DownloadTask-{'month_date': '2010-07'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2010-08'}
+    |   |   |---[DownloadTask-{'month_date': '2010-08'}
+    |   |   |---[DownloadTask-{'month_date': '2010-08'}
+    |   |   └─--[DownloadTask-{'month_date': '2010-08'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2010-09'}
+    |   |   |---[DownloadTask-{'month_date': '2010-09'}
+    |   |   |---[DownloadTask-{'month_date': '2010-09'}
+    |   |   └─--[DownloadTask-{'month_date': '2010-09'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2010-10'}
+    |   |   |---[DownloadTask-{'month_date': '2010-10'}
+    |   |   |---[DownloadTask-{'month_date': '2010-10'}
+    |   |   └─--[DownloadTask-{'month_date': '2010-10'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2010-11'}
+    |   |   |---[DownloadTask-{'month_date': '2010-11'}
+    |   |   |---[DownloadTask-{'month_date': '2010-11'}
+    |   |   └─--[DownloadTask-{'month_date': '2010-11'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2010-12'}
+    |   |   |---[DownloadTask-{'month_date': '2010-12'}
+    |   |   |---[DownloadTask-{'month_date': '2010-12'}
+    |   |   └─--[DownloadTask-{'month_date': '2010-12'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2011-01'}
+    |   |   |---[DownloadTask-{'month_date': '2011-01'}
+    |   |   |---[DownloadTask-{'month_date': '2011-01'}
+    |   |   └─--[DownloadTask-{'month_date': '2011-01'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2011-02'}
+    |   |   |---[DownloadTask-{'month_date': '2011-02'}
+    |   |   |---[DownloadTask-{'month_date': '2011-02'}
+    |   |   └─--[DownloadTask-{'month_date': '2011-02'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2011-03'}
+    |   |   |---[DownloadTask-{'month_date': '2011-03'}
+    |   |   |---[DownloadTask-{'month_date': '2011-03'}
+    |   |   └─--[DownloadTask-{'month_date': '2011-03'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2011-04'}
+    |   |   |---[DownloadTask-{'month_date': '2011-04'}
+    |   |   |---[DownloadTask-{'month_date': '2011-04'}
+    |   |   └─--[DownloadTask-{'month_date': '2011-04'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2011-05'}
+    |   |   |---[DownloadTask-{'month_date': '2011-05'}
+    |   |   |---[DownloadTask-{'month_date': '2011-05'}
+    |   |   └─--[DownloadTask-{'month_date': '2011-05'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2011-06'}
+    |   |   |---[DownloadTask-{'month_date': '2011-06'}
+    |   |   |---[DownloadTask-{'month_date': '2011-06'}
+    |   |   └─--[DownloadTask-{'month_date': '2011-06'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2011-07'}
+    |   |   |---[DownloadTask-{'month_date': '2011-07'}
+    |   |   |---[DownloadTask-{'month_date': '2011-07'}
+    |   |   └─--[DownloadTask-{'month_date': '2011-07'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2011-08'}
+    |   |   |---[DownloadTask-{'month_date': '2011-08'}
+    |   |   |---[DownloadTask-{'month_date': '2011-08'}
+    |   |   └─--[DownloadTask-{'month_date': '2011-08'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2011-09'}
+    |   |   |---[DownloadTask-{'month_date': '2011-09'}
+    |   |   |---[DownloadTask-{'month_date': '2011-09'}
+    |   |   └─--[DownloadTask-{'month_date': '2011-09'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2011-10'}
+    |   |   |---[DownloadTask-{'month_date': '2011-10'}
+    |   |   |---[DownloadTask-{'month_date': '2011-10'}
+    |   |   └─--[DownloadTask-{'month_date': '2011-10'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2011-11'}
+    |   |   |---[DownloadTask-{'month_date': '2011-11'}
+    |   |   |---[DownloadTask-{'month_date': '2011-11'}
+    |   |   └─--[DownloadTask-{'month_date': '2011-11'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2011-12'}
+    |   |   |---[DownloadTask-{'month_date': '2011-12'}
+    |   |   |---[DownloadTask-{'month_date': '2011-12'}
+    |   |   └─--[DownloadTask-{'month_date': '2011-12'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2012-01'}
+    |   |   |---[DownloadTask-{'month_date': '2012-01'}
+    |   |   |---[DownloadTask-{'month_date': '2012-01'}
+    |   |   └─--[DownloadTask-{'month_date': '2012-01'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2012-02'}
+    |   |   |---[DownloadTask-{'month_date': '2012-02'}
+    |   |   |---[DownloadTask-{'month_date': '2012-02'}
+    |   |   └─--[DownloadTask-{'month_date': '2012-02'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2012-03'}
+    |   |   |---[DownloadTask-{'month_date': '2012-03'}
+    |   |   |---[DownloadTask-{'month_date': '2012-03'}
+    |   |   └─--[DownloadTask-{'month_date': '2012-03'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2012-04'}
+    |   |   |---[DownloadTask-{'month_date': '2012-04'}
+    |   |   |---[DownloadTask-{'month_date': '2012-04'}
+    |   |   └─--[DownloadTask-{'month_date': '2012-04'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2012-05'}
+    |   |   |---[DownloadTask-{'month_date': '2012-05'}
+    |   |   |---[DownloadTask-{'month_date': '2012-05'}
+    |   |   └─--[DownloadTask-{'month_date': '2012-05'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2012-06'}
+    |   |   |---[DownloadTask-{'month_date': '2012-06'}
+    |   |   |---[DownloadTask-{'month_date': '2012-06'}
+    |   |   └─--[DownloadTask-{'month_date': '2012-06'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2012-07'}
+    |   |   |---[DownloadTask-{'month_date': '2012-07'}
+    |   |   |---[DownloadTask-{'month_date': '2012-07'}
+    |   |   └─--[DownloadTask-{'month_date': '2012-07'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2012-08'}
+    |   |   |---[DownloadTask-{'month_date': '2012-08'}
+    |   |   |---[DownloadTask-{'month_date': '2012-08'}
+    |   |   └─--[DownloadTask-{'month_date': '2012-08'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2012-09'}
+    |   |   |---[DownloadTask-{'month_date': '2012-09'}
+    |   |   |---[DownloadTask-{'month_date': '2012-09'}
+    |   |   └─--[DownloadTask-{'month_date': '2012-09'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2012-10'}
+    |   |   |---[DownloadTask-{'month_date': '2012-10'}
+    |   |   |---[DownloadTask-{'month_date': '2012-10'}
+    |   |   └─--[DownloadTask-{'month_date': '2012-10'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2012-11'}
+    |   |   |---[DownloadTask-{'month_date': '2012-11'}
+    |   |   |---[DownloadTask-{'month_date': '2012-11'}
+    |   |   └─--[DownloadTask-{'month_date': '2012-11'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2012-12'}
+    |   |   |---[DownloadTask-{'month_date': '2012-12'}
+    |   |   |---[DownloadTask-{'month_date': '2012-12'}
+    |   |   └─--[DownloadTask-{'month_date': '2012-12'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2013-01'}
+    |   |   |---[DownloadTask-{'month_date': '2013-01'}
+    |   |   |---[DownloadTask-{'month_date': '2013-01'}
+    |   |   └─--[DownloadTask-{'month_date': '2013-01'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2013-02'}
+    |   |   |---[DownloadTask-{'month_date': '2013-02'}
+    |   |   |---[DownloadTask-{'month_date': '2013-02'}
+    |   |   └─--[DownloadTask-{'month_date': '2013-02'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2013-03'}
+    |   |   |---[DownloadTask-{'month_date': '2013-03'}
+    |   |   |---[DownloadTask-{'month_date': '2013-03'}
+    |   |   └─--[DownloadTask-{'month_date': '2013-03'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2013-04'}
+    |   |   |---[DownloadTask-{'month_date': '2013-04'}
+    |   |   |---[DownloadTask-{'month_date': '2013-04'}
+    |   |   └─--[DownloadTask-{'month_date': '2013-04'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2013-05'}
+    |   |   |---[DownloadTask-{'month_date': '2013-05'}
+    |   |   |---[DownloadTask-{'month_date': '2013-05'}
+    |   |   └─--[DownloadTask-{'month_date': '2013-05'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2013-06'}
+    |   |   |---[DownloadTask-{'month_date': '2013-06'}
+    |   |   |---[DownloadTask-{'month_date': '2013-06'}
+    |   |   └─--[DownloadTask-{'month_date': '2013-06'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2013-07'}
+    |   |   |---[DownloadTask-{'month_date': '2013-07'}
+    |   |   |---[DownloadTask-{'month_date': '2013-07'}
+    |   |   └─--[DownloadTask-{'month_date': '2013-07'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2013-08'}
+    |   |   |---[DownloadTask-{'month_date': '2013-08'}
+    |   |   |---[DownloadTask-{'month_date': '2013-08'}
+    |   |   └─--[DownloadTask-{'month_date': '2013-08'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2013-09'}
+    |   |   |---[DownloadTask-{'month_date': '2013-09'}
+    |   |   |---[DownloadTask-{'month_date': '2013-09'}
+    |   |   └─--[DownloadTask-{'month_date': '2013-09'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2013-10'}
+    |   |   |---[DownloadTask-{'month_date': '2013-10'}
+    |   |   |---[DownloadTask-{'month_date': '2013-10'}
+    |   |   └─--[DownloadTask-{'month_date': '2013-10'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2013-11'}
+    |   |   |---[DownloadTask-{'month_date': '2013-11'}
+    |   |   |---[DownloadTask-{'month_date': '2013-11'}
+    |   |   └─--[DownloadTask-{'month_date': '2013-11'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2013-12'}
+    |   |   |---[DownloadTask-{'month_date': '2013-12'}
+    |   |   |---[DownloadTask-{'month_date': '2013-12'}
+    |   |   └─--[DownloadTask-{'month_date': '2013-12'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2014-01'}
+    |   |   |---[DownloadTask-{'month_date': '2014-01'}
+    |   |   |---[DownloadTask-{'month_date': '2014-01'}
+    |   |   └─--[DownloadTask-{'month_date': '2014-01'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2014-02'}
+    |   |   |---[DownloadTask-{'month_date': '2014-02'}
+    |   |   |---[DownloadTask-{'month_date': '2014-02'}
+    |   |   └─--[DownloadTask-{'month_date': '2014-02'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2014-03'}
+    |   |   |---[DownloadTask-{'month_date': '2014-03'}
+    |   |   |---[DownloadTask-{'month_date': '2014-03'}
+    |   |   └─--[DownloadTask-{'month_date': '2014-03'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2014-04'}
+    |   |   |---[DownloadTask-{'month_date': '2014-04'}
+    |   |   |---[DownloadTask-{'month_date': '2014-04'}
+    |   |   └─--[DownloadTask-{'month_date': '2014-04'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2014-05'}
+    |   |   |---[DownloadTask-{'month_date': '2014-05'}
+    |   |   |---[DownloadTask-{'month_date': '2014-05'}
+    |   |   └─--[DownloadTask-{'month_date': '2014-05'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2014-06'}
+    |   |   |---[DownloadTask-{'month_date': '2014-06'}
+    |   |   |---[DownloadTask-{'month_date': '2014-06'}
+    |   |   └─--[DownloadTask-{'month_date': '2014-06'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2014-07'}
+    |   |   |---[DownloadTask-{'month_date': '2014-07'}
+    |   |   |---[DownloadTask-{'month_date': '2014-07'}
+    |   |   └─--[DownloadTask-{'month_date': '2014-07'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2014-08'}
+    |   |   |---[DownloadTask-{'month_date': '2014-08'}
+    |   |   |---[DownloadTask-{'month_date': '2014-08'}
+    |   |   └─--[DownloadTask-{'month_date': '2014-08'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2014-09'}
+    |   |   |---[DownloadTask-{'month_date': '2014-09'}
+    |   |   |---[DownloadTask-{'month_date': '2014-09'}
+    |   |   └─--[DownloadTask-{'month_date': '2014-09'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2014-10'}
+    |   |   |---[DownloadTask-{'month_date': '2014-10'}
+    |   |   |---[DownloadTask-{'month_date': '2014-10'}
+    |   |   └─--[DownloadTask-{'month_date': '2014-10'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2014-11'}
+    |   |   |---[DownloadTask-{'month_date': '2014-11'}
+    |   |   |---[DownloadTask-{'month_date': '2014-11'}
+    |   |   └─--[DownloadTask-{'month_date': '2014-11'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2014-12'}
+    |   |   |---[DownloadTask-{'month_date': '2014-12'}
+    |   |   |---[DownloadTask-{'month_date': '2014-12'}
+    |   |   └─--[DownloadTask-{'month_date': '2014-12'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2015-01'}
+    |   |   |---[DownloadTask-{'month_date': '2015-01'}
+    |   |   |---[DownloadTask-{'month_date': '2015-01'}
+    |   |   └─--[DownloadTask-{'month_date': '2015-01'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2015-02'}
+    |   |   |---[DownloadTask-{'month_date': '2015-02'}
+    |   |   |---[DownloadTask-{'month_date': '2015-02'}
+    |   |   └─--[DownloadTask-{'month_date': '2015-02'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2015-03'}
+    |   |   |---[DownloadTask-{'month_date': '2015-03'}
+    |   |   |---[DownloadTask-{'month_date': '2015-03'}
+    |   |   └─--[DownloadTask-{'month_date': '2015-03'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2015-04'}
+    |   |   |---[DownloadTask-{'month_date': '2015-04'}
+    |   |   |---[DownloadTask-{'month_date': '2015-04'}
+    |   |   └─--[DownloadTask-{'month_date': '2015-04'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2015-05'}
+    |   |   |---[DownloadTask-{'month_date': '2015-05'}
+    |   |   |---[DownloadTask-{'month_date': '2015-05'}
+    |   |   └─--[DownloadTask-{'month_date': '2015-05'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2015-06'}
+    |   |   |---[DownloadTask-{'month_date': '2015-06'}
+    |   |   |---[DownloadTask-{'month_date': '2015-06'}
+    |   |   └─--[DownloadTask-{'month_date': '2015-06'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2015-07'}
+    |   |   |---[DownloadTask-{'month_date': '2015-07'}
+    |   |   |---[DownloadTask-{'month_date': '2015-07'}
+    |   |   └─--[DownloadTask-{'month_date': '2015-07'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2015-08'}
+    |   |   |---[DownloadTask-{'month_date': '2015-08'}
+    |   |   |---[DownloadTask-{'month_date': '2015-08'}
+    |   |   └─--[DownloadTask-{'month_date': '2015-08'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2015-09'}
+    |   |   |---[DownloadTask-{'month_date': '2015-09'}
+    |   |   |---[DownloadTask-{'month_date': '2015-09'}
+    |   |   └─--[DownloadTask-{'month_date': '2015-09'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2015-10'}
+    |   |   |---[DownloadTask-{'month_date': '2015-10'}
+    |   |   |---[DownloadTask-{'month_date': '2015-10'}
+    |   |   └─--[DownloadTask-{'month_date': '2015-10'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2015-11'}
+    |   |   |---[DownloadTask-{'month_date': '2015-11'}
+    |   |   |---[DownloadTask-{'month_date': '2015-11'}
+    |   |   └─--[DownloadTask-{'month_date': '2015-11'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2015-12'}
+    |   |   |---[DownloadTask-{'month_date': '2015-12'}
+    |   |   |---[DownloadTask-{'month_date': '2015-12'}
+    |   |   └─--[DownloadTask-{'month_date': '2015-12'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2016-01'}
+    |   |   |---[DownloadTask-{'month_date': '2016-01'}
+    |   |   |---[DownloadTask-{'month_date': '2016-01'}
+    |   |   └─--[DownloadTask-{'month_date': '2016-01'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2016-02'}
+    |   |   |---[DownloadTask-{'month_date': '2016-02'}
+    |   |   |---[DownloadTask-{'month_date': '2016-02'}
+    |   |   └─--[DownloadTask-{'month_date': '2016-02'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2016-03'}
+    |   |   |---[DownloadTask-{'month_date': '2016-03'}
+    |   |   |---[DownloadTask-{'month_date': '2016-03'}
+    |   |   └─--[DownloadTask-{'month_date': '2016-03'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2016-04'}
+    |   |   |---[DownloadTask-{'month_date': '2016-04'}
+    |   |   |---[DownloadTask-{'month_date': '2016-04'}
+    |   |   └─--[DownloadTask-{'month_date': '2016-04'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2016-05'}
+    |   |   |---[DownloadTask-{'month_date': '2016-05'}
+    |   |   |---[DownloadTask-{'month_date': '2016-05'}
+    |   |   └─--[DownloadTask-{'month_date': '2016-05'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2016-06'}
+    |   |   |---[DownloadTask-{'month_date': '2016-06'}
+    |   |   |---[DownloadTask-{'month_date': '2016-06'}
+    |   |   └─--[DownloadTask-{'month_date': '2016-06'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2016-07'}
+    |   |   |---[DownloadTask-{'month_date': '2016-07'}
+    |   |   |---[DownloadTask-{'month_date': '2016-07'}
+    |   |   └─--[DownloadTask-{'month_date': '2016-07'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2016-08'}
+    |   |   |---[DownloadTask-{'month_date': '2016-08'}
+    |   |   |---[DownloadTask-{'month_date': '2016-08'}
+    |   |   └─--[DownloadTask-{'month_date': '2016-08'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2016-09'}
+    |   |   |---[DownloadTask-{'month_date': '2016-09'}
+    |   |   |---[DownloadTask-{'month_date': '2016-09'}
+    |   |   └─--[DownloadTask-{'month_date': '2016-09'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2016-10'}
+    |   |   |---[DownloadTask-{'month_date': '2016-10'}
+    |   |   |---[DownloadTask-{'month_date': '2016-10'}
+    |   |   └─--[DownloadTask-{'month_date': '2016-10'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2016-11'}
+    |   |   |---[DownloadTask-{'month_date': '2016-11'}
+    |   |   |---[DownloadTask-{'month_date': '2016-11'}
+    |   |   └─--[DownloadTask-{'month_date': '2016-11'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2016-12'}
+    |   |   |---[DownloadTask-{'month_date': '2016-12'}
+    |   |   |---[DownloadTask-{'month_date': '2016-12'}
+    |   |   └─--[DownloadTask-{'month_date': '2016-12'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2017-01'}
+    |   |   |---[DownloadTask-{'month_date': '2017-01'}
+    |   |   |---[DownloadTask-{'month_date': '2017-01'}
+    |   |   └─--[DownloadTask-{'month_date': '2017-01'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2017-02'}
+    |   |   |---[DownloadTask-{'month_date': '2017-02'}
+    |   |   |---[DownloadTask-{'month_date': '2017-02'}
+    |   |   └─--[DownloadTask-{'month_date': '2017-02'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2017-03'}
+    |   |   |---[DownloadTask-{'month_date': '2017-03'}
+    |   |   |---[DownloadTask-{'month_date': '2017-03'}
+    |   |   └─--[DownloadTask-{'month_date': '2017-03'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2017-04'}
+    |   |   |---[DownloadTask-{'month_date': '2017-04'}
+    |   |   |---[DownloadTask-{'month_date': '2017-04'}
+    |   |   └─--[DownloadTask-{'month_date': '2017-04'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2017-05'}
+    |   |   |---[DownloadTask-{'month_date': '2017-05'}
+    |   |   |---[DownloadTask-{'month_date': '2017-05'}
+    |   |   └─--[DownloadTask-{'month_date': '2017-05'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2017-06'}
+    |   |   |---[DownloadTask-{'month_date': '2017-06'}
+    |   |   |---[DownloadTask-{'month_date': '2017-06'}
+    |   |   └─--[DownloadTask-{'month_date': '2017-06'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2017-07'}
+    |   |   |---[DownloadTask-{'month_date': '2017-07'}
+    |   |   |---[DownloadTask-{'month_date': '2017-07'}
+    |   |   └─--[DownloadTask-{'month_date': '2017-07'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2017-08'}
+    |   |   |---[DownloadTask-{'month_date': '2017-08'}
+    |   |   |---[DownloadTask-{'month_date': '2017-08'}
+    |   |   └─--[DownloadTask-{'month_date': '2017-08'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2017-09'}
+    |   |   |---[DownloadTask-{'month_date': '2017-09'}
+    |   |   |---[DownloadTask-{'month_date': '2017-09'}
+    |   |   └─--[DownloadTask-{'month_date': '2017-09'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2017-10'}
+    |   |   |---[DownloadTask-{'month_date': '2017-10'}
+    |   |   |---[DownloadTask-{'month_date': '2017-10'}
+    |   |   └─--[DownloadTask-{'month_date': '2017-10'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2017-11'}
+    |   |   |---[DownloadTask-{'month_date': '2017-11'}
+    |   |   |---[DownloadTask-{'month_date': '2017-11'}
+    |   |   └─--[DownloadTask-{'month_date': '2017-11'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2017-12'}
+    |   |   |---[DownloadTask-{'month_date': '2017-12'}
+    |   |   |---[DownloadTask-{'month_date': '2017-12'}
+    |   |   └─--[DownloadTask-{'month_date': '2017-12'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2018-01'}
+    |   |   |---[DownloadTask-{'month_date': '2018-01'}
+    |   |   |---[DownloadTask-{'month_date': '2018-01'}
+    |   |   └─--[DownloadTask-{'month_date': '2018-01'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2018-02'}
+    |   |   |---[DownloadTask-{'month_date': '2018-02'}
+    |   |   |---[DownloadTask-{'month_date': '2018-02'}
+    |   |   └─--[DownloadTask-{'month_date': '2018-02'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2018-03'}
+    |   |   |---[DownloadTask-{'month_date': '2018-03'}
+    |   |   |---[DownloadTask-{'month_date': '2018-03'}
+    |   |   └─--[DownloadTask-{'month_date': '2018-03'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2018-04'}
+    |   |   |---[DownloadTask-{'month_date': '2018-04'}
+    |   |   |---[DownloadTask-{'month_date': '2018-04'}
+    |   |   └─--[DownloadTask-{'month_date': '2018-04'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2018-05'}
+    |   |   |---[DownloadTask-{'month_date': '2018-05'}
+    |   |   |---[DownloadTask-{'month_date': '2018-05'}
+    |   |   └─--[DownloadTask-{'month_date': '2018-05'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2018-06'}
+    |   |   |---[DownloadTask-{'month_date': '2018-06'}
+    |   |   |---[DownloadTask-{'month_date': '2018-06'}
+    |   |   └─--[DownloadTask-{'month_date': '2018-06'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2018-07'}
+    |   |   |---[DownloadTask-{'month_date': '2018-07'}
+    |   |   |---[DownloadTask-{'month_date': '2018-07'}
+    |   |   └─--[DownloadTask-{'month_date': '2018-07'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2018-08'}
+    |   |   |---[DownloadTask-{'month_date': '2018-08'}
+    |   |   |---[DownloadTask-{'month_date': '2018-08'}
+    |   |   └─--[DownloadTask-{'month_date': '2018-08'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2018-09'}
+    |   |   |---[DownloadTask-{'month_date': '2018-09'}
+    |   |   |---[DownloadTask-{'month_date': '2018-09'}
+    |   |   └─--[DownloadTask-{'month_date': '2018-09'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2018-10'}
+    |   |   |---[DownloadTask-{'month_date': '2018-10'}
+    |   |   |---[DownloadTask-{'month_date': '2018-10'}
+    |   |   └─--[DownloadTask-{'month_date': '2018-10'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2018-11'}
+    |   |   |---[DownloadTask-{'month_date': '2018-11'}
+    |   |   |---[DownloadTask-{'month_date': '2018-11'}
+    |   |   └─--[DownloadTask-{'month_date': '2018-11'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2018-12'}
+    |   |   |---[DownloadTask-{'month_date': '2018-12'}
+    |   |   |---[DownloadTask-{'month_date': '2018-12'}
+    |   |   └─--[DownloadTask-{'month_date': '2018-12'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2019-01'}
+    |   |   |---[DownloadTask-{'month_date': '2019-01'}
+    |   |   |---[DownloadTask-{'month_date': '2019-01'}
+    |   |   └─--[DownloadTask-{'month_date': '2019-01'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2019-02'}
+    |   |   |---[DownloadTask-{'month_date': '2019-02'}
+    |   |   |---[DownloadTask-{'month_date': '2019-02'}
+    |   |   └─--[DownloadTask-{'month_date': '2019-02'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2019-03'}
+    |   |   |---[DownloadTask-{'month_date': '2019-03'}
+    |   |   |---[DownloadTask-{'month_date': '2019-03'}
+    |   |   └─--[DownloadTask-{'month_date': '2019-03'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2019-04'}
+    |   |   |---[DownloadTask-{'month_date': '2019-04'}
+    |   |   |---[DownloadTask-{'month_date': '2019-04'}
+    |   |   └─--[DownloadTask-{'month_date': '2019-04'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2019-05'}
+    |   |   |---[DownloadTask-{'month_date': '2019-05'}
+    |   |   |---[DownloadTask-{'month_date': '2019-05'}
+    |   |   └─--[DownloadTask-{'month_date': '2019-05'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2019-06'}
+    |   |   |---[DownloadTask-{'month_date': '2019-06'}
+    |   |   |---[DownloadTask-{'month_date': '2019-06'}
+    |   |   └─--[DownloadTask-{'month_date': '2019-06'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2019-07'}
+    |   |   |---[DownloadTask-{'month_date': '2019-07'}
+    |   |   |---[DownloadTask-{'month_date': '2019-07'}
+    |   |   └─--[DownloadTask-{'month_date': '2019-07'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2019-08'}
+    |   |   |---[DownloadTask-{'month_date': '2019-08'}
+    |   |   |---[DownloadTask-{'month_date': '2019-08'}
+    |   |   └─--[DownloadTask-{'month_date': '2019-08'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2019-09'}
+    |   |   |---[DownloadTask-{'month_date': '2019-09'}
+    |   |   |---[DownloadTask-{'month_date': '2019-09'}
+    |   |   └─--[DownloadTask-{'month_date': '2019-09'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2019-10'}
+    |   |   |---[DownloadTask-{'month_date': '2019-10'}
+    |   |   |---[DownloadTask-{'month_date': '2019-10'}
+    |   |   └─--[DownloadTask-{'month_date': '2019-10'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2019-11'}
+    |   |   |---[DownloadTask-{'month_date': '2019-11'}
+    |   |   |---[DownloadTask-{'month_date': '2019-11'}
+    |   |   └─--[DownloadTask-{'month_date': '2019-11'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2019-12'}
+    |   |   |---[DownloadTask-{'month_date': '2019-12'}
+    |   |   |---[DownloadTask-{'month_date': '2019-12'}
+    |   |   └─--[DownloadTask-{'month_date': '2019-12'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2020-01'}
+    |   |   |---[DownloadTask-{'month_date': '2020-01'}
+    |   |   |---[DownloadTask-{'month_date': '2020-01'}
+    |   |   └─--[DownloadTask-{'month_date': '2020-01'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2020-02'}
+    |   |   |---[DownloadTask-{'month_date': '2020-02'}
+    |   |   |---[DownloadTask-{'month_date': '2020-02'}
+    |   |   └─--[DownloadTask-{'month_date': '2020-02'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2020-03'}
+    |   |   |---[DownloadTask-{'month_date': '2020-03'}
+    |   |   |---[DownloadTask-{'month_date': '2020-03'}
+    |   |   └─--[DownloadTask-{'month_date': '2020-03'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2020-04'}
+    |   |   |---[DownloadTask-{'month_date': '2020-04'}
+    |   |   |---[DownloadTask-{'month_date': '2020-04'}
+    |   |   └─--[DownloadTask-{'month_date': '2020-04'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2020-05'}
+    |   |   |---[DownloadTask-{'month_date': '2020-05'}
+    |   |   |---[DownloadTask-{'month_date': '2020-05'}
+    |   |   └─--[DownloadTask-{'month_date': '2020-05'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2020-06'}
+    |   |   |---[DownloadTask-{'month_date': '2020-06'}
+    |   |   |---[DownloadTask-{'month_date': '2020-06'}
+    |   |   └─--[DownloadTask-{'month_date': '2020-06'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2020-07'}
+    |   |   |---[DownloadTask-{'month_date': '2020-07'}
+    |   |   |---[DownloadTask-{'month_date': '2020-07'}
+    |   |   └─--[DownloadTask-{'month_date': '2020-07'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2020-08'}
+    |   |   |---[DownloadTask-{'month_date': '2020-08'}
+    |   |   |---[DownloadTask-{'month_date': '2020-08'}
+    |   |   └─--[DownloadTask-{'month_date': '2020-08'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2020-09'}
+    |   |   |---[DownloadTask-{'month_date': '2020-09'}
+    |   |   |---[DownloadTask-{'month_date': '2020-09'}
+    |   |   └─--[DownloadTask-{'month_date': '2020-09'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2020-10'}
+    |   |   |---[DownloadTask-{'month_date': '2020-10'}
+    |   |   |---[DownloadTask-{'month_date': '2020-10'}
+    |   |   └─--[DownloadTask-{'month_date': '2020-10'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2020-11'}
+    |   |   |---[DownloadTask-{'month_date': '2020-11'}
+    |   |   |---[DownloadTask-{'month_date': '2020-11'}
+    |   |   └─--[DownloadTask-{'month_date': '2020-11'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2020-12'}
+    |   |   |---[DownloadTask-{'month_date': '2020-12'}
+    |   |   |---[DownloadTask-{'month_date': '2020-12'}
+    |   |   └─--[DownloadTask-{'month_date': '2020-12'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2021-01'}
+    |   |   |---[DownloadTask-{'month_date': '2021-01'}
+    |   |   |---[DownloadTask-{'month_date': '2021-01'}
+    |   |   └─--[DownloadTask-{'month_date': '2021-01'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2021-02'}
+    |   |   |---[DownloadTask-{'month_date': '2021-02'}
+    |   |   |---[DownloadTask-{'month_date': '2021-02'}
+    |   |   └─--[DownloadTask-{'month_date': '2021-02'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2021-03'}
+    |   |   |---[DownloadTask-{'month_date': '2021-03'}
+    |   |   |---[DownloadTask-{'month_date': '2021-03'}
+    |   |   └─--[DownloadTask-{'month_date': '2021-03'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2021-04'}
+    |   |   |---[DownloadTask-{'month_date': '2021-04'}
+    |   |   |---[DownloadTask-{'month_date': '2021-04'}
+    |   |   └─--[DownloadTask-{'month_date': '2021-04'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2021-05'}
+    |   |   |---[DownloadTask-{'month_date': '2021-05'}
+    |   |   |---[DownloadTask-{'month_date': '2021-05'}
+    |   |   └─--[DownloadTask-{'month_date': '2021-05'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2021-06'}
+    |   |   |---[DownloadTask-{'month_date': '2021-06'}
+    |   |   |---[DownloadTask-{'month_date': '2021-06'}
+    |   |   └─--[DownloadTask-{'month_date': '2021-06'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2021-07'}
+    |   |   |---[DownloadTask-{'month_date': '2021-07'}
+    |   |   |---[DownloadTask-{'month_date': '2021-07'}
+    |   |   └─--[DownloadTask-{'month_date': '2021-07'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2021-08'}
+    |   |   |---[DownloadTask-{'month_date': '2021-08'}
+    |   |   |---[DownloadTask-{'month_date': '2021-08'}
+    |   |   └─--[DownloadTask-{'month_date': '2021-08'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2021-09'}
+    |   |   |---[DownloadTask-{'month_date': '2021-09'}
+    |   |   |---[DownloadTask-{'month_date': '2021-09'}
+    |   |   └─--[DownloadTask-{'month_date': '2021-09'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2021-10'}
+    |   |   |---[DownloadTask-{'month_date': '2021-10'}
+    |   |   |---[DownloadTask-{'month_date': '2021-10'}
+    |   |   └─--[DownloadTask-{'month_date': '2021-10'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2021-11'}
+    |   |   |---[DownloadTask-{'month_date': '2021-11'}
+    |   |   |---[DownloadTask-{'month_date': '2021-11'}
+    |   |   └─--[DownloadTask-{'month_date': '2021-11'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2021-12'}
+    |   |   |---[DownloadTask-{'month_date': '2021-12'}
+    |   |   |---[DownloadTask-{'month_date': '2021-12'}
+    |   |   └─--[DownloadTask-{'month_date': '2021-12'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2022-01'}
+    |   |   |---[DownloadTask-{'month_date': '2022-01'}
+    |   |   |---[DownloadTask-{'month_date': '2022-01'}
+    |   |   └─--[DownloadTask-{'month_date': '2022-01'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2022-02'}
+    |   |   |---[DownloadTask-{'month_date': '2022-02'}
+    |   |   |---[DownloadTask-{'month_date': '2022-02'}
+    |   |   └─--[DownloadTask-{'month_date': '2022-02'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2022-03'}
+    |   |   |---[DownloadTask-{'month_date': '2022-03'}
+    |   |   |---[DownloadTask-{'month_date': '2022-03'}
+    |   |   └─--[DownloadTask-{'month_date': '2022-03'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2022-04'}
+    |   |   |---[DownloadTask-{'month_date': '2022-04'}
+    |   |   |---[DownloadTask-{'month_date': '2022-04'}
+    |   |   └─--[DownloadTask-{'month_date': '2022-04'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2022-05'}
+    |   |   |---[DownloadTask-{'month_date': '2022-05'}
+    |   |   |---[DownloadTask-{'month_date': '2022-05'}
+    |   |   └─--[DownloadTask-{'month_date': '2022-05'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2022-06'}
+    |   |   |---[DownloadTask-{'month_date': '2022-06'}
+    |   |   |---[DownloadTask-{'month_date': '2022-06'}
+    |   |   └─--[DownloadTask-{'month_date': '2022-06'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2022-07'}
+    |   |   |---[DownloadTask-{'month_date': '2022-07'}
+    |   |   |---[DownloadTask-{'month_date': '2022-07'}
+    |   |   └─--[DownloadTask-{'month_date': '2022-07'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2022-08'}
+    |   |   |---[DownloadTask-{'month_date': '2022-08'}
+    |   |   |---[DownloadTask-{'month_date': '2022-08'}
+    |   |   └─--[DownloadTask-{'month_date': '2022-08'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2022-09'}
+    |   |   |---[DownloadTask-{'month_date': '2022-09'}
+    |   |   |---[DownloadTask-{'month_date': '2022-09'}
+    |   |   └─--[DownloadTask-{'month_date': '2022-09'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2022-10'}
+    |   |   |---[DownloadTask-{'month_date': '2022-10'}
+    |   |   |---[DownloadTask-{'month_date': '2022-10'}
+    |   |   └─--[DownloadTask-{'month_date': '2022-10'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2022-11'}
+    |   |   |---[DownloadTask-{'month_date': '2022-11'}
+    |   |   |---[DownloadTask-{'month_date': '2022-11'}
+    |   |   └─--[DownloadTask-{'month_date': '2022-11'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2022-12'}
+    |   |   |---[DownloadTask-{'month_date': '2022-12'}
+    |   |   |---[DownloadTask-{'month_date': '2022-12'}
+    |   |   └─--[DownloadTask-{'month_date': '2022-12'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2023-01'}
+    |   |   |---[DownloadTask-{'month_date': '2023-01'}
+    |   |   |---[DownloadTask-{'month_date': '2023-01'}
+    |   |   └─--[DownloadTask-{'month_date': '2023-01'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2023-02'}
+    |   |   |---[DownloadTask-{'month_date': '2023-02'}
+    |   |   |---[DownloadTask-{'month_date': '2023-02'}
+    |   |   └─--[DownloadTask-{'month_date': '2023-02'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2023-03'}
+    |   |   |---[DownloadTask-{'month_date': '2023-03'}
+    |   |   |---[DownloadTask-{'month_date': '2023-03'}
+    |   |   └─--[DownloadTask-{'month_date': '2023-03'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2023-04'}
+    |   |   |---[DownloadTask-{'month_date': '2023-04'}
+    |   |   |---[DownloadTask-{'month_date': '2023-04'}
+    |   |   └─--[DownloadTask-{'month_date': '2023-04'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2023-05'}
+    |   |   |---[DownloadTask-{'month_date': '2023-05'}
+    |   |   |---[DownloadTask-{'month_date': '2023-05'}
+    |   |   └─--[DownloadTask-{'month_date': '2023-05'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2023-06'}
+    |   |   |---[DownloadTask-{'month_date': '2023-06'}
+    |   |   |---[DownloadTask-{'month_date': '2023-06'}
+    |   |   └─--[DownloadTask-{'month_date': '2023-06'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2023-07'}
+    |   |   |---[DownloadTask-{'month_date': '2023-07'}
+    |   |   |---[DownloadTask-{'month_date': '2023-07'}
+    |   |   └─--[DownloadTask-{'month_date': '2023-07'}
+    |   |---[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2023-08'}
+    |   |   |---[DownloadTask-{'month_date': '2023-08'}
+    |   |   |---[DownloadTask-{'month_date': '2023-08'}
+    |   |   └─--[DownloadTask-{'month_date': '2023-08'}
+    |   └─--[RollingAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'window': '45', 'month_date': '2023-09'}
+    |       |---[DownloadTask-{'month_date': '2023-09'}
+    |       |---[DownloadTask-{'month_date': '2023-09'}
+    |       └─--[DownloadTask-{'month_date': '2023-09'}
+    └─--[AggregateMonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'last_month': '2023-09'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2009-01'}
+        |   └─--[DownloadTask-{'month_date': '2009-01'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2009-02'}
+        |   └─--[DownloadTask-{'month_date': '2009-02'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2009-03'}
+        |   └─--[DownloadTask-{'month_date': '2009-03'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2009-04'}
+        |   └─--[DownloadTask-{'month_date': '2009-04'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2009-05'}
+        |   └─--[DownloadTask-{'month_date': '2009-05'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2009-06'}
+        |   └─--[DownloadTask-{'month_date': '2009-06'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2009-07'}
+        |   └─--[DownloadTask-{'month_date': '2009-07'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2009-08'}
+        |   └─--[DownloadTask-{'month_date': '2009-08'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2009-09'}
+        |   └─--[DownloadTask-{'month_date': '2009-09'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2009-10'}
+        |   └─--[DownloadTask-{'month_date': '2009-10'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2009-11'}
+        |   └─--[DownloadTask-{'month_date': '2009-11'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2009-12'}
+        |   └─--[DownloadTask-{'month_date': '2009-12'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2010-01'}
+        |   └─--[DownloadTask-{'month_date': '2010-01'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2010-02'}
+        |   └─--[DownloadTask-{'month_date': '2010-02'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2010-03'}
+        |   └─--[DownloadTask-{'month_date': '2010-03'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2010-04'}
+        |   └─--[DownloadTask-{'month_date': '2010-04'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2010-05'}
+        |   └─--[DownloadTask-{'month_date': '2010-05'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2010-06'}
+        |   └─--[DownloadTask-{'month_date': '2010-06'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2010-07'}
+        |   └─--[DownloadTask-{'month_date': '2010-07'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2010-08'}
+        |   └─--[DownloadTask-{'month_date': '2010-08'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2010-09'}
+        |   └─--[DownloadTask-{'month_date': '2010-09'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2010-10'}
+        |   └─--[DownloadTask-{'month_date': '2010-10'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2010-11'}
+        |   └─--[DownloadTask-{'month_date': '2010-11'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2010-12'}
+        |   └─--[DownloadTask-{'month_date': '2010-12'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2011-01'}
+        |   └─--[DownloadTask-{'month_date': '2011-01'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2011-02'}
+        |   └─--[DownloadTask-{'month_date': '2011-02'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2011-03'}
+        |   └─--[DownloadTask-{'month_date': '2011-03'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2011-04'}
+        |   └─--[DownloadTask-{'month_date': '2011-04'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2011-05'}
+        |   └─--[DownloadTask-{'month_date': '2011-05'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2011-06'}
+        |   └─--[DownloadTask-{'month_date': '2011-06'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2011-07'}
+        |   └─--[DownloadTask-{'month_date': '2011-07'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2011-08'}
+        |   └─--[DownloadTask-{'month_date': '2011-08'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2011-09'}
+        |   └─--[DownloadTask-{'month_date': '2011-09'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2011-10'}
+        |   └─--[DownloadTask-{'month_date': '2011-10'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2011-11'}
+        |   └─--[DownloadTask-{'month_date': '2011-11'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2011-12'}
+        |   └─--[DownloadTask-{'month_date': '2011-12'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2012-01'}
+        |   └─--[DownloadTask-{'month_date': '2012-01'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2012-02'}
+        |   └─--[DownloadTask-{'month_date': '2012-02'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2012-03'}
+        |   └─--[DownloadTask-{'month_date': '2012-03'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2012-04'}
+        |   └─--[DownloadTask-{'month_date': '2012-04'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2012-05'}
+        |   └─--[DownloadTask-{'month_date': '2012-05'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2012-06'}
+        |   └─--[DownloadTask-{'month_date': '2012-06'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2012-07'}
+        |   └─--[DownloadTask-{'month_date': '2012-07'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2012-08'}
+        |   └─--[DownloadTask-{'month_date': '2012-08'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2012-09'}
+        |   └─--[DownloadTask-{'month_date': '2012-09'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2012-10'}
+        |   └─--[DownloadTask-{'month_date': '2012-10'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2012-11'}
+        |   └─--[DownloadTask-{'month_date': '2012-11'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2012-12'}
+        |   └─--[DownloadTask-{'month_date': '2012-12'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2013-01'}
+        |   └─--[DownloadTask-{'month_date': '2013-01'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2013-02'}
+        |   └─--[DownloadTask-{'month_date': '2013-02'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2013-03'}
+        |   └─--[DownloadTask-{'month_date': '2013-03'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2013-04'}
+        |   └─--[DownloadTask-{'month_date': '2013-04'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2013-05'}
+        |   └─--[DownloadTask-{'month_date': '2013-05'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2013-06'}
+        |   └─--[DownloadTask-{'month_date': '2013-06'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2013-07'}
+        |   └─--[DownloadTask-{'month_date': '2013-07'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2013-08'}
+        |   └─--[DownloadTask-{'month_date': '2013-08'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2013-09'}
+        |   └─--[DownloadTask-{'month_date': '2013-09'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2013-10'}
+        |   └─--[DownloadTask-{'month_date': '2013-10'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2013-11'}
+        |   └─--[DownloadTask-{'month_date': '2013-11'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2013-12'}
+        |   └─--[DownloadTask-{'month_date': '2013-12'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2014-01'}
+        |   └─--[DownloadTask-{'month_date': '2014-01'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2014-02'}
+        |   └─--[DownloadTask-{'month_date': '2014-02'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2014-03'}
+        |   └─--[DownloadTask-{'month_date': '2014-03'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2014-04'}
+        |   └─--[DownloadTask-{'month_date': '2014-04'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2014-05'}
+        |   └─--[DownloadTask-{'month_date': '2014-05'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2014-06'}
+        |   └─--[DownloadTask-{'month_date': '2014-06'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2014-07'}
+        |   └─--[DownloadTask-{'month_date': '2014-07'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2014-08'}
+        |   └─--[DownloadTask-{'month_date': '2014-08'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2014-09'}
+        |   └─--[DownloadTask-{'month_date': '2014-09'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2014-10'}
+        |   └─--[DownloadTask-{'month_date': '2014-10'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2014-11'}
+        |   └─--[DownloadTask-{'month_date': '2014-11'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2014-12'}
+        |   └─--[DownloadTask-{'month_date': '2014-12'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2015-01'}
+        |   └─--[DownloadTask-{'month_date': '2015-01'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2015-02'}
+        |   └─--[DownloadTask-{'month_date': '2015-02'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2015-03'}
+        |   └─--[DownloadTask-{'month_date': '2015-03'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2015-04'}
+        |   └─--[DownloadTask-{'month_date': '2015-04'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2015-05'}
+        |   └─--[DownloadTask-{'month_date': '2015-05'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2015-06'}
+        |   └─--[DownloadTask-{'month_date': '2015-06'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2015-07'}
+        |   └─--[DownloadTask-{'month_date': '2015-07'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2015-08'}
+        |   └─--[DownloadTask-{'month_date': '2015-08'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2015-09'}
+        |   └─--[DownloadTask-{'month_date': '2015-09'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2015-10'}
+        |   └─--[DownloadTask-{'month_date': '2015-10'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2015-11'}
+        |   └─--[DownloadTask-{'month_date': '2015-11'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2015-12'}
+        |   └─--[DownloadTask-{'month_date': '2015-12'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2016-01'}
+        |   └─--[DownloadTask-{'month_date': '2016-01'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2016-02'}
+        |   └─--[DownloadTask-{'month_date': '2016-02'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2016-03'}
+        |   └─--[DownloadTask-{'month_date': '2016-03'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2016-04'}
+        |   └─--[DownloadTask-{'month_date': '2016-04'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2016-05'}
+        |   └─--[DownloadTask-{'month_date': '2016-05'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2016-06'}
+        |   └─--[DownloadTask-{'month_date': '2016-06'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2016-07'}
+        |   └─--[DownloadTask-{'month_date': '2016-07'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2016-08'}
+        |   └─--[DownloadTask-{'month_date': '2016-08'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2016-09'}
+        |   └─--[DownloadTask-{'month_date': '2016-09'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2016-10'}
+        |   └─--[DownloadTask-{'month_date': '2016-10'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2016-11'}
+        |   └─--[DownloadTask-{'month_date': '2016-11'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2016-12'}
+        |   └─--[DownloadTask-{'month_date': '2016-12'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2017-01'}
+        |   └─--[DownloadTask-{'month_date': '2017-01'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2017-02'}
+        |   └─--[DownloadTask-{'month_date': '2017-02'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2017-03'}
+        |   └─--[DownloadTask-{'month_date': '2017-03'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2017-04'}
+        |   └─--[DownloadTask-{'month_date': '2017-04'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2017-05'}
+        |   └─--[DownloadTask-{'month_date': '2017-05'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2017-06'}
+        |   └─--[DownloadTask-{'month_date': '2017-06'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2017-07'}
+        |   └─--[DownloadTask-{'month_date': '2017-07'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2017-08'}
+        |   └─--[DownloadTask-{'month_date': '2017-08'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2017-09'}
+        |   └─--[DownloadTask-{'month_date': '2017-09'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2017-10'}
+        |   └─--[DownloadTask-{'month_date': '2017-10'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2017-11'}
+        |   └─--[DownloadTask-{'month_date': '2017-11'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2017-12'}
+        |   └─--[DownloadTask-{'month_date': '2017-12'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2018-01'}
+        |   └─--[DownloadTask-{'month_date': '2018-01'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2018-02'}
+        |   └─--[DownloadTask-{'month_date': '2018-02'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2018-03'}
+        |   └─--[DownloadTask-{'month_date': '2018-03'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2018-04'}
+        |   └─--[DownloadTask-{'month_date': '2018-04'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2018-05'}
+        |   └─--[DownloadTask-{'month_date': '2018-05'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2018-06'}
+        |   └─--[DownloadTask-{'month_date': '2018-06'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2018-07'}
+        |   └─--[DownloadTask-{'month_date': '2018-07'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2018-08'}
+        |   └─--[DownloadTask-{'month_date': '2018-08'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2018-09'}
+        |   └─--[DownloadTask-{'month_date': '2018-09'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2018-10'}
+        |   └─--[DownloadTask-{'month_date': '2018-10'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2018-11'}
+        |   └─--[DownloadTask-{'month_date': '2018-11'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2018-12'}
+        |   └─--[DownloadTask-{'month_date': '2018-12'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2019-01'}
+        |   └─--[DownloadTask-{'month_date': '2019-01'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2019-02'}
+        |   └─--[DownloadTask-{'month_date': '2019-02'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2019-03'}
+        |   └─--[DownloadTask-{'month_date': '2019-03'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2019-04'}
+        |   └─--[DownloadTask-{'month_date': '2019-04'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2019-05'}
+        |   └─--[DownloadTask-{'month_date': '2019-05'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2019-06'}
+        |   └─--[DownloadTask-{'month_date': '2019-06'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2019-07'}
+        |   └─--[DownloadTask-{'month_date': '2019-07'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2019-08'}
+        |   └─--[DownloadTask-{'month_date': '2019-08'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2019-09'}
+        |   └─--[DownloadTask-{'month_date': '2019-09'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2019-10'}
+        |   └─--[DownloadTask-{'month_date': '2019-10'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2019-11'}
+        |   └─--[DownloadTask-{'month_date': '2019-11'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2019-12'}
+        |   └─--[DownloadTask-{'month_date': '2019-12'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2020-01'}
+        |   └─--[DownloadTask-{'month_date': '2020-01'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2020-02'}
+        |   └─--[DownloadTask-{'month_date': '2020-02'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2020-03'}
+        |   └─--[DownloadTask-{'month_date': '2020-03'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2020-04'}
+        |   └─--[DownloadTask-{'month_date': '2020-04'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2020-05'}
+        |   └─--[DownloadTask-{'month_date': '2020-05'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2020-06'}
+        |   └─--[DownloadTask-{'month_date': '2020-06'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2020-07'}
+        |   └─--[DownloadTask-{'month_date': '2020-07'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2020-08'}
+        |   └─--[DownloadTask-{'month_date': '2020-08'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2020-09'}
+        |   └─--[DownloadTask-{'month_date': '2020-09'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2020-10'}
+        |   └─--[DownloadTask-{'month_date': '2020-10'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2020-11'}
+        |   └─--[DownloadTask-{'month_date': '2020-11'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2020-12'}
+        |   └─--[DownloadTask-{'month_date': '2020-12'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2021-01'}
+        |   └─--[DownloadTask-{'month_date': '2021-01'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2021-02'}
+        |   └─--[DownloadTask-{'month_date': '2021-02'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2021-03'}
+        |   └─--[DownloadTask-{'month_date': '2021-03'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2021-04'}
+        |   └─--[DownloadTask-{'month_date': '2021-04'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2021-05'}
+        |   └─--[DownloadTask-{'month_date': '2021-05'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2021-06'}
+        |   └─--[DownloadTask-{'month_date': '2021-06'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2021-07'}
+        |   └─--[DownloadTask-{'month_date': '2021-07'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2021-08'}
+        |   └─--[DownloadTask-{'month_date': '2021-08'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2021-09'}
+        |   └─--[DownloadTask-{'month_date': '2021-09'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2021-10'}
+        |   └─--[DownloadTask-{'month_date': '2021-10'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2021-11'}
+        |   └─--[DownloadTask-{'month_date': '2021-11'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2021-12'}
+        |   └─--[DownloadTask-{'month_date': '2021-12'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2022-01'}
+        |   └─--[DownloadTask-{'month_date': '2022-01'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2022-02'}
+        |   └─--[DownloadTask-{'month_date': '2022-02'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2022-03'}
+        |   └─--[DownloadTask-{'month_date': '2022-03'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2022-04'}
+        |   └─--[DownloadTask-{'month_date': '2022-04'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2022-05'}
+        |   └─--[DownloadTask-{'month_date': '2022-05'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2022-06'}
+        |   └─--[DownloadTask-{'month_date': '2022-06'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2022-07'}
+        |   └─--[DownloadTask-{'month_date': '2022-07'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2022-08'}
+        |   └─--[DownloadTask-{'month_date': '2022-08'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2022-09'}
+        |   └─--[DownloadTask-{'month_date': '2022-09'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2022-10'}
+        |   └─--[DownloadTask-{'month_date': '2022-10'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2022-11'}
+        |   └─--[DownloadTask-{'month_date': '2022-11'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2022-12'}
+        |   └─--[DownloadTask-{'month_date': '2022-12'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2023-01'}
+        |   └─--[DownloadTask-{'month_date': '2023-01'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2023-02'}
+        |   └─--[DownloadTask-{'month_date': '2023-02'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2023-03'}
+        |   └─--[DownloadTask-{'month_date': '2023-03'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2023-04'}
+        |   └─--[DownloadTask-{'month_date': '2023-04'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2023-05'}
+        |   └─--[DownloadTask-{'month_date': '2023-05'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2023-06'}
+        |   └─--[DownloadTask-{'month_date': '2023-06'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2023-07'}
+        |   └─--[DownloadTask-{'month_date': '2023-07'}
+        |---[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2023-08'}
+        |   └─--[DownloadTask-{'month_date': '2023-08'}
+        └─--[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2023-09'}
+            └─--[DownloadTask-{'month_date': '2023-09'}
 ```
