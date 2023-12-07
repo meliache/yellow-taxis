@@ -86,6 +86,10 @@ def dataset_exists(year, month) -> bool:
 
 @cache
 def most_recent_dataset_date() -> pd.Timestamp:
+    """Get datetime of the most recent month for which there is taxi data."""
+    # It first sends an HTTPS request for the predicted dataset URL for the current
+    # month, to check whether it is available. If it's not available, try previous
+    # month, and so on… If we get to oldest dataset date (2009, raise error.)
     date = pd.Timestamp(
         year=pd.Timestamp.today().year, month=pd.Timestamp.today().month, day=1
     )
