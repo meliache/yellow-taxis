@@ -1,13 +1,118 @@
+import tempfile
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 import pytest
 from pytest import approx
 from yellow_taxis.dataframe_utils import (
     add_trip_duration,
+    read_taxi_dataframe,
     reject_outliers,
     rolling_means,
 )
+
+
+class TestReadTaxiDataFrame:
+    def test_recent_taxi_data_readable_not_empty(self) -> None:
+        df = read_taxi_dataframe(
+            Path(__file__).parent
+            / "test_data"
+            / "yellow_tripdata_2023-01_head_for_testing.parquet"
+        )
+        assert not df.empty
+
+    def test_recent_taxi_data_expected_columns(self) -> None:
+        df = read_taxi_dataframe(
+            Path(__file__).parent
+            / "test_data"
+            / "yellow_tripdata_2023-01_head_for_testing.parquet"
+        )
+        assert df.columns.to_list() == [
+            "tpep_pickup_datetime",
+            "tpep_dropoff_datetime",
+            "trip_distance",
+        ]
+
+    def test_read_taxi_data_converts_columns_from_first_schema(self) -> None:
+        fpath = (
+            Path(__file__).parent
+            / "test_data"
+            / "yellow_tripdata_2009-01_head_n10_for_testing.parquet"
+        )
+        orig_df = pd.read_parquet(fpath)
+        old_column_names = [
+            "Trip_Pickup_DateTime",
+            "Trip_Dropoff_DateTime",
+            "Trip_Distance",
+        ]
+        assert set(orig_df.columns).issuperset(old_column_names)
+
+        df = read_taxi_dataframe(fpath)
+        assert df.columns.to_list() == [
+            "tpep_pickup_datetime",
+            "tpep_dropoff_datetime",
+            "trip_distance",
+        ]
+
+    def test_read_taxi_data_converts_columns_from_second_schema(self) -> None:
+        fpath = (
+            Path(__file__).parent
+            / "test_data"
+            / "yellow_tripdata_2010-12_head_n10_for_testing.parquet"
+        )
+        orig_df = pd.read_parquet(fpath)
+        old_column_names = ["pickup_datetime", "dropoff_datetime", "trip_distance"]
+        assert set(orig_df.columns).issuperset(old_column_names)
+
+        df = read_taxi_dataframe(fpath)
+        assert df.columns.to_list() == [
+            "tpep_pickup_datetime",
+            "tpep_dropoff_datetime",
+            "trip_distance",
+        ]
+
+    def test_read_taxi_data_converts_first_schema_cols_to_datetime(self) -> None:
+        """The old parquet files stored dates as strings, check if they are
+        converted to Timestamps."""
+        fpath = (
+            Path(__file__).parent
+            / "test_data"
+            / "yellow_tripdata_2009-01_head_n10_for_testing.parquet"
+        )
+        df = read_taxi_dataframe(fpath)
+        assert df["tpep_pickup_datetime"].dtype == np.dtype("datetime64[ns]")
+        assert df["tpep_dropoff_datetime"].dtype == np.dtype("datetime64[ns]")
+
+    def test_read_taxi_data_converts_second_schema_cols_to_datetime(self) -> None:
+        """The old parquet files stored dates as strings, check if they are
+        converted to Timestamps."""
+        fpath = (
+            Path(__file__).parent
+            / "test_data"
+            / "yellow_tripdata_2010-12_head_n10_for_testing.parquet"
+        )
+        df = read_taxi_dataframe(fpath)
+        assert df["tpep_pickup_datetime"].dtype == np.dtype("datetime64[ns]")
+        assert df["tpep_dropoff_datetime"].dtype == np.dtype("datetime64[ns]")
+
+    def test_read_taxi_data_fails_if_unkown_columns(self) -> None:
+        df = read_taxi_dataframe(
+            Path(__file__).parent
+            / "test_data"
+            / "yellow_tripdata_2023-01_head_for_testing.parquet"
+        )
+        df.rename(
+            columns={
+                "tpep_pickup_datetime": "tpep_pickup_datetime_renamed",
+            },
+            inplace=True,
+        )
+        with tempfile.TemporaryDirectory() as tmpdirname:
+            tmp_fname = Path(tmpdirname) / "data.parquet"
+            df.to_parquet(tmp_fname)
+            with pytest.raises(ValueError):
+                read_taxi_dataframe(tmp_fname)
 
 
 class TestRejectOutliers:
