@@ -15,7 +15,6 @@ dependencies = [
     "pathlib>=1.0.1",
     "xdg-base-dirs>=6.0.1",
     "sqlalchemy>=2.0.23",
-    "tomli>=2.0.1",
     "fastparquet>=2023.10.1",
 ]
 requires-python = ">=3.11"
@@ -52,6 +51,7 @@ select = [
 
 [tool.isort]
 profile = "black"  # black profile is compatible with ruff
+py_version = 311
 
 [tool.mypy]
 disable_error_code = "annotation-unchecked,import-untyped"
