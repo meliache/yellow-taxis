@@ -1,7 +1,7 @@
 [project]
 name = "yellow-taxis"
-version = "0.1.0"
-description = "Calculates average NYC yellow taxi trip lenghts (monthly and rolling)"
+version = "0.2.0"
+description = "Calculates average NYC yellow taxi trip lengths (monthly and rolling)"
 authors = [
     {name = "Michael Eliachevitch", email = "m.eliachevitch@posteo.de"},
 ]
