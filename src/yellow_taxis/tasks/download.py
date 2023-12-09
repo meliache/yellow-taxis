@@ -30,8 +30,7 @@ class DownloadTask(ManagedOutputTask):
         """Download dataset."""
 
         fetch.download_monthly_data(
-            year=self.month_date.year,
-            month=self.month_date.month,
+            date=self.month_date,
             file_name=self.get_output_path(),  # download function is already atomic
             make_directories=True,
             overwrite=False,
