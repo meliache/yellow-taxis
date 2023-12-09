@@ -3,6 +3,7 @@ Module for downloading parquet files with monthly trip data from
 https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page.
 """
 
+import datetime
 import os
 import shutil
 import subprocess
@@ -10,75 +11,43 @@ import time
 from functools import cache
 from pathlib import Path
 
-import pandas as pd
 import requests
 import validators
+from dateutil.relativedelta import relativedelta
+from dateutil.rrule import MONTHLY, rrule
 
 #: format string that given a year and month and can be formatted to a valid parquet
 # download URL.
 URL_FORMAT_STRING = "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_{year:d}-{month:02d}.parquet"
 
 #: Year for which we have the first records
-DATE_FIRST_RECORDS = pd.Timestamp(year=2009, month=1, day=1)
+DATE_FIRST_RECORDS = datetime.date(year=2009, month=1, day=1)
 
 
-def _validate_date(year: int, month: int):
-    """Validate year and month as possible date to consider for yellow taxi
-    data.
-
-    :param year: Year in which dataset was recorded.
-    :param month: Month in which dataset was recorded, as integer from
-        1.
-    """
-    if not isinstance(year, int):
-        raise TypeError(f"Year must be an integer but if {year=}")
-
-    if not isinstance(month, int):
-        raise TypeError(f"Month must be an integer but if {month=}")
-
-    if not 1 <= month <= 12:
-        raise ValueError(
-            f"Invalid month, it should be an integer from 1 to 12 but is {month}."
-        )
-
-    date = pd.Timestamp(year, month, 1)  # utilizes ``pd.Timestamp`` validation
-    # Check date is not before first records
-    if date < DATE_FIRST_RECORDS:
-        raise ValueError(f"Historical data for {year} does not exist.")
-
-
-def dataset_url(
-    year: int,
-    month: int,
-) -> str:
+def dataset_url(date: datetime.date) -> str:
     """Return URL for file with yellow taxis trip data.
 
-    :param year: Year in which dataset was recorded.
-    :param month: Month in which dataset was recorded, as integer from
-        1.
+    :param date: Datetime for year and month of dataset.
     :return: Download URL for parquet file with monthly trip data
     """
-    _validate_date(year, month)
-    return URL_FORMAT_STRING.format(year=year, month=month)
+    if date != date.replace(day=1):
+        raise ValueError(f"{date=} should be beginning of month!")
+    if date < DATE_FIRST_RECORDS:
+        raise ValueError(f"Historical data for {date=} does not exist.")
+
+    return URL_FORMAT_STRING.format(year=date.year, month=date.month)
 
 
-def dataset_exists(year, month) -> bool:
-    """Check if we can find a dataset on the website fort the given year and
-    month.
+def dataset_exists(date) -> bool:
+    """Check if we can find a dataset on the website for given date.
 
-    :param year: Year in which dataset was recorded.
-    :param month: Month in which dataset was recorded, as integer from 1
-
+    :param date: Datetime for year and month of dataset.
     :return: ``True`` if dataset for this date and time exists under the URL.
     """
-    _validate_date(year, month)
-
-    date = pd.Timestamp(year, month, 1)
-
-    if date > pd.Timestamp.now():  # this is in the future so can't exist
+    if date > datetime.date.today():  # this is in the future so can't exist
         return False
 
-    url: str = dataset_url(year, month)
+    url: str = dataset_url(date)
     if requests.head(url).status_code == 200:
         return True
 
@@ -86,17 +55,15 @@ def dataset_exists(year, month) -> bool:
 
 
 @cache
-def most_recent_dataset_date() -> pd.Timestamp:
+def most_recent_dataset_date() -> datetime.date:
     """Get datetime of the most recent month for which there is taxi data."""
 
     # It first sends an HTTPS request for the predicted dataset URL for the current
     # month, to check whether it is available. If it's not available, try previous
     # month, and so on… If we get to oldest dataset date (2009, raise error.)
-    date = pd.Timestamp(
-        year=pd.Timestamp.today().year, month=pd.Timestamp.today().month, day=1
-    )
-    while not dataset_exists(date.year, date.month):
-        date -= pd.tseries.offsets.MonthBegin(1)
+    date = datetime.date.today().replace(day=1)
+    while not dataset_exists(date):
+        date -= relativedelta(months=1)
         if date < DATE_FIRST_RECORDS:
             raise RuntimeError("Could not find any datasets.")
         time.sleep(1)  # avoid DDOS'ing server
@@ -104,11 +71,11 @@ def most_recent_dataset_date() -> pd.Timestamp:
 
 
 def available_dataset_dates(
-    most_recent_month: pd.Timestamp | None = None,
-) -> list[pd.Timestamp]:
+    most_recent_month: datetime.date | None = None,
+) -> list[datetime.date]:
     """List of dates of all available parquet files.
 
-    :param most_recent_month: Datetime of 1st day of the ost recent
+    :param most_recent_month: Datetime of 1st day of the most recent
         month for which a taxi data dataframe is available on the
         website.
     :return: Sorted list of month datetimes between first records in
@@ -117,13 +84,11 @@ def available_dataset_dates(
     """
     if most_recent_month is None:
         most_recent_month = most_recent_dataset_date()
-
-    dates = []
-    _date = DATE_FIRST_RECORDS
-    while DATE_FIRST_RECORDS <= _date <= most_recent_month:
-        dates.append(_date)
-        _date += pd.tseries.offsets.MonthBegin(1)
-    return list(sorted(dates))
+    dates = [
+        dt.date()
+        for dt in rrule(MONTHLY, dtstart=DATE_FIRST_RECORDS, until=most_recent_month)
+    ]
+    return dates
 
 
 def download(
@@ -170,20 +135,18 @@ def download(
 
 
 def download_monthly_data(
-    year: int,
-    month: int,
+    date: datetime.date,
     file_name: os.PathLike,
     make_directories: bool = True,
     overwrite: bool = False,
 ) -> None:
     """Download yellow taxis trip data.
 
-    :param year: Year in which dataset was recorded.
-    :param month: Month in which dataset was recorded as integer from 1.
+    :param date: Datetime for year and month of dataset (beginning of month.)
     :param url: Data URL
     :param file_name: File name
     :make_directories: Create parent directories
     :overwrite: If ``True``, overwrite ``file_name`` if it exists.
     """
-    url: str = dataset_url(year=year, month=month)
+    url: str = dataset_url(date=date)
     download(url, file_name, make_directories=make_directories, overwrite=overwrite)

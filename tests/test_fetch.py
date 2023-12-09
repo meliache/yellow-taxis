@@ -1,7 +1,8 @@
+import datetime
 import itertools
 import tempfile
 import time
-from datetime import datetime, timedelta
+from datetime import timedelta
 from pathlib import Path
 from subprocess import CalledProcessError
 from unittest.mock import Mock, patch
@@ -16,40 +17,37 @@ class TestDatasetURLs:
     """Tests for generation of the the dataset URLs."""
 
     def test_dataset_url_formatting_2023_9_as_expected(self) -> None:
-        year: int = 2023
-        month: int = 9
         expected: str = "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2023-09.parquet"
-        assert fetch.dataset_url(year=year, month=month) == expected
-        assert fetch.dataset_url(year, month) == expected
+        assert fetch.dataset_url(datetime.date(year=2023, month=9, day=1)) == expected
 
     def test_dataset_url_gives_valid_url(self) -> None:
-        url: str = fetch.dataset_url(2023, 9)
+        url: str = fetch.dataset_url(datetime.date(2023, 9, 1))
         assert validators.url(url) is True
 
     def test_dataset_url_wrong_arg_order(self) -> None:
         with pytest.raises(ValueError):
-            fetch.dataset_url(9, 2023)
+            fetch.dataset_url(datetime.date(9, 2023, 1))
 
     def test_dataset_url_month_out_of_range(self) -> None:
         with pytest.raises(ValueError):
-            fetch.dataset_url(2023, 0)
+            fetch.dataset_url(datetime.date(2023, 0, 1))
 
         with pytest.raises(ValueError):
-            fetch.dataset_url(2023, 13)
+            fetch.dataset_url(datetime.date(2023, 13, 1))
 
         with pytest.raises(ValueError):
-            fetch.dataset_url(2023, -1)
+            fetch.dataset_url(datetime.date(2023, -1, 1))
 
     def test_float_dates_raise(self) -> None:
         with pytest.raises(TypeError):
-            fetch.dataset_url(2023.0, 9)
+            fetch.dataset_url(datetime.date(2023.0, 9, 1))
 
         with pytest.raises(TypeError):
-            fetch.dataset_url(2023, 9.0)
+            fetch.dataset_url(datetime.date(2023, 9.0, 1))
 
     def test_dataset_url_year_out_of_range(self) -> None:
         with pytest.raises(ValueError):
-            fetch.dataset_url(1992, 9)
+            fetch.dataset_url(datetime.date(1992, 9, 1))
 
     def datasets_for_past_months_exist(self) -> None:
         for year, month in ((2009, 1), (2023, 9), (2018, 8)):
@@ -57,12 +55,12 @@ class TestDatasetURLs:
             time.sleep(2)  # avoid DDOS protection
 
     def datasets_for_future_does_not_exist(self) -> None:
-        future: datetime = datetime.today() + timedelta(days=42)
+        future: datetime.date = datetime.date.today() + timedelta(days=42)
         assert not fetch.dataset_exists(future.year, future.month)
 
     def test_generate_available_dataset_dates(self) -> None:
         available_until_sep_23 = [
-            datetime(y, m, 1)
+            datetime.date(y, m, 1)
             for y, m in itertools.product(
                 range(2009, 2023),
                 range(1, 13),
@@ -73,7 +71,7 @@ class TestDatasetURLs:
 
     @patch("yellow_taxis.fetch.download")
     def test_download_monthly_data_default_kwargs(self, mock_download: Mock) -> None:
-        fetch.download_monthly_data(2022, 10, "fname")
+        fetch.download_monthly_data(datetime.date(2022, 10, 1), "fname")
         mock_download.assert_called_once_with(
             "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2022-10.parquet",
             "fname",
@@ -87,7 +85,7 @@ class TestDatasetURLs:
     ) -> None:
         # purposefully choose keyword order that differs from positional order
         fetch.download_monthly_data(
-            2022, 10, "fname", overwrite=True, make_directories=False
+            datetime.date(2022, 10, 1), "fname", overwrite=True, make_directories=False
         )
         mock_download.assert_called_once_with(
             "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2022-10.parquet",
@@ -100,7 +98,7 @@ class TestDatasetURLs:
     def test_download_monthly_data_non_default_kwargs_positional(
         self, mock_download: Mock
     ) -> None:
-        fetch.download_monthly_data(2022, 10, "fname", False, True)
+        fetch.download_monthly_data(datetime.date(2022, 10, 1), "fname", False, True)
         mock_download.assert_called_once_with(
             "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2022-10.parquet",
             "fname",

@@ -1,4 +1,5 @@
 import tempfile
+from datetime import datetime
 from pathlib import Path
 
 import numpy as np
@@ -196,7 +197,7 @@ class TestRollingMeans:
         test_data.index = pd.to_datetime(test_data.index)
         test_data.sort_index(inplace=True)
         test_data.columns = ["trip_duration", "trip_distance"]
-        this_month_begin = pd.Timestamp(2023, 1, 1)
+        this_month_begin = datetime(2023, 1, 1)
         rolling_averages = rolling_means(
             test_data, n_window_days=45, keep_after=this_month_begin
         )

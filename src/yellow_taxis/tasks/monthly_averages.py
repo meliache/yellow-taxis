@@ -41,7 +41,7 @@ class MonthlyAveragesTask(TaxiBaseTask):
 
         df = read_taxi_dataframe(input_fpath)
         df = reject_not_in_month(
-            df, self.month_date.year, self.month_date.month, on="tpep_dropoff_datetime"
+            df, month_date=self.month_date, on="tpep_dropoff_datetime"
         )
         df = add_trip_duration(df)
         df = reject_outliers(
@@ -79,7 +79,7 @@ class AggregateMonthlyAveragesTask(TaxiBaseTask):
     resources = {"cpus": 1}
 
     def requires(self):
-        for date in fetch.available_dataset_dates(pd.Timestamp(self.last_month)):
+        for date in fetch.available_dataset_dates(self.last_month):
             yield self.clone(
                 MonthlyAveragesTask,
                 month_date=date,

@@ -1,8 +1,10 @@
 """Utilities for working with NYC taxi data dataframes."""
+import datetime
 import logging
 from os import PathLike
 
 import pandas as pd
+from dateutil.relativedelta import relativedelta
 from pandas.api.types import is_datetime64_any_dtype as is_datetime
 
 logger = logging.getLogger(__name__)
@@ -21,8 +23,8 @@ COLUMN_NAME_VARIATIONS = (
 def read_taxi_dataframe(file_name: PathLike) -> pd.DataFrame:
     """Read parquet file with NYC yellow-taxi data into dataframe.
 
-    Normalizes also all data to the same schema type with timestamp-colums of datetime
-    type.
+    Normalizes also all data to the same schema type with timestamp-
+    colums of datetime type.
 
     :param file_name: Input file parquet file path.
     :return: Pandas dataframe with (normalized to latest format).
@@ -72,28 +74,34 @@ def time_columns_to_datetime(data: pd.DataFrame) -> pd.DataFrame:
 
 
 def reject_not_in_month(
-    data: pd.DataFrame, year: int, month: int, on: str | None = None
+    data: pd.DataFrame, month_date: datetime.date, on: str | None = None
 ) -> pd.DataFrame:
-    """Return dataframe with all entries removed that outside of given month and year.
+    """Return dataframe with all entries removed that outside of given month
+    and year.
 
-    Needed because some yellow taxi data files for a given month have trip data with
-    non-sense dates, probably due to errors during data entry.
+    Needed because some yellow taxi data files for a given month have
+    trip data with non-sense dates, probably due to errors during data
+    entry.
 
-    :param data: Pandas dataframe with trip data.
-    :param year: Year in which the trip should be.
+    :param month_date: Datetime for year and month of dataset (beginning
+        of month)
     :param month: Month in which the trip should be.
-    :param on: Datetime column name based on which it's decided whether the trip is in
-        the given month. If not given, use dataframe index.
-    :return: Pandas dataframe with trip entries outside given month removed.
+    :param on: Datetime column name based on which it's decided whether
+        the trip is in the given month. If not given, use dataframe
+        index.
+    :return: Pandas dataframe with trip entries outside given month
+        removed.
     """
-    month_start = pd.Timestamp(year, month, 1)
-    next_month_start = pd.Timestamp(year, month, 1) + pd.tseries.offsets.MonthBegin(1)
+    if not month_date == month_date.replace(day=1):
+        raise ValueError(f"Date {month_date=} should be beginning of month!")
+    month_date = pd.Timestamp(month_date)
+    next_month_start = pd.Timestamp(month_date + relativedelta(months=1))
 
     date = data[on] if on else data.index
     if not is_datetime(date):
         raise ValueError(f"Date should be a datetime but is type {date.dtype}!")
 
-    data_in_month = data[(date > month_start) & (date < next_month_start)]
+    data_in_month = data[(date > month_date) & (date < next_month_start)]
 
     if data_in_month.empty:
         raise RuntimeError("Data contains no trips in given month!")
@@ -104,7 +112,7 @@ def trip_duration_s(data: pd.DataFrame) -> pd.Series:
     """Calculate trip duration in seconds.
 
     :param data: Pandas dataframe with ``tpep_dropoff_datetime`` and
-        ``tpep_pickup_datetime`` columns of type ``pd.Timestamp``
+        ``tpep_pickup_datetime`` columns of datetime type.
     :return: Pandas series with trip duration seconds.
     """
     durations = data["tpep_dropoff_datetime"] - data["tpep_pickup_datetime"]
@@ -112,10 +120,11 @@ def trip_duration_s(data: pd.DataFrame) -> pd.Series:
 
 
 def add_trip_duration(data: pd.DataFrame) -> pd.DataFrame:
-    """Return data with trip duration in seconds added to ``trip_duration`` column.
+    """Return data with trip duration in seconds added to ``trip_duration``
+    column.
 
     :param data: Pandas dataframe with ``tpep_dropoff_datetime`` and
-        ``tpep_pickup_datetime`` columns of type ``pd.Timestamp``
+        ``tpep_pickup_datetime`` columns of datetime type.
     :return: Pandas dataframe with trip duration seconds in ``trip_duration`` columnm.
     """
     data = data.copy()  # avoid modifying existing dataframe
@@ -157,7 +166,7 @@ def reject_outliers(
 def rolling_means(
     data: pd.DataFrame,
     n_window_days: int,
-    keep_after: pd.Timestamp | None = None,
+    keep_after: datetime.date | None = None,
     on: str | None = None,
     trip_length_columns: list[str] | None = None,
 ) -> pd.DataFrame:

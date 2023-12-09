@@ -112,12 +112,12 @@ pdm run luigi --module yellow_taxis.tasks.rolling_averages AggregateRollingAvera
 
 # get rolling averages for a single month (takes into account the previous 2 months in the avg.)
 pdm run luigi --module yellow_taxis.tasks.rolling_averages RollingAveragesTask \
-   --year 2023 --month 8 --local-scheduler --workers 1
+   --month-date 2023-08 --local-scheduler --workers 1
 
 
 # get monthly averages for a single month
 pdm run luigi --module yellow_taxis.tasks.monthly_averages MonthlyAveragesTask \
-   --year 2023 --month 8 --local-scheduler --workers 1
+   --month-date 2023-08 --local-scheduler --workers 1
 ```
 
 

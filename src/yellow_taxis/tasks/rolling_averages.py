@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 
+import datetime
 import math
 from pathlib import Path
 
 import luigi
 import pandas as pd
+from dateutil.relativedelta import relativedelta
+from dateutil.rrule import MONTHLY, rrule
 from pandas.api.types import is_datetime64_any_dtype as is_datetime
 
 from yellow_taxis import fetch
@@ -43,32 +46,34 @@ class RollingAveragesTask(TaxiBaseTask):
         the first of the month we need the previous and the previous of
         the previous month.
         """
-
-        month_required_for_full_window = math.ceil(self.window / 30) + 1
+        min_month_days = 28  # February
+        month_required_for_full_window = math.ceil(self.window / min_month_days) + 1
 
         # if we are close to start of first records we can only require less months
-        first_month_period = fetch.DATE_FIRST_RECORDS.to_period(freq="M")
-        current_month_period = pd.Timestamp(self.month_date).to_period(freq="M")
-        n_months_since_first_records = (current_month_period - first_month_period).n
+        n_months_since_first_records = len(
+            list(
+                rrule(MONTHLY, dtstart=fetch.DATE_FIRST_RECORDS, until=self.month_date)
+            )
+        )
 
-        return min(month_required_for_full_window, n_months_since_first_records + 1)
+        return min(month_required_for_full_window, n_months_since_first_records)
 
     resources = {
         "cpus": 1,
         "memory": 4_000,
     }
 
-    def _months_required(self) -> list[pd.Timestamp]:
+    def _months_required(self) -> list[datetime.date]:
         """Return timestamps of the 3 months for calculating this rolling
         average.
 
         The day is always set to to first of the month.
         """
         # we need the data of the current, previous and previous of the previous month
-        month_dates: list[pd.Timestamp] = []
+        month_dates: list[datetime.date] = []
 
         for neg_months_delta in range(self.n_months_required):
-            _date = self.month_date - pd.tseries.offsets.MonthBegin(neg_months_delta)
+            _date = self.month_date - relativedelta(months=neg_months_delta)
             month_dates.append(_date)
 
         return month_dates
@@ -82,8 +87,7 @@ class RollingAveragesTask(TaxiBaseTask):
         for _date in self._months_required():
             yield self.clone(
                 DownloadTask,
-                year=_date.year,
-                month=_date.month,
+                month_date=_date,
             )
 
     def _reject_not_in_range(
@@ -96,8 +100,8 @@ class RollingAveragesTask(TaxiBaseTask):
         :param on: Dataframe column name to determine datetime of trip. If ``None``
            use dataframe index.
         """
-        next_month_begin = self.month_date + pd.offsets.MonthBegin(1)
-        oldest_month_begin: pd.Timestamp = min(self._months_required())
+        next_month_begin = pd.Timestamp(self.month_date + relativedelta(months=1))
+        oldest_month_begin = pd.Timestamp(min(self._months_required()))
         date = data[on] if on else data.index
         if not is_datetime(date):
             raise ValueError(f"Date should be a datetime but is type {date.dtype}!")
@@ -160,7 +164,7 @@ class AggregateRollingAveragesTask(TaxiBaseTask):
 
     def requires(self):
         """Require rolling averages for all months."""
-        for date in fetch.available_dataset_dates(pd.Timestamp(self.last_month)):
+        for date in fetch.available_dataset_dates(self.last_month):
             yield self.clone(RollingAveragesTask, month_date=date)
 
     def run(self):
