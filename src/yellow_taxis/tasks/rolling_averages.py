@@ -6,9 +6,9 @@ from pathlib import Path
 
 import luigi
 import pandas as pd
+import polars as pl
 from dateutil.relativedelta import relativedelta
 from dateutil.rrule import MONTHLY, rrule
-from pandas.api.types import is_datetime64_any_dtype as is_datetime
 
 from yellow_taxis import fetch
 from yellow_taxis.dataframe_utils import (
@@ -90,24 +90,24 @@ class RollingAveragesTask(TaxiBaseTask):
                 month_date=_date,
             )
 
-    def _reject_not_in_range(
-        self, data: pd.DataFrame, on: str | None = None
-    ) -> pd.DataFrame:
+    def _reject_not_in_range(self, data: pl.DataFrame, on: str) -> pl.DataFrame:
         """Reject trip data not in month range of the used datasets.
 
-        :param data: Trip data dataframe, concatenated from the trip data of several
-            months to allow for calculating the rolling average for the current month.
-        :param on: Dataframe column name to determine datetime of trip. If ``None``
-           use dataframe index.
+        :param data: Trip data dataframe, concatenated from the trip
+            data of several months to allow for calculating the rolling
+            average for the current month.
+        :param on: Dataframe column name to determine datetime of trip.
         """
-        next_month_begin = pd.Timestamp(self.month_date + relativedelta(months=1))
-        oldest_month_begin = pd.Timestamp(min(self._months_required()))
-        date = data[on] if on else data.index
-        if not is_datetime(date):
+        next_month_begin = self.month_date + relativedelta(months=1)
+        oldest_month_begin = min(self._months_required())
+        date = data[on]
+        if not isinstance(date, pl.Datetime):
             raise ValueError(f"Date should be a datetime but is type {date.dtype}!")
 
-        in_range_data = data[(date >= oldest_month_begin) & (date < next_month_begin)]
-        if in_range_data.empty:
+        in_range_data = data.filter(
+            (date >= oldest_month_begin) & (date < next_month_begin)
+        )
+        if len(in_range_data) == 0:
             raise RuntimeError(
                 f"No trips between {oldest_month_begin} and {next_month_begin}!"
             )
@@ -115,23 +115,24 @@ class RollingAveragesTask(TaxiBaseTask):
 
     def run(self):
         """Calculate the rolling averages for the month."""
-        df = pd.concat(
+        df = pl.concat(
             [read_taxi_dataframe(target.path) for target in self.input()],
-            ignore_index=True,
         )
         df = add_trip_duration(df)
         df = reject_outliers(
             df, max_duration_s=self.max_duration, max_distance=self.max_distance
         )
-
-        df.set_index("tpep_dropoff_datetime", inplace=True, drop=True)
-        df = self._reject_not_in_range(df)
-
+        df = df.sort("tpep_dropoff_datetime")
+        df = self._reject_not_in_range(df, on="tpep_dropoff_datetime")
         rolling_means_by_trip = rolling_means(
-            df, n_window_days=self.window, keep_after=self.month_date
+            df,
+            n_window_days=self.window,
+            on="tpep_dropoff_datetime",
+            keep_after=self.month_date,
         )
         # Only keep the last rolling mean of each day.
         # Massively reduces output data size
+        # TODO
         rolling_means_by_day = rolling_means_by_trip.resample(
             pd.Timedelta(days=1)
         ).last()

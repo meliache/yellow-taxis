@@ -5,7 +5,7 @@
 groups = ["default", "pytest", "test", "dev", "jupyterlab", "jupyter", "batch"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:d30566a548ca7c080b387d74d1bb339aab63fd46953952d86225cabe4d2b8108"
+content_hash = "sha256:7cf8ff6088b7861922b79b822f5e0ab5d0314a20c80c6731ec408aaaa81ca3e7"
 
 [[package]]
 name = "anyio"
@@ -1631,6 +1631,20 @@ files = [
 ]
 
 [[package]]
+name = "polars"
+version = "0.19.19"
+requires_python = ">=3.8"
+summary = "Blazingly fast DataFrame library"
+files = [
+    {file = "polars-0.19.19-cp38-abi3-macosx_10_12_x86_64.whl", hash = "sha256:812dbb0cc7027fd41ce6b3eaf100b94828fc082fab026409d48792e3e7014095"},
+    {file = "polars-0.19.19-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:21a334e18c83a259211ca6ec182498f3a89297fde9b8f75021c6881ff4411201"},
+    {file = "polars-0.19.19-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:d383fac392b08a6d5830c99f6e735a48e390c1535c8f1e67707fcaab6863ade5"},
+    {file = "polars-0.19.19-cp38-abi3-manylinux_2_24_aarch64.whl", hash = "sha256:eec0e72dce84b85c427bbf395d2e181f33e60677695b95ee2e87fed51043bdea"},
+    {file = "polars-0.19.19-cp38-abi3-win_amd64.whl", hash = "sha256:6c9e597efac74f00ef9cdfd9ba8a9128ed24276916bd3d60adc6e604530e4b37"},
+    {file = "polars-0.19.19.tar.gz", hash = "sha256:3e904d197aabf36e37fda263470eaf51ec92fb865cdea4f93947713480199303"},
+]
+
+[[package]]
 name = "pre-commit"
 version = "3.5.0"
 requires_python = ">=3.8"
@@ -2152,6 +2166,30 @@ files = [
     {file = "ruff-0.1.6-py3-none-win_amd64.whl", hash = "sha256:4558b3e178145491e9bc3b2ee3c4b42f19d19384eaa5c59d10acf6e8f8b57e33"},
     {file = "ruff-0.1.6-py3-none-win_arm64.whl", hash = "sha256:03910e81df0d8db0e30050725a5802441c2022ea3ae4fe0609b76081731accbc"},
     {file = "ruff-0.1.6.tar.gz", hash = "sha256:1b09f29b16c6ead5ea6b097ef2764b42372aebe363722f1605ecbcd2b9207184"},
+]
+
+[[package]]
+name = "scipy"
+version = "1.11.4"
+requires_python = ">=3.9"
+summary = "Fundamental algorithms for scientific computing in Python"
+dependencies = [
+    "numpy<1.28.0,>=1.21.6",
+]
+files = [
+    {file = "scipy-1.11.4-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:f313b39a7e94f296025e3cffc2c567618174c0b1dde173960cf23808f9fae4be"},
+    {file = "scipy-1.11.4-cp311-cp311-macosx_12_0_arm64.whl", hash = "sha256:1b7c3dca977f30a739e0409fb001056484661cb2541a01aba0bb0029f7b68db8"},
+    {file = "scipy-1.11.4-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:00150c5eae7b610c32589dda259eacc7c4f1665aedf25d921907f4d08a951b1c"},
+    {file = "scipy-1.11.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:530f9ad26440e85766509dbf78edcfe13ffd0ab7fec2560ee5c36ff74d6269ff"},
+    {file = "scipy-1.11.4-cp311-cp311-musllinux_1_1_x86_64.whl", hash = "sha256:5e347b14fe01003d3b78e196e84bd3f48ffe4c8a7b8a1afbcb8f5505cb710993"},
+    {file = "scipy-1.11.4-cp311-cp311-win_amd64.whl", hash = "sha256:acf8ed278cc03f5aff035e69cb511741e0418681d25fbbb86ca65429c4f4d9cd"},
+    {file = "scipy-1.11.4-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:028eccd22e654b3ea01ee63705681ee79933652b2d8f873e7949898dda6d11b6"},
+    {file = "scipy-1.11.4-cp312-cp312-macosx_12_0_arm64.whl", hash = "sha256:2c6ff6ef9cc27f9b3db93a6f8b38f97387e6e0591600369a297a50a8e96e835d"},
+    {file = "scipy-1.11.4-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:b030c6674b9230d37c5c60ab456e2cf12f6784596d15ce8da9365e70896effc4"},
+    {file = "scipy-1.11.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:ad669df80528aeca5f557712102538f4f37e503f0c5b9541655016dd0932ca79"},
+    {file = "scipy-1.11.4-cp312-cp312-musllinux_1_1_x86_64.whl", hash = "sha256:ce7fff2e23ab2cc81ff452a9444c215c28e6305f396b2ba88343a567feec9660"},
+    {file = "scipy-1.11.4-cp312-cp312-win_amd64.whl", hash = "sha256:36750b7733d960d7994888f0d148d31ea3017ac15eef664194b4ef68d36a4a97"},
+    {file = "scipy-1.11.4.tar.gz", hash = "sha256:90a2b78e7f5733b9de748f589f09225013685f9b218275257f8a8168ededaeaa"},
 ]
 
 [[package]]

@@ -16,6 +16,8 @@ dependencies = [
     "xdg-base-dirs>=6.0.1",
     "sqlalchemy>=2.0.23",
     "fastparquet>=2023.10.1",
+    "polars>=0.19.19",
+    "scipy>=1.11.4",
 ]
 requires-python = ">=3.11"
 readme = "README.md"

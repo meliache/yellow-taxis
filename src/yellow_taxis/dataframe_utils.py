@@ -3,9 +3,8 @@ import datetime
 import logging
 from os import PathLike
 
-import pandas as pd
+import polars as pl
 from dateutil.relativedelta import relativedelta
-from pandas.api.types import is_datetime64_any_dtype as is_datetime
 
 logger = logging.getLogger(__name__)
 
@@ -20,34 +19,34 @@ COLUMN_NAME_VARIATIONS = (
 )
 
 
-def read_taxi_dataframe(file_name: PathLike) -> pd.DataFrame:
+def read_taxi_dataframe(file_name: PathLike) -> pl.DataFrame:
     """Read parquet file with NYC yellow-taxi data into dataframe.
 
     Normalizes also all data to the same schema type with timestamp-
     colums of datetime type.
 
     :param file_name: Input file parquet file path.
-    :return: Pandas dataframe with (normalized to latest format).
+    :return: Polars dataframe with (normalized to latest format).
     """
     # handle different historical input schemas
     for columns in COLUMN_NAME_VARIATIONS:
         try:
-            df = pd.read_parquet(file_name, columns=columns)
+            df = pl.read_parquet(file_name, columns=columns)
             # normalize columns names to default schema
             df.columns = COLUMN_NAMES
             return time_columns_to_datetime(df)
-        except ValueError as e:
-            # even last columns set didn't work
-            if columns == COLUMN_NAME_VARIATIONS[-1]:
-                raise e
-
+        except pl.ColumnNotFoundError:
             logger.info(
                 "Could not read dataframe with columns %s, trying next column set.",
                 columns,
             )
+    raise pl.ColumnNotFoundError(
+        f"Could not read data from {file_name} "
+        "with any column set in {COLUMN_NAME_VARIATIONS}!"
+    )
 
 
-def time_columns_to_datetime(data: pd.DataFrame) -> pd.DataFrame:
+def time_columns_to_datetime(data: pl.DataFrame) -> pl.DataFrame:
     """Convert all time columns in dataframe to ``datetime64[ns]`` format.
 
     Older data has times in string-format. Some newer data frames also have
@@ -61,21 +60,14 @@ def time_columns_to_datetime(data: pd.DataFrame) -> pd.DataFrame:
     time_format = "%Y-%m-%d %H:%M:%S"
     for time_col in time_columns:
         # convert to datetime
-        if not is_datetime(data[time_col]):
-            data[time_col] = pd.to_datetime(
-                data[time_col],
-                format=time_format,
-            )
-        # normalize to ns resolution
-        # I do this because some data has us resolution which triggers pandas bug when
-        # concatenating data frames, see https://github.com/pandas-dev/pandas/issues/55067
-        data[time_col] = data[time_col].astype("datetime64[ns]")
+        if not isinstance(data[time_col], pl.Datetime):
+            data = data.with_columns(pl.col(time_col).str.to_datetime(time_format))
     return data
 
 
 def reject_not_in_month(
-    data: pd.DataFrame, month_date: datetime.date, on: str | None = None
-) -> pd.DataFrame:
+    data: pl.DataFrame, month_date: datetime.date, on: str
+) -> pl.DataFrame:
     """Return dataframe with all entries removed that outside of given month
     and year.
 
@@ -87,60 +79,58 @@ def reject_not_in_month(
         of month)
     :param month: Month in which the trip should be.
     :param on: Datetime column name based on which it's decided whether
-        the trip is in the given month. If not given, use dataframe
-        index.
-    :return: Pandas dataframe with trip entries outside given month
+        the trip is in the given month.
+    :return: Polars dataframe with trip entries outside given month
         removed.
     """
     if not month_date == month_date.replace(day=1):
         raise ValueError(f"Date {month_date=} should be beginning of month!")
-    month_date = pd.Timestamp(month_date)
-    next_month_start = pd.Timestamp(month_date + relativedelta(months=1))
+    month_date = month_date
+    next_month_start = month_date + relativedelta(months=1)
 
-    date = data[on] if on else data.index
-    if not is_datetime(date):
+    date = data[on]
+    if not isinstance(date.dtype, pl.Datetime):
         raise ValueError(f"Date should be a datetime but is type {date.dtype}!")
 
     data_in_month = data[(date > month_date) & (date < next_month_start)]
 
-    if data_in_month.empty:
+    if len(data) == 0:
         raise RuntimeError("Data contains no trips in given month!")
     return data_in_month
 
 
-def trip_duration_s(data: pd.DataFrame) -> pd.Series:
+def trip_duration_s(data: pl.DataFrame) -> pl.Series:
     """Calculate trip duration in seconds.
 
-    :param data: Pandas dataframe with ``tpep_dropoff_datetime`` and
+    :param data: Polars dataframe with ``tpep_dropoff_datetime`` and
         ``tpep_pickup_datetime`` columns of datetime type.
-    :return: Pandas series with trip duration seconds.
+    :return: Polars series with trip duration seconds.
     """
     durations = data["tpep_dropoff_datetime"] - data["tpep_pickup_datetime"]
-    return durations.dt.seconds
+    return durations.dt.seconds()
 
 
-def add_trip_duration(data: pd.DataFrame) -> pd.DataFrame:
+def add_trip_duration(data: pl.DataFrame) -> pl.DataFrame:
     """Return data with trip duration in seconds added to ``trip_duration``
     column.
 
-    :param data: Pandas dataframe with ``tpep_dropoff_datetime`` and
+    :param data: Polars dataframe with ``tpep_dropoff_datetime`` and
         ``tpep_pickup_datetime`` columns of datetime type.
-    :return: Pandas dataframe with trip duration seconds in ``trip_duration`` columnm.
+    :return: Polars dataframe with trip duration seconds in ``trip_duration`` columnm.
     """
-    data = data.copy()  # avoid modifying existing dataframe
-    data["trip_duration"] = trip_duration_s(data)
-    return data
+    durations = trip_duration_s(data)
+    return data.with_columns(durations.alias("trip_duration"))
 
 
 def reject_outliers(
-    data: pd.DataFrame,
+    data: pl.DataFrame,
     max_duration_s: int | None,
     max_distance: int | None,
     reject_negative: bool = True,
-) -> pd.DataFrame:
+) -> pl.DataFrame:
     """Reject trip data with unreasonably high or negative trip lengths.
 
-    :param data: Pandas dataframe with ``trip_duration`` and ``trip_distance``
+    :param data: Polars dataframe with ``trip_duration`` and ``trip_distance``
         columns of type float.
     :param max_duration_s: Maximum trip duration in seconds to keep.
         By default 14400 which corresponds to 4h.
@@ -149,54 +139,55 @@ def reject_outliers(
     :return: Dataframe with rejected trips removed.
     """
     if max_duration_s:
-        data = data[data["trip_duration"] <= max_duration_s]
+        data = data.filter(data["trip_duration"] <= max_duration_s)
 
     if max_distance:
-        data = data[data["trip_distance"] <= max_distance]
+        data = data.filter(data["trip_distance"] <= max_distance)
 
     if reject_negative:
-        data = data[(data["trip_distance"] >= 0) & (data["trip_duration"] >= 0)]
+        data = data.filter((data["trip_distance"] >= 0) & (data["trip_duration"] >= 0))
 
-    if data.empty:
+    if len(data) == 0:
         raise RuntimeError("No trips remain after outlier detection!")
 
     return data
 
 
 def rolling_means(
-    data: pd.DataFrame,
+    data: pl.DataFrame,
     n_window_days: int,
+    on: str,
     keep_after: datetime.date | None = None,
-    on: str | None = None,
     trip_length_columns: list[str] | None = None,
-) -> pd.DataFrame:
+) -> pl.DataFrame:
     """Calculate rolling means of trip lengths for taxi data.
 
-    :param data: Pandas dataframe with trip lengths data.
+    :param data: Polars dataframe with trip lengths data.
     :param n_window_days: Number of days to use in rolling means calculation.
+    :param on: Column name with the timestamps to use for the rolling means calculation.
     :param keep_after: If given, only keep rolling means with the datetime after this.
         The time refers to the time at the end of the window. Useful when including time
         entries in the rolling mean calculation but excluding them from the result.
-    :param on: Column name with the timestamps to use for the rolling means calculation.
-        If not given, use index.
     :param trip_length_columns: List of data columns to calculate the rolling means for.
         If ``None``, use the default of ``["trip_duration", "trip_distance"]``.
     :return: Dataframe of rolling means results.
     """
-    if on:
-        data = data.set_index(on)
-    data = data.sort_index()
+    data = data.sort(on)
 
     if trip_length_columns is None:
         trip_length_columns = ["trip_duration", "trip_distance"]
 
-    trip_lenghts = data[trip_length_columns]
-    rolling = trip_lenghts.rolling(pd.Timedelta(days=n_window_days))
-    rolling_means = rolling.mean()
+    rolling_means = data[trip_length_columns + [on]]
+    for col in trip_length_columns:
+        rolling_means = rolling_means.with_columns(
+            pl.col(col)
+            .rolling_mean(window_size=datetime.timedelta(days=n_window_days), by=on)
+            .alias(col)
+        )
 
     if keep_after:
-        rolling_means = rolling_means[rolling_means.index >= keep_after]
-        if rolling_means.empty:
+        rolling_means = rolling_means.filter(rolling_means[on] >= keep_after)
+        if len(rolling_means) == 0:
             raise RuntimeError(f"No rolling means after {keep_after}!")
 
     return rolling_means

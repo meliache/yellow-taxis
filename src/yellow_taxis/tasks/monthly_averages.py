@@ -4,7 +4,9 @@ from pathlib import Path
 
 import luigi
 import pandas as pd
+import polars as pl
 from luigi.util import requires
+from scipy.stats import sem
 
 from yellow_taxis import fetch
 from yellow_taxis.dataframe_utils import (
@@ -39,12 +41,12 @@ class MonthlyAveragesTask(TaxiBaseTask):
         """Download the dataset."""
         input_fpath = Path(self.input().path)
 
-        df = read_taxi_dataframe(input_fpath)
-        df = reject_not_in_month(
+        df: pl.DataFrame = read_taxi_dataframe(input_fpath)
+        df: pl.DataFrame = reject_not_in_month(
             df, month_date=self.month_date, on="tpep_dropoff_datetime"
         )
-        df = add_trip_duration(df)
-        df = reject_outliers(
+        df: pl.DataFrame = add_trip_duration(df)
+        df: pl.DataFrame = reject_outliers(
             df,
             max_duration_s=self.max_duration,
             max_distance=self.max_distance,
@@ -54,7 +56,7 @@ class MonthlyAveragesTask(TaxiBaseTask):
         for col in ["trip_distance", "trip_duration"]:
             # calculate mean and uncertainty on mean
             results[f"{col}_mean"] = df[col].mean()
-            results[f"{col}_mean_err"] = df[col].sem()
+            results[f"{col}_mean_err"] = sem(df[col])
 
         result_series = pd.Series(results)
         col_name = self.month_date.strftime(self.month_date_fmt)
