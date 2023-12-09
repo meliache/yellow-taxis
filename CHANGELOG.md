@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+## [0.3.0] - 2023-12-09
+
+### Changed
+
+* Use `luigi.MonthParameter` to encode months in my tasks instead of separate year and month `IntParameter`s. This changes how dates are supplied in the command line and also how the dates are interpolated in the output directory structure.
+
+* Use `datetime.date` as much as possible in my utility functions. Changed therefore the API of functions that either took separate year and month integers or pandas timestamps. I tried to move away from pandas timestamps away as much as possible, to allow using a different dataframe implementation in the future.
+
+
+**Full Changelog**: https://github.com/meliache/yellow-taxis/compare/v0.2.1...v0.3.0
+
 ## [0.2.1] - 2023-12-09
 
 ### Fixed
