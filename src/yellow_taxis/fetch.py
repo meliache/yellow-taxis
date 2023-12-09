@@ -23,10 +23,12 @@ DATE_FIRST_RECORDS = pd.Timestamp(year=2009, month=1, day=1)
 
 
 def _validate_date(year: int, month: int):
-    """Validate year and month as possible date to consider for yellow taxi data.
+    """Validate year and month as possible date to consider for yellow taxi
+    data.
 
     :param year: Year in which dataset was recorded.
-    :param month: Month in which dataset was recorded, as integer from 1.
+    :param month: Month in which dataset was recorded, as integer from
+        1.
     """
     if not isinstance(year, int):
         raise TypeError(f"Year must be an integer but if {year=}")
@@ -60,7 +62,8 @@ def dataset_url(
 
 
 def dataset_exists(year, month) -> bool:
-    """Check if we can find a dataset on the website fort the given year and month.
+    """Check if we can find a dataset on the website fort the given year and
+    month.
 
     :param year: Year in which dataset was recorded.
     :param month: Month in which dataset was recorded, as integer from 1

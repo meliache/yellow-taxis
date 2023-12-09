@@ -35,11 +35,12 @@ class RollingAveragesTask(TaxiBaseTask):
 
     @property
     def n_months_required(self) -> int:
-        """How many data files needed to be loaded simultaneously for the given time
-        window.
+        """How many data files needed to be loaded simultaneously for the given
+        time window.
 
-        E.g. 3 months for the default of a 45 day window, because for the first of the
-        month we need the previous and the previous of the previous month.
+        E.g. 3 months for the default of a 45 day window, because for
+        the first of the month we need the previous and the previous of
+        the previous month.
         """
 
         month_required_for_full_window = math.ceil(self.window / 30) + 1
@@ -57,7 +58,8 @@ class RollingAveragesTask(TaxiBaseTask):
     }
 
     def _months_required(self) -> list[pd.Timestamp]:
-        """Return timestamps of the 3 months for calculating this rolling average.
+        """Return timestamps of the 3 months for calculating this rolling
+        average.
 
         The day is always set to to first of the month.
         """
@@ -76,8 +78,8 @@ class RollingAveragesTask(TaxiBaseTask):
     def requires(self):
         """Require data all month data needed for rolling average.
 
-        This will be current months and the previous available months required for the
-        given day window.
+        This will be current months and the previous available months
+        required for the given day window.
         """
         for _date in self._months_required():
             yield self.clone(
@@ -144,6 +146,13 @@ class AggregateRollingAveragesTask(TaxiBaseTask):
     """Task to collect running averages from months."""
 
     output_base_name = Path("all_month_rolling_averages.parquet")
+
+    # Month parameter for most recent available dataset. This will be encoded in the
+    # output and thus force the pipeline to be re-run if a new dataset gets published.
+    last_month = luigi.MonthParameter(
+        default=fetch.most_recent_dataset_date(),
+        description="Most recent month for which a dataset is available",
+    )
 
     default_window: int | None = get_settings().get("rolling_window")
     window = luigi.IntParameter(

@@ -19,7 +19,8 @@ from yellow_taxis.tasks.download import DownloadTask
 
 @requires(DownloadTask)
 class MonthlyAveragesTask(TaxiBaseTask):
-    """Task for calculating monthly averages of taxi travel times and distances."""
+    """Task for calculating monthly averages of taxi travel times and
+    distances."""
 
     # Will uses this for the name the single column dataframe that this task generates.
     # When concatenating results this will give us a date string index. Would have
@@ -65,6 +66,13 @@ class AggregateMonthlyAveragesTask(TaxiBaseTask):
     """Aggregate all monthly averages in a single dataframe."""
 
     output_base_name = Path("monthly_averages.parquet")
+
+    # Month parameter for most recent available dataset. This will be encoded in the
+    # output and thus force the pipeline to be re-run if a new dataset gets published.
+    last_month = luigi.MonthParameter(
+        default=fetch.most_recent_dataset_date(),
+        description="Most recent month for which a dataset is available",
+    )
 
     resources = {"cpus": 1}
 

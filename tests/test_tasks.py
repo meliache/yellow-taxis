@@ -4,10 +4,14 @@ from unittest.mock import Mock, patch
 
 import luigi
 import pandas as pd
+from dateutil.relativedelta import relativedelta
 from pytest import approx
 from yellow_taxis import fetch
 from yellow_taxis.tasks.download import DownloadTask
-from yellow_taxis.tasks.monthly_averages import MonthlyAveragesTask
+from yellow_taxis.tasks.monthly_averages import (
+    AggregateMonthlyAveragesTask,
+    MonthlyAveragesTask,
+)
 from yellow_taxis.tasks.rolling_averages import (
     AggregateRollingAveragesTask,
     RollingAveragesTask,
@@ -57,9 +61,11 @@ class TestDownloadTask:
 class TestMonthlyAveragesTask:
     @patch("yellow_taxis.tasks.monthly_averages.MonthlyAveragesTask.input")
     def get_run_results_for_2023_01_testdata(self, mock_input) -> pd.DataFrame:
-        """Get the results of the ``run`` method on for a single month test data.
+        """Get the results of the ``run`` method on for a single month test
+        data.
 
-        (The test data is the head of the original data with just 5 rows)
+        (The test data is the head of the original data with just 5
+        rows)
         """
 
         mock_input.return_value = luigi.LocalTarget(test_data_fpath_2023_01)
@@ -229,3 +235,37 @@ class TestAggregateRollingAveragesTask:
         )
         dates_expected = pd.DatetimeIndex(fetch.available_dataset_dates())
         assert dates.sort_values().equals(dates_expected.sort_values())
+
+    def test_task_reruns_when_new_data_available(self):
+        with tempfile.TemporaryDirectory() as tempdirname:
+            task = AggregateRollingAveragesTask(
+                result_dir=tempdirname, last_month=fetch.most_recent_dataset_date()
+            )
+            # first pretend we have generated output for previous months
+            Path(task.output().path).touch()
+            assert task.complete()
+            # now pretend another input dataset suddenly became published
+            task = AggregateRollingAveragesTask(
+                result_dir=tempdirname,
+                last_month=fetch.most_recent_dataset_date() + relativedelta(months=1),
+            )
+            # now task should NOT be complete
+            assert not task.complete()
+
+
+class TestAggregateMonthlyAveragesTask:
+    def test_task_reruns_when_new_data_available(self):
+        with tempfile.TemporaryDirectory() as tempdirname:
+            task = AggregateMonthlyAveragesTask(
+                result_dir=tempdirname, last_month=fetch.most_recent_dataset_date()
+            )
+            # first pretend we have generated output for previous months
+            Path(task.output().path).touch()
+            assert task.complete()
+            # now pretend another input dataset suddenly became published
+            task = AggregateMonthlyAveragesTask(
+                result_dir=tempdirname,
+                last_month=fetch.most_recent_dataset_date() + relativedelta(months=1),
+            )
+            # now task should NOT be complete
+            assert not task.complete()
