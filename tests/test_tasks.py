@@ -49,8 +49,7 @@ class TestDownloadTask:
             )
             download_task.run()
             mock_download_monthly_data.assert_called_once_with(
-                year=2009,
-                month=9,
+                date=datetime.date(2009, 9, 1),
                 file_name=expected_result_path,
                 make_directories=True,
                 overwrite=False,
