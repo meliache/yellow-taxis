@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.1] - 2023-12-11
+
+### Fixed
+
+* Fix Pandas query on `datetime.date`, convert it to `pandas.Timestamp` first.
+- Fix old API still used in a test
+
+**Full Changelog**: https://github.com/meliache/yellow-taxis/compare/v0.3.0...v0.3.1
 
 ## [0.3.0] - 2023-12-09
 

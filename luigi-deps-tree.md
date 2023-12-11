@@ -1071,3 +1071,8 @@ pdm run luigi-deps-tree --module yellow_taxis.tasks.run_all MainTask
         └─--[MonthlyAveragesTask-{'max_duration': '14400', 'max_distance': '1000', 'month_date': '2023-09'}]
             └─--[DownloadTask-{'month_date': '2023-09'}]
 ```
+
+;; Local Variables:
+;; markdown-hide-markup: nil
+;; markdown-hide-urls: nil
+;; End:
