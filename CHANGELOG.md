@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix old task API of `month` and `year` parameters still used in example notebook rather than new `month_date` parameters.
+
 ## [0.3.1] - 2023-12-11
 
 ### Fixed
